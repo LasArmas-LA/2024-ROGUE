@@ -8,7 +8,7 @@
 
 ### [リリーエイベルの診療録-Google ドライブ](https://drive.google.com/drive/folders/1qNsUP2GD4svIqNEIUb-bsCz-2AeszBqh?usp=drive_link)
 
-### [リリーエイベルの診療録-仕様書](https://docs.google.com/spreadsheets/d/1_eirXh9k2k9Sk0F94JUQynq3wgzTPt4-kyW-ub7m5sI/edit?usp=drive_link)
+### [リリーエイベルの診療録-仕様書](https://docs.google.com/spreadsheets/d/1bEEFQmCnPc2ywglUACJOgS1n0Irqq2TyoQvoqcPKbM0/edit?usp=drive_link)
 
 ### ~~リリーエイベルの診療録-企画書~~
 
@@ -27,7 +27,19 @@
 | Windows      | 11               | Windows 環境           |
 | GitHub       |                  | データのリモート共有   |
 
-## 命名規則について
+## イラスト
+
+下記はイラスト共有時に守ってもらいたいルールです。
+- 提出はグーグルドライブで提出してください。  
+（サイズが大きいときはギガファイルを使用しましょう）
+- "PNG"データで共有をしてください。
+- カラーモードは"RGB"で作成してください。
+- ラスタライズ効果は"PPI"にしてください。
+- 解像度は"300"PPIとしてください。
+- サイズ（比率）はプランナーに聞いてください。
+- サイズ（幅と高さ）は"ピクセル"で作成してください。
+
+## ファイルの命名規則について
 タイトル、文章、の最初の文字は大文字にすること
 ※英語、ローマ字記入の場合
 
@@ -62,23 +74,6 @@ Rriri-Haikei.png
 Riri_Haikei.png
 
 ```
-
-## イラスト
-
-下記はイラスト共有時に守ってもらいたいルールです。
-- 提出はグーグルドライブで提出してください。  
-（サイズが大きいときはギガファイルを使用しましょう）
-- "PNG"データで共有をしてください。
-- カラーモードは"RGB"で作成してください。
-- ラスタライズ効果は"PPI"にしてください。
-- 解像度は"300"PPIとしてください。
-- サイズ（比率）はプランナーに聞いてください。
-- サイズ（幅と高さ）は"ピクセル"で作成してください。
-
-## 拡張機能
-
-- Discord に GitHub 連携 BOT の実装  
-  ┗ プッシュ時のメッセージを送信
 
 ## 制作 Topics
 
@@ -120,5 +115,10 @@ GitHub の Commit（コミット）メッセージの意味は下記を参照
 | chore    | その他                     |
 | style    | コーディングスタイルの修正 |
 | perf     | パフォーマンスを改善       |
+
+## 拡張機能
+
+- Discord に GitHub 連携 BOT の実装  
+  ┗ プッシュ時のメッセージを送信
 
 ### Created by LasArmas
