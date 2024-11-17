@@ -50,7 +50,7 @@
 
 ```
 悪い例
-riri.ong
+riri.png
 riri_haikei.png
 
 良い例
