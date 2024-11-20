@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      "HP\u30D0\u30FC_0": -8242135597526286162
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
