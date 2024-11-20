@@ -119,6 +119,54 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &180505723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 180505725}
+  - component: {fileID: 180505724}
+  m_Layer: 0
+  m_Name: EncountSys
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &180505724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180505723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da3d2e004e3a12e4da28289a30aa157f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windowsMes: {fileID: 1213364531}
+  riri: {fileID: 1854959374}
+  dhia: {fileID: 2113024850}
+  enemy: {fileID: 1049320707}
+--- !u!4 &180505725
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180505723}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 910.2295, y: 526.84283, z: 21.716675}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &287244613
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +477,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 695270262}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 180505724}
+        m_TargetAssemblyTypeName: EncountSys, Assembly-CSharp
+        m_MethodName: DefenseButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &695270262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,7 +973,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1017883884}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 180505724}
+        m_TargetAssemblyTypeName: EncountSys, Assembly-CSharp
+        m_MethodName: AttackButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1017883884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -952,6 +1024,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1017883881}
   m_CullTransparentMesh: 1
+--- !u!1 &1049320706
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1049320708}
+  - component: {fileID: 1049320707}
+  m_Layer: 0
+  m_Name: Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1049320707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049320706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e191cdd330327204db7f2ab94feb6528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 0
+  mp: 5
+  power: 10
+--- !u!4 &1049320708
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049320706}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 910.2295, y: 526.84283, z: 21.716675}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1172549605
 GameObject:
   m_ObjectHideFlags: 0
@@ -1174,7 +1293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1263540658
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1942,6 +2061,7 @@ GameObject:
   - component: {fileID: 1854959371}
   - component: {fileID: 1854959373}
   - component: {fileID: 1854959372}
+  - component: {fileID: 1854959374}
   m_Layer: 5
   m_Name: Riri-Obj
   m_TagString: Untagged
@@ -2007,6 +2127,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1854959370}
   m_CullTransparentMesh: 1
+--- !u!114 &1854959374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854959370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899386df95e21d44199db5a3f8339c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 15
+  mp: 20
+  power: 25
 --- !u!1 &1962552016
 GameObject:
   m_ObjectHideFlags: 0
@@ -2372,6 +2507,7 @@ GameObject:
   - component: {fileID: 2113024847}
   - component: {fileID: 2113024849}
   - component: {fileID: 2113024848}
+  - component: {fileID: 2113024850}
   m_Layer: 5
   m_Name: DhiaObj
   m_TagString: Untagged
@@ -2437,6 +2573,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2113024846}
   m_CullTransparentMesh: 1
+--- !u!114 &2113024850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113024846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2902d1328144b8743bd6d989c5c6c1c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 30
+  mp: 35
+  power: 40
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2445,3 +2596,5 @@ SceneRoots:
   - {fileID: 2004301401}
   - {fileID: 1665044022}
   - {fileID: 1172549608}
+  - {fileID: 180505725}
+  - {fileID: 1049320708}
