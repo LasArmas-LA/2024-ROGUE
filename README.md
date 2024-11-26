@@ -4,6 +4,9 @@
 最新情報は随時追加予定  
 ホームページにしてあるため知りたい情報があるときは見てみましょう。
 
+アルファ版完成予定日は
+# 1月5日 23時59分
+
 ## データ関連
 
 ### [リリーエイベルの診療録-Google ドライブ](https://drive.google.com/drive/folders/1qNsUP2GD4svIqNEIUb-bsCz-2AeszBqh?usp=drive_link)
