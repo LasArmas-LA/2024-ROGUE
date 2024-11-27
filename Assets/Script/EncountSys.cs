@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEditorInternal;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EncountSys : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class EncountSys : MonoBehaviour
     Dhia dhia = null;
     [SerializeField]
     Enemy enemy = null;
+
+    FloorNoSys floorNoSys = null;
+    GameObject floorNoSysObj = null;
 
     //‘Ì—ÍƒQ[ƒW‚ÌObj
     [SerializeField]
@@ -79,7 +83,8 @@ public class EncountSys : MonoBehaviour
         dhiaSlider.value = dhiaSlider.maxValue;
         enemySlider.value = enemySlider.maxValue;
 
-
+        floorNoSysObj = GameObject.Find("FloorNo");
+        floorNoSys = floorNoSysObj.GetComponent<FloorNoSys>();
 
         windowsMes.text = "ƒŠƒŠ[‚Ìs“®‚ğ‚É‚ã‚¤‚è‚å‚­‚µ‚Ä‚­‚¾‚³‚¢";
         RiriMove();
@@ -119,6 +124,7 @@ public class EncountSys : MonoBehaviour
         if (enemy.deathFlag)
         {
             windowsMes.text = "“G‚ğ“|‚µ‚½I";
+            Invoke("EnemyDeat", 1.0f);
             enemyObj.SetActive(false);
         }
         else
@@ -136,6 +142,7 @@ public class EncountSys : MonoBehaviour
         if (enemy.deathFlag)
         {
             windowsMes.text = "“G‚ğ“|‚µ‚½I";
+            Invoke("EnemyDeat", 1.0f);
             enemyObj.SetActive(false);
         }
         else
@@ -152,6 +159,31 @@ public class EncountSys : MonoBehaviour
     }
     #endregion
 
+
+    #region €–Sˆ—
+
+    void EnemyDeat()
+    {
+        bool enemyDeat = false;
+        if(!enemyDeat)
+        {
+            floorNoSys.floorNo += 1;
+            enemyDeat = true;
+        }
+        SceneManager.LoadScene("LoadScene");
+    }
+
+    void RiriDeath()
+    {
+
+    }
+
+    void DhiaDeath()
+    {
+
+    }
+
+    #endregion
 
     #region ƒ{ƒ^ƒ“Œˆ’èˆ—
     public void AttackButton()

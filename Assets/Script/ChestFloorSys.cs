@@ -21,6 +21,10 @@ public class ChestFloorSys : MonoBehaviour
     [SerializeField]
     GameObject chestObj = null;
 
+    FloorNoSys floorNoSys = null;
+    GameObject floorNoSysObj = null;
+
+
     public TextMeshProUGUI windowMes = null;
 
     void Start()
@@ -31,6 +35,8 @@ public class ChestFloorSys : MonoBehaviour
     void Init()
     {
         windowMes.text = "探索中";
+        floorNoSysObj = GameObject.Find("FloorNo");
+        floorNoSys = floorNoSysObj.GetComponent<FloorNoSys>();
     }
     void Update()
     {
@@ -66,17 +72,8 @@ public class ChestFloorSys : MonoBehaviour
         //フェードアウト処理
         if(floorEndFlag)
         {
-            Color32 fadecolor = fade.color;
-            if (fadecolor.a <= 254)
-            {
-                fadecolor.a += (byte)(255 * Time.deltaTime);
-                fade.color = fadecolor;
-            }
-            else
-            {
-                floorEndFlag = false;
-                Invoke("LoadScene",1.0f);
-            }
+            Invoke("LoadScene", 1.0f);
+            floorEndFlag = false;
         }
     }
 
@@ -101,6 +98,10 @@ public class ChestFloorSys : MonoBehaviour
     IEnumerator FloorEnd()
     {
         yield return new WaitForSeconds(1.0f);
+        if(chestEndFlag)
+        {
+            floorNoSys.floorNo += 1;
+        }
         chestEndFlag = false;
         floorEndFlag = true;
     }
