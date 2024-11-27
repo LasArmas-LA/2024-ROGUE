@@ -8,6 +8,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/LoadScene.unity
+    guid: 24d6810ffb0486f4a8ed108467f41b48
+  - enabled: 1
+    path: Assets/Scenes/RestFloorScene.unity
+    guid: c1b4b8774c65e4c4f86a594ae40f7510
+  - enabled: 1
+    path: Assets/Scenes/EncountFloorScene.unity
+    guid: e11194fe9cfa8ad4ca0eef79b3e8b3d5
+  - enabled: 1
+    path: Assets/Scenes/ChestFloorScene.unity
+    guid: f0148be8fc51a7d4d90fb8688720bb2a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

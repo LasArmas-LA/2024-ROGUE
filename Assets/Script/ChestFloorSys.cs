@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ChestFloorSys : MonoBehaviour
@@ -69,12 +70,13 @@ public class ChestFloorSys : MonoBehaviour
             if (fadecolor.a <= 254)
             {
                 fadecolor.a += (byte)(255 * Time.deltaTime);
+                fade.color = fadecolor;
             }
             else
             {
                 floorEndFlag = false;
+                Invoke("LoadScene",1.0f);
             }
-            fade.color = fadecolor;
         }
     }
 
@@ -84,6 +86,11 @@ public class ChestFloorSys : MonoBehaviour
         {
             runStratFlag = true;
         }
+    }
+
+    void LoadScene()
+    {
+        SceneManager.LoadScene("LoadScene");
     }
 
     IEnumerator ChestWait()
