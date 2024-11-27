@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TMPro;
 using UnityEditorInternal;
+using UnityEngine.UI;
 
 public class EncountSys : MonoBehaviour
 {
@@ -9,9 +10,12 @@ public class EncountSys : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI windowsMes = null;
 
+    //Moveフラグ
     bool ririMoveFlag = false;
     bool dhiaMoveFlag = false;
     bool enemyMoveFlag = false;
+
+    //ボタン連続入力抑制用
     bool button = false;
 
     [SerializeField]
@@ -21,9 +25,31 @@ public class EncountSys : MonoBehaviour
     [SerializeField]
     Enemy enemy = null;
 
-    void Start()
+    //体力ゲージのObj
+    [SerializeField]
+    Slider ririSlider = null;
+    [SerializeField]
+    Slider dhiaSlider = null;
+    [SerializeField]
+    Slider enemySlider = null;
+
+    //リリー,ディア,エネミーのObj
+    [SerializeField]
+    GameObject ririObj;
+    [SerializeField]
+    GameObject dhiaObj;
+    [SerializeField]
+    GameObject enemyObj;
+
+
+    void Awake()
     {
         Init();
+
+    }
+    void Start()
+    {
+
     }
 
     void Update()
@@ -31,14 +57,34 @@ public class EncountSys : MonoBehaviour
 
     }
 
+    #region Init処理
     void Init()
     {
         ririMoveFlag = false;
         dhiaMoveFlag = false;
         enemyMoveFlag = false;
+
+        //MaxHPの格納
+        ririSlider.maxValue = riri.maxhp;
+        dhiaSlider.maxValue = dhia.maxhp;
+        enemySlider.maxValue = enemy.maxhp;
+
+        //MinHPの格納
+        ririSlider.minValue = 0;
+        dhiaSlider.minValue = 0;
+        enemySlider.minValue = 0;
+
+        //MaxのHPを現在のHPに格納
+        ririSlider.value = ririSlider.maxValue;
+        dhiaSlider.value = dhiaSlider.maxValue;
+        enemySlider.value = enemySlider.maxValue;
+
+
+
         windowsMes.text = "リリーの行動をにゅうりょくしてください";
         RiriMove();
     }
+    #endregion
 
     #region ループInit処理
     void RiriInit()
@@ -55,27 +101,54 @@ public class EncountSys : MonoBehaviour
     #region ムーブ処理
     void RiriMove()
     {
-        Debug.Log("リリー");
-        ririMoveFlag = true;
-        StartCoroutine(RiriEnterWait());
+        if (enemy.deathFlag)
+        {
+            windowsMes.text = "敵を倒した！";
+            enemyObj.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("リリー");
+            ririMoveFlag = true;
+            StartCoroutine(RiriEnterWait());
+        }
     }
 
     void DhiaMove()
     {
-        Debug.Log("ディア");
-        dhiaMoveFlag = true;
-        ririMoveFlag = false;
-        windowsMes.text = "ディアの行動をにゅうりょくしてください";
-        StartCoroutine(DhiaEnterWait());
+        if (enemy.deathFlag)
+        {
+            windowsMes.text = "敵を倒した！";
+            enemyObj.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("ディア");
+            dhiaMoveFlag = true;
+            ririMoveFlag = false;
+            windowsMes.text = "ディアの行動をにゅうりょくしてください";
+            StartCoroutine(DhiaEnterWait());
+        }
     }
 
     void EnemyMove()
     {
-        Debug.Log("エネミー");
-        enemyMoveFlag = true;
-        windowsMes.text = "てきのこうげき！" + enemy.power + "のダメージ!";
-        button = true;
-        StartCoroutine(EnemyEnterWait());
+        if (enemy.deathFlag)
+        {
+            windowsMes.text = "敵を倒した！";
+            enemyObj.SetActive(false);
+        }
+        else
+        {
+            Debug.Log("エネミー");
+            enemyMoveFlag = true;
+            windowsMes.text = "てきのこうげき！" + enemy.power + "のダメージ!";
+            dhia.hp -= enemy.power;
+            ririSlider.value *= (riri.hp / riri.maxhp);
+            dhiaSlider.value *= (dhia.hp / dhia.maxhp);
+            button = true;
+            StartCoroutine(EnemyEnterWait());
+        }
     }
     #endregion
 
@@ -87,11 +160,15 @@ public class EncountSys : MonoBehaviour
         if(ririMoveFlag)
         {
             windowsMes.text = "リリーのこうげき！" + riri.power + "のダメージ!";
+            enemy.hp -= riri.power;
+            enemySlider.value *= (enemy.hp / enemy.maxhp);
             StartCoroutine(RiriEnterWait());
         }
         if(dhiaMoveFlag)
         {
-            windowsMes.text = "ディアのこうげき！" + riri.power + "のダメージ!";
+            windowsMes.text = "ディアのこうげき！" + dhia.power + "のダメージ!";
+            enemy.hp -= dhia.power;
+            enemySlider.value *= (enemy.hp / enemy.maxhp);
             StartCoroutine(DhiaEnterWait());
         }
     }
