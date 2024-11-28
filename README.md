@@ -12,7 +12,7 @@
 ### [Google ドライブ](https://drive.google.com/drive/folders/1qNsUP2GD4svIqNEIUb-bsCz-2AeszBqh?usp=drive_link)
 
 ### [仕様書-ExcelWeb](https://1drv.ms/x/c/1d234c969815360f/ET0u2ed3cJtCog1Kp05bh5wBwg3yCm4njS2yuXTas_RA5Q?e=oSuMdX)  
-※ExcelのWeb版でしか編集ができませんが無料でアプリを持っていなくても可能でございます。　　
+※ExcelのWeb版でしか編集ができませんが無料でアプリを持っていなくても可能でございます。  
 　仕様書にはゲームのパラメーターや細かい指示が記入されています。
 
 ### [企画書](https://1drv.ms/p/c/1d234c969815360f/ESqPrr3c9TlEqiBNBiM6A5YBrcWuF49uA7VqEQeZ6kJBag?e=Xxi6W6)
