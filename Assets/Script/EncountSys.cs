@@ -4,6 +4,7 @@ using TMPro;
 using UnityEditorInternal;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
 
 public class EncountSys : MonoBehaviour
 {
@@ -16,9 +17,13 @@ public class EncountSys : MonoBehaviour
     bool dhiaMoveFlag = false;
     bool enemyMoveFlag = false;
 
+    //休憩階のフラグ
+    public bool rastflag = false;
+
     //ボタン連続入力抑制用
     bool button = false;
 
+    //
     [SerializeField]
     Riri riri = null;
     [SerializeField]
@@ -28,6 +33,9 @@ public class EncountSys : MonoBehaviour
 
     FloorNoSys floorNoSys = null;
     GameObject floorNoSysObj = null;
+
+    [SerializeField]
+    EnemyFloorRunSys enemyFloorRunSysObj = null;
 
     //体力ゲージのObj
     [SerializeField]
@@ -49,7 +57,6 @@ public class EncountSys : MonoBehaviour
     void Awake()
     {
         Init();
-
     }
     void Start()
     {
@@ -64,6 +71,20 @@ public class EncountSys : MonoBehaviour
     #region Init処理
     void Init()
     {
+        floorNoSysObj = GameObject.Find("FloorNo");
+        floorNoSys = floorNoSysObj.GetComponent<FloorNoSys>();
+
+        //休憩フロアフラグオン
+        if (floorNoSys.floorNo % 5 == 0)
+        {
+            rastflag = true;
+        }
+        else
+        {
+            rastflag = false;
+        }
+
+        //ムーブフラグの初期化
         ririMoveFlag = false;
         dhiaMoveFlag = false;
         enemyMoveFlag = false;
@@ -83,11 +104,8 @@ public class EncountSys : MonoBehaviour
         dhiaSlider.value = dhiaSlider.maxValue;
         enemySlider.value = enemySlider.maxValue;
 
-        floorNoSysObj = GameObject.Find("FloorNo");
-        floorNoSys = floorNoSysObj.GetComponent<FloorNoSys>();
-
-        windowsMes.text = "リリーの行動をにゅうりょくしてください";
-        RiriMove();
+        //windowsMes.text = "リリーの行動をにゅうりょくしてください";
+        //RiriMove();
     }
     #endregion
 
@@ -104,7 +122,7 @@ public class EncountSys : MonoBehaviour
     #endregion
 
     #region ムーブ処理
-    void RiriMove()
+    public void RiriMove()
     {
         if (enemy.deathFlag)
         {
@@ -113,6 +131,7 @@ public class EncountSys : MonoBehaviour
         }
         else
         {
+            windowsMes.text = "リリーの行動をにゅうりょくしてください";
             Debug.Log("リリー");
             ririMoveFlag = true;
             StartCoroutine(RiriEnterWait());
@@ -164,13 +183,13 @@ public class EncountSys : MonoBehaviour
 
     void EnemyDeat()
     {
+        enemyFloorRunSysObj.battleEndFlag = true;
         bool enemyDeat = false;
         if(!enemyDeat)
         {
             floorNoSys.floorNo += 1;
             enemyDeat = true;
         }
-        SceneManager.LoadScene("LoadScene");
     }
 
     void RiriDeath()
