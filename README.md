@@ -9,19 +9,19 @@
 
 ## データ関連
 
-### [リリーエイベルの診療録-Google ドライブ](https://drive.google.com/drive/folders/1qNsUP2GD4svIqNEIUb-bsCz-2AeszBqh?usp=drive_link)
+### [Google ドライブ](https://drive.google.com/drive/folders/1qNsUP2GD4svIqNEIUb-bsCz-2AeszBqh?usp=drive_link)
 
-### [リリーエイベルの診療録-仕様書](https://docs.google.com/spreadsheets/d/1bEEFQmCnPc2ywglUACJOgS1n0Irqq2TyoQvoqcPKbM0/edit?usp=drive_link)
+### [仕様書](https://1drv.ms/x/c/1d234c969815360f/EZqZ_ykPfnZBvQreGMS5KdUBlWWGUQ1cGeDNXniNYlFafw?e=OMptbE)
 
-### ~~リリーエイベルの診療録-企画書~~
+### [リリーエイベルの診療録-企画書](https://1drv.ms/p/c/1d234c969815360f/ESqPrr3c9TlEqiBNBiM6A5YBrcWuF49uA7VqEQeZ6kJBag?e=Xxi6W6)
+
+### [イラストドライブ](https://drive.google.com/drive/folders/1UdTZgEOx7ecX6RMIFruUXqO9_YkQYcYf?usp=drive_link)
 
 ### [ドキュメント](https://drive.google.com/drive/folders/1k5T3OlEwNeazykKaJMlata8nsvBa4Ml3?usp=drive_link)
 
 ### [シナリオドライブ](https://drive.google.com/drive/folders/1lVZxuk0Klrc_xUi2M3J4TosaI_DBLwsS?usp=drive_link)
 
-### [イラストドライブ](https://drive.google.com/drive/folders/1UdTZgEOx7ecX6RMIFruUXqO9_YkQYcYf?usp=drive_link)
-
-## 技術仕様
+## 技術要素
 
 | 開発環境     | バージョン       | 詳細                   |
 | ------------ | ---------------- | ---------------------- |
