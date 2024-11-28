@@ -13,7 +13,7 @@
 
 ### [仕様書](https://1drv.ms/x/c/1d234c969815360f/EZqZ_ykPfnZBvQreGMS5KdUBlWWGUQ1cGeDNXniNYlFafw?e=OMptbE)
 
-### [リリーエイベルの診療録-企画書](https://1drv.ms/p/c/1d234c969815360f/ESqPrr3c9TlEqiBNBiM6A5YBrcWuF49uA7VqEQeZ6kJBag?e=Xxi6W6)
+### [企画書](https://1drv.ms/p/c/1d234c969815360f/ESqPrr3c9TlEqiBNBiM6A5YBrcWuF49uA7VqEQeZ6kJBag?e=Xxi6W6)
 
 ### [イラストドライブ](https://drive.google.com/drive/folders/1UdTZgEOx7ecX6RMIFruUXqO9_YkQYcYf?usp=drive_link)
 
