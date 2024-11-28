@@ -11,7 +11,9 @@
 
 ### [Google ドライブ](https://drive.google.com/drive/folders/1qNsUP2GD4svIqNEIUb-bsCz-2AeszBqh?usp=drive_link)
 
-### [仕様書](https://1drv.ms/x/c/1d234c969815360f/EZqZ_ykPfnZBvQreGMS5KdUBlWWGUQ1cGeDNXniNYlFafw?e=OMptbE)
+### [仕様書-ExcelWeb](https://1drv.ms/x/c/1d234c969815360f/ET0u2ed3cJtCog1Kp05bh5wBwg3yCm4njS2yuXTas_RA5Q?e=oSuMdX)  
+※ExcelのWeb版でしか編集ができませんが無料でアプリを持っていなくても可能でございます。  
+　仕様書にはゲームのパラメーターや細かい指示が記入されています。
 
 ### [企画書](https://1drv.ms/p/c/1d234c969815360f/ESqPrr3c9TlEqiBNBiM6A5YBrcWuF49uA7VqEQeZ6kJBag?e=Xxi6W6)
 
@@ -78,24 +80,6 @@ Riri_Haikei.png
 
 ```
 
-## 制作 Topics
-
-- 質問をする  
-  自己解決をするとチームとの認識合わせをしない事になる
-  解らない単語・文章・概念は遠慮なく質問しよう！
-
-- 仕様書をよく見よう  
-  考えの食い違いがあると後々大変です。
-
-- 概念を理解しよう  
-  詳細よりも大枠を理解するだけでも全然違います。
-
-- 解決よりも現状を整理しよう！
-- Why?(なぜ？)を考えよう！
-- 提出が間に合わないときは早めに相談を！！
-- 意見があるときは共有しよう！
-
-
 ## Git コミットメッセージ
 
 GitHub の Commit（コミット）メッセージの意味は下記を参照
@@ -118,6 +102,23 @@ GitHub の Commit（コミット）メッセージの意味は下記を参照
 | chore    | その他                     |
 | style    | コーディングスタイルの修正 |
 | perf     | パフォーマンスを改善       |
+
+## 制作 Topics
+
+- 質問をする  
+  自己解決をするとチームとの認識合わせをしない事になる
+  解らない単語・文章・概念は遠慮なく質問しよう！
+
+- 仕様書をよく見よう  
+  考えの食い違いがあると後々大変です。
+
+- 概念を理解しよう  
+  詳細よりも大枠を理解するだけでも全然違います。
+
+- 解決よりも現状を整理しよう！
+- Why?(なぜ？)を考えよう！
+- 提出が間に合わないときは早めに相談を！！
+- 意見があるときは共有しよう！
 
 ## 拡張機能
 
