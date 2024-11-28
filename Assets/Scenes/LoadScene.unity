@@ -486,7 +486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae7276e89c6abe64e893be46f7858956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyFloor: 60
+  enemyFloor: 100
 --- !u!4 &1740062995
 Transform:
   m_ObjectHideFlags: 0

@@ -13,7 +13,10 @@ public class ChestFloorSys : MonoBehaviour
     bool floorEndFlag = false;
     [SerializeField]
     Image fade = null;
-    
+
+    //ãxåeäKÇÃÉtÉâÉO
+    public bool restFlag = false;
+
 
     [SerializeField]
     Vector3 cameraMoveSpeed = Vector3.zero;
@@ -37,6 +40,16 @@ public class ChestFloorSys : MonoBehaviour
         windowMes.text = "íTçıíÜ";
         floorNoSysObj = GameObject.Find("FloorNo");
         floorNoSys = floorNoSysObj.GetComponent<FloorNoSys>();
+
+        //ãxåeÉtÉçÉAÉtÉâÉOÉIÉì
+        if (floorNoSys.floorNo % 5 == 0 && floorNoSys.floorNo != 0)
+        {
+            restFlag = true;
+        }
+        else
+        {
+            restFlag = false;
+        }
     }
     void Update()
     {
@@ -57,15 +70,31 @@ public class ChestFloorSys : MonoBehaviour
         }
         if (chestEndFlag)
         {
-            if (maincamera.transform.position.x <= 30)
+            if (restFlag)
             {
-                windowMes.text = "íTçıíÜ";
-                maincamera.transform.position += cameraMoveSpeed * Time.deltaTime;
+                if (maincamera.transform.position.x <= 20)
+                {
+                    windowMes.text = "íTçıíÜ";
+                    maincamera.transform.position += cameraMoveSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    windowMes.text = "ãxåeíÜ";
+                    StartCoroutine(RestStay());
+                }
             }
             else
             {
-                windowMes.text = "î‡Çå©Ç¬ÇØÇΩÅI \néüÇÃäKÇ…êiÇ‡Ç§";
-                StartCoroutine(FloorEnd());
+                if (maincamera.transform.position.x <= 30)
+                {
+                    windowMes.text = "íTçıíÜ";
+                    maincamera.transform.position += cameraMoveSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    windowMes.text = "î‡Çå©Ç¬ÇØÇΩÅI \néüÇÃäKÇ…êiÇ‡Ç§";
+                    StartCoroutine(FloorEnd());
+                }
             }
         }
 
@@ -79,7 +108,7 @@ public class ChestFloorSys : MonoBehaviour
 
     void KeyIn()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !chestEndFlag)
         {
             runStratFlag = true;
         }
@@ -105,4 +134,11 @@ public class ChestFloorSys : MonoBehaviour
         chestEndFlag = false;
         floorEndFlag = true;
     }
+
+    IEnumerator RestStay()
+    {
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        restFlag = false;
+    }
+
 }

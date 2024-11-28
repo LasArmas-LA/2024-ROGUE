@@ -17,12 +17,15 @@ MonoBehaviour:
     maxhp: 10
     maxmp: 11
     power: 12
+    probability: 0
   - name: Dhia
     maxhp: 13
     maxmp: 14
     power: 15
+    probability: 0
   - name: Enemy
     maxhp: 16
     maxmp: 17
     power: 18
+    probability: 0
   url: https://docs.google.com/spreadsheets/d/e/2PACX-1vRJgqkJNq55QyXIFWGtifUasQtMk1pJCRt40c8xmjr01II8RrnedtRwPOR0Bp4L99XGpckIBNtzLBll/pub?output=csv

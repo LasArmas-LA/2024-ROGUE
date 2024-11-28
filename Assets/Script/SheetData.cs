@@ -26,6 +26,7 @@ public class SheetData : ScriptableObject
         public float maxhp;
         public float maxmp;
         public float power;
+        public int probability;
                           /////////////////////////////////////////////
     }
 

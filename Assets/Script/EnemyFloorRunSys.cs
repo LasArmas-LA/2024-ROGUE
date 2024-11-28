@@ -64,7 +64,7 @@ public class EnemyFloorRunSys : MonoBehaviour
         if (battleEndFlag)
         {
 
-            if (encountSys.rastflag)
+            if (encountSys.restFlag)
             {
                 if (maincamera.transform.position.x <= 200)
                 {
@@ -130,7 +130,6 @@ public class EnemyFloorRunSys : MonoBehaviour
     IEnumerator RestStay()
     {
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
-        encountSys.rastflag = false;
-
+        encountSys.restFlag = false;
     }
 }

@@ -18,12 +18,16 @@ public class EncountSys : MonoBehaviour
     bool enemyMoveFlag = false;
 
     //休憩階のフラグ
-    public bool rastflag = false;
+    public bool restFlag = false;
+
+    //ボス階のフラグ
+    public bool bossFlag = false;
+
+    bool fastMove = false;
 
     //ボタン連続入力抑制用
     bool button = false;
 
-    //
     [SerializeField]
     Riri riri = null;
     [SerializeField]
@@ -75,13 +79,21 @@ public class EncountSys : MonoBehaviour
         floorNoSys = floorNoSysObj.GetComponent<FloorNoSys>();
 
         //休憩フロアフラグオン
-        if (floorNoSys.floorNo % 5 == 0)
+        if (floorNoSys.floorNo % 5 == 0 && floorNoSys.floorNo != 0)
         {
-            rastflag = true;
+            restFlag = true;
         }
         else
         {
-            rastflag = false;
+            restFlag = false;
+        }
+        if (floorNoSys.floorNo % 10 == 0 && floorNoSys.floorNo != 0)
+        {
+            bossFlag = true;
+        }
+        else
+        {
+            bossFlag = false;
         }
 
         //ムーブフラグの初期化
@@ -104,6 +116,7 @@ public class EncountSys : MonoBehaviour
         dhiaSlider.value = dhiaSlider.maxValue;
         enemySlider.value = enemySlider.maxValue;
 
+        fastMove = true;
         //windowsMes.text = "リリーの行動をにゅうりょくしてください";
         //RiriMove();
     }
@@ -131,7 +144,10 @@ public class EncountSys : MonoBehaviour
         }
         else
         {
-            windowsMes.text = "リリーの行動をにゅうりょくしてください";
+            if(!ririMoveFlag && fastMove)
+            {
+                windowsMes.text = "敵が現れた！";
+            }
             Debug.Log("リリー");
             ririMoveFlag = true;
             StartCoroutine(RiriEnterWait());
@@ -152,6 +168,7 @@ public class EncountSys : MonoBehaviour
             dhiaMoveFlag = true;
             ririMoveFlag = false;
             windowsMes.text = "ディアの行動をにゅうりょくしてください";
+            button = false;
             StartCoroutine(DhiaEnterWait());
         }
     }
@@ -187,7 +204,7 @@ public class EncountSys : MonoBehaviour
         bool enemyDeat = false;
         if(!enemyDeat)
         {
-            floorNoSys.floorNo += 1;
+            //floorNoSys.floorNo += 1;
             enemyDeat = true;
         }
     }
@@ -207,19 +224,20 @@ public class EncountSys : MonoBehaviour
     #region ボタン決定時処理
     public void AttackButton()
     {
-        button = true;
-        if(ririMoveFlag)
+        if(ririMoveFlag && !button && !fastMove)
         {
             windowsMes.text = "リリーのこうげき！" + riri.power + "のダメージ!";
             enemy.hp -= riri.power;
             enemySlider.value *= (enemy.hp / enemy.maxhp);
+            button = true;
             StartCoroutine(RiriEnterWait());
         }
-        if(dhiaMoveFlag)
+        if(dhiaMoveFlag && !button && !fastMove)
         {
             windowsMes.text = "ディアのこうげき！" + dhia.power + "のダメージ!";
             enemy.hp -= dhia.power;
             enemySlider.value *= (enemy.hp / enemy.maxhp);
+            button = true;
             StartCoroutine(DhiaEnterWait());
         }
     }
@@ -244,19 +262,24 @@ public class EncountSys : MonoBehaviour
     #region 行動後の待機処理
     IEnumerator RiriEnterWait()
     {
+        yield return new WaitForSeconds(1.0f);
+        if(fastMove)
+        {
+            windowsMes.text = "リリーの行動をにゅうりょくしてください";
+            fastMove = false;
+        }
         if (button)
         {
-            yield return new WaitUntil(() => Input.anyKeyDown);
             ririMoveFlag = false;
-            button = false;
             DhiaMove();
+            button = false;
         }
     }
     IEnumerator DhiaEnterWait()
     {
         if (button)
         {
-            yield return new WaitUntil(() => Input.anyKeyDown);
+            yield return new WaitForSeconds(1.0f);
             dhiaMoveFlag = false;
             button = false;
             EnemyMove();
@@ -266,11 +289,11 @@ public class EncountSys : MonoBehaviour
     {
         if (button)
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.0f);
             windowsMes.text = "リリーの行動をにゅうりょくしてください";
+            RiriMove();
             button = false;
             enemyMoveFlag = false;
-            RiriMove();
         }
     }
     #endregion
