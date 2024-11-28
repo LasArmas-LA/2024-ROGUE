@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8ba255aa143258e4cbb08ef212a909d0
+timeCreated: 1548724757
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 135763
+  packageName: CSV Serialize
+  packageVersion: 1.0
+  assetPath: Assets/CSVSerializer/Readme.pdf
+  uploadId: 290708

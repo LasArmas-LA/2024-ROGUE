@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: acb7ea5f2d478ea4a927652ac163aa5d
+timeCreated: 1545383175
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 135763
+  packageName: CSV Serialize
+  packageVersion: 1.0
+  assetPath: Assets/CSVSerializer/Demo/Scene/demo.unity
+  uploadId: 290708

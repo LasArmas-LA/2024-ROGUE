@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6642b0cd12752c4990d1cdd0a161488, type: 3}
+  m_Name: SheetData
+  m_EditorClassIdentifier: 
+  sheetDataRecord:
+  - name: Riri
+    maxhp: 10
+    maxmp: 11
+    power: 12
+  - name: Dhia
+    maxhp: 13
+    maxmp: 14
+    power: 15
+  - name: Enemy
+    maxhp: 16
+    maxmp: 17
+    power: 18
+  url: https://docs.google.com/spreadsheets/d/e/2PACX-1vRJgqkJNq55QyXIFWGtifUasQtMk1pJCRt40c8xmjr01II8RrnedtRwPOR0Bp4L99XGpckIBNtzLBll/pub?output=csv

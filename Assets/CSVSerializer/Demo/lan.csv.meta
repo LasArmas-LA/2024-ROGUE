@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b936b67e91a67ec419786a377dec1cff
+timeCreated: 1545355715
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 135763
+  packageName: CSV Serialize
+  packageVersion: 1.0
+  assetPath: Assets/CSVSerializer/Demo/lan.csv
+  uploadId: 290708

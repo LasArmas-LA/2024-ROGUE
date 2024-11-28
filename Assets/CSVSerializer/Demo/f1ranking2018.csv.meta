@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9a95d204ba2fdc345bb5053654af39c3
+timeCreated: 1545354230
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 135763
+  packageName: CSV Serialize
+  packageVersion: 1.0
+  assetPath: Assets/CSVSerializer/Demo/f1ranking2018.csv
+  uploadId: 290708

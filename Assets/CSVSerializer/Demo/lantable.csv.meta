@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9093f2e7492631947aee7875306ecc0f
+timeCreated: 1545114439
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 135763
+  packageName: CSV Serialize
+  packageVersion: 1.0
+  assetPath: Assets/CSVSerializer/Demo/lantable.csv
+  uploadId: 290708
