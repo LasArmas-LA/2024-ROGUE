@@ -146,7 +146,14 @@ public class EncountSys : MonoBehaviour
         {
             if(!ririMoveFlag && fastMove)
             {
-                windowsMes.text = "敵が現れた！";
+                if(bossFlag)
+                {
+                    windowsMes.text = "ボスが現れた！";
+                }
+                else
+                {
+                    windowsMes.text = "敵が現れた！";
+                }
             }
             Debug.Log("リリー");
             ririMoveFlag = true;
