@@ -10,6 +10,7 @@ public class TitleSceneSys : MonoBehaviour
 
     void Start()
     {
+
     }
 
     void Update()

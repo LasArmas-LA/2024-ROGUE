@@ -11,6 +11,12 @@ public class EncountSys : MonoBehaviour
     //バトルコマンドのテキスト
     [SerializeField]
     TextMeshProUGUI windowsMes = null;
+    [SerializeField]
+    TextMeshProUGUI command1Text = null;
+    [SerializeField]
+    TextMeshProUGUI command2Text = null;
+    [SerializeField]
+    TextMeshProUGUI command3Text = null;
 
     //Moveフラグ
     bool ririMoveFlag = false;
@@ -27,6 +33,16 @@ public class EncountSys : MonoBehaviour
 
     //ボタン連続入力抑制用
     bool button = false;
+
+    //バイキルト状態の判別
+    bool powerUpFlag = false;
+
+    //ディアの守り状態判別
+    bool defenseFlag = false;
+
+    //ディアのリリー守り状態判別
+    bool ririDefenseFlag = false;
+
 
     [SerializeField]
     Riri riri = null;
@@ -137,6 +153,10 @@ public class EncountSys : MonoBehaviour
     #region ムーブ処理
     public void RiriMove()
     {
+        command1Text.text = "ヒール";
+        command2Text.text = "オールヒール";
+        command3Text.text = "バイキルト";
+
         if (enemy.deathFlag)
         {
             windowsMes.text = "敵を倒した！";
@@ -163,6 +183,12 @@ public class EncountSys : MonoBehaviour
 
     void DhiaMove()
     {
+        command1Text.text = "殴る";
+        command2Text.text = "防御体制";
+        command3Text.text = "守る";
+        ririDefenseFlag = false;
+        defenseFlag = false;
+
         if (enemy.deathFlag)
         {
             windowsMes.text = "敵を倒した！";
@@ -192,8 +218,16 @@ public class EncountSys : MonoBehaviour
         {
             Debug.Log("エネミー");
             enemyMoveFlag = true;
-            windowsMes.text = "てきのこうげき！" + enemy.power + "のダメージ!";
-            dhia.hp -= enemy.power;
+            if(defenseFlag)
+            {
+                windowsMes.text = "てきのこうげき！" + enemy.power * 0.5f + "のダメージ!";
+                dhia.hp -= (enemy.power * 0.5f);
+            }
+            else
+            {
+                windowsMes.text = "てきのこうげき！" + enemy.power + "のダメージ!";
+                dhia.hp -= enemy.power;
+            }
             ririSlider.value *= (riri.hp / riri.maxhp);
             dhiaSlider.value *= (dhia.hp / dhia.maxhp);
             button = true;
@@ -229,64 +263,107 @@ public class EncountSys : MonoBehaviour
     #endregion
 
     #region ボタン決定時処理
-    public void AttackButton()
+    public void Command1Button()
     {
         if(ririMoveFlag && !button && !fastMove)
         {
-            windowsMes.text = "リリーのこうげき！" + riri.power + "のダメージ!";
-            enemy.hp -= riri.power;
-            enemySlider.value *= (enemy.hp / enemy.maxhp);
+            if(dhia.maxhp < dhia.hp + 50)
+            {
+                windowsMes.text = "リリーはヒールを唱えた！\n" + "ディア" + "のHPを"+  (dhia.maxhp - dhia.hp)  +"回復した!";
+                dhia.hp = dhia.maxhp;
+                dhiaSlider.value = dhiaSlider.maxValue;
+            }
+            else
+            {
+                windowsMes.text = "リリーはヒールを唱えた！\n" + "〇〇" + "のHPを50回復した!";
+                dhia.hp += 50;
+                dhiaSlider.value = (dhiaSlider.maxValue * (dhia.hp / dhia.maxhp));
+            }
             button = true;
             StartCoroutine(RiriEnterWait());
         }
         if(dhiaMoveFlag && !button && !fastMove)
         {
-            windowsMes.text = "ディアのこうげき！" + dhia.power + "のダメージ!";
-            enemy.hp -= dhia.power;
-            enemySlider.value *= (enemy.hp / enemy.maxhp);
+            if(powerUpFlag)
+            {
+                windowsMes.text = "ディアのこうげき！" + dhia.power * 1.5f + "のダメージ!";
+                enemy.hp -= (dhia.power * 1.5f);
+                enemySlider.value *= (enemy.hp / enemy.maxhp);
+                powerUpFlag = false;
+            }
+            else
+            {
+                windowsMes.text = "ディアのこうげき！" + dhia.power + "のダメージ!";
+                enemy.hp -= dhia.power;
+                enemySlider.value *= (enemy.hp / enemy.maxhp);
+            }
             button = true;
             StartCoroutine(DhiaEnterWait());
         }
     }
-    public void DefenseButton()
+    public void Command2Button()
     {
-        button = true;
-        if(ririMoveFlag)
+        if(ririMoveFlag && !button && !fastMove)
         {
-            windowsMes.text = "リリーはぼうぎょした!";
+            windowsMes.text = "リリーはオールヒールを唱えた！\n2人のHPを20ずつ回復した!";
+            riri.hp += 20;
+            dhia.hp += 20;
+            ririSlider.value = (ririSlider.maxValue * (riri.hp / riri.maxhp));
+            dhiaSlider.value = (dhiaSlider.maxValue * (dhia.hp / dhia.maxhp));
+            button = true;
             StartCoroutine(RiriEnterWait());
         }
-        if(dhiaMoveFlag)
+        if(dhiaMoveFlag && !button && !fastMove)
         {
-            windowsMes.text = "ディアはぼうぎょした!";
+            windowsMes.text = "ディアは身を守っている。";
+            defenseFlag = true;
+            button = true;
             StartCoroutine(DhiaEnterWait());
         }
     }
-
+    public void Command3Button()
+    {
+        if(ririMoveFlag && !button && !fastMove)
+        {
+            windowsMes.text = "リリーはバイキルトを唱えた！\nディアの攻撃力が上昇した!";
+            powerUpFlag = true;
+            button = true;
+            StartCoroutine(RiriEnterWait());
+        }
+        if(dhiaMoveFlag && !button && !fastMove)
+        {
+            windowsMes.text = "ディアはリリーを守っている。";
+            ririDefenseFlag = true;
+            button = true;
+            StartCoroutine(DhiaEnterWait());
+        }
+    }
     #endregion
 
 
     #region 行動後の待機処理
     IEnumerator RiriEnterWait()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.0f);
         if(fastMove)
         {
+            Debug.Log("リリーエンターウェイト");
             windowsMes.text = "リリーの行動をにゅうりょくしてください";
             fastMove = false;
         }
         if (button)
         {
             ririMoveFlag = false;
-            DhiaMove();
             button = false;
+            DhiaMove();
         }
     }
     IEnumerator DhiaEnterWait()
     {
-        if (button)
+        yield return new WaitForSeconds(2.0f);
+
+        if (button && dhiaMoveFlag)
         {
-            yield return new WaitForSeconds(1.0f);
             dhiaMoveFlag = false;
             button = false;
             EnemyMove();
@@ -294,14 +371,12 @@ public class EncountSys : MonoBehaviour
     }
     IEnumerator EnemyEnterWait()
     {
-        if (button)
-        {
-            yield return new WaitForSeconds(1.0f);
-            windowsMes.text = "リリーの行動をにゅうりょくしてください";
-            RiriMove();
-            button = false;
-            enemyMoveFlag = false;
-        }
+        yield return new WaitForSeconds(2.0f);
+
+        windowsMes.text = "リリーの行動をにゅうりょくしてください";
+        button = false;
+        enemyMoveFlag = false;
+        RiriMove();
     }
     #endregion
 }

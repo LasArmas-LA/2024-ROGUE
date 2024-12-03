@@ -590,6 +590,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windowsMes: {fileID: 1213364531}
+  command1Text: {fileID: 1962552018}
+  command2Text: {fileID: 425735355}
+  command3Text: {fileID: 1355190683}
+  restFlag: 0
+  bossFlag: 0
   riri: {fileID: 1854959374}
   dhia: {fileID: 2113024850}
   enemy: {fileID: 888653665}
@@ -823,7 +828,7 @@ GameObject:
   - component: {fileID: 425735356}
   - component: {fileID: 425735355}
   m_Layer: 5
-  m_Name: ExpText
+  m_Name: Command2Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -868,7 +873,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u30B3\u30DE\u30F3\u30C92"
+  m_text: "\u30AA\u30FC\u30EB\u30D2\u30FC\u30EB"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ce6cd73bef87e7c448c767a5aa75994d, type: 2}
   m_sharedMaterial: {fileID: 21429567770560580, guid: ce6cd73bef87e7c448c767a5aa75994d, type: 2}
@@ -996,7 +1001,7 @@ GameObject:
   - component: {fileID: 695270262}
   - component: {fileID: 695270261}
   m_Layer: 5
-  m_Name: DefenseButton
+  m_Name: Command13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1068,7 +1073,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 180505724}
         m_TargetAssemblyTypeName: EncountSys, Assembly-CSharp
-        m_MethodName: DefenseButton
+        m_MethodName: Command3Button
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1342,11 +1347,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e191cdd330327204db7f2ab94feb6528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxhp: 100
+  maxhp: 300
   maxmp: 20
   hp: 0
   mp: 0
-  power: 10
+  power: 40
   deathFlag: 0
 --- !u!1 &909951215
 GameObject:
@@ -1547,7 +1552,7 @@ GameObject:
   - component: {fileID: 1017883884}
   - component: {fileID: 1017883883}
   m_Layer: 5
-  m_Name: AttackButton
+  m_Name: Command1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1619,7 +1624,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 180505724}
         m_TargetAssemblyTypeName: EncountSys, Assembly-CSharp
-        m_MethodName: AttackButton
+        m_MethodName: Command1Button
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2204,7 +2209,7 @@ GameObject:
   - component: {fileID: 1355190684}
   - component: {fileID: 1355190683}
   m_Layer: 5
-  m_Name: DefenseText
+  m_Name: Command3Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2249,7 +2254,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u30B3\u30DE\u30F3\u30C93"
+  m_text: "\u30D0\u30A4\u30AD\u30EB\u30C8"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ce6cd73bef87e7c448c767a5aa75994d, type: 2}
   m_sharedMaterial: {fileID: 21429567770560580, guid: ce6cd73bef87e7c448c767a5aa75994d, type: 2}
@@ -3197,11 +3202,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899386df95e21d44199db5a3f8339c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxhp: 15
-  maxmp: 20
+  maxhp: 100
+  maxmp: 10
   hp: 0
   mp: 0
-  power: 25
+  power: 0
   deathFlag: 0
 --- !u!1 &1876032297
 GameObject:
@@ -3362,7 +3367,7 @@ GameObject:
   - component: {fileID: 1962552019}
   - component: {fileID: 1962552018}
   m_Layer: 5
-  m_Name: AttackText
+  m_Name: Command1Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3407,7 +3412,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u30B3\u30DE\u30F3\u30C91"
+  m_text: "\u30D2\u30FC\u30EB"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ce6cd73bef87e7c448c767a5aa75994d, type: 2}
   m_sharedMaterial: {fileID: 21429567770560580, guid: ce6cd73bef87e7c448c767a5aa75994d, type: 2}
@@ -3596,7 +3601,7 @@ GameObject:
   - component: {fileID: 2021871437}
   - component: {fileID: 2021871436}
   m_Layer: 5
-  m_Name: ExpButton
+  m_Name: Command2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3665,7 +3670,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2021871437}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 180505724}
+        m_TargetAssemblyTypeName: EncountSys, Assembly-CSharp
+        m_MethodName: Command2Button
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2021871437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3869,11 +3886,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2902d1328144b8743bd6d989c5c6c1c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxhp: 30
+  maxhp: 150
   maxmp: 35
   hp: 0
   mp: 0
-  power: 40
+  power: 100
   deathFlag: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
