@@ -23,6 +23,15 @@ public class TitleSceneSys : MonoBehaviour
         Invoke("LoadScene", 1.0f);
     }
 
+    public void OnEndButton()
+    {
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
+        #else
+            Application.Quit();//ゲームプレイ終了
+        #endif
+    }
+
     void LoadScene()
     {
         SceneManager.LoadScene("LoadScene");

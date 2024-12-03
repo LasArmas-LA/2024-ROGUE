@@ -595,6 +595,9 @@ MonoBehaviour:
   command3Text: {fileID: 1355190683}
   restFlag: 0
   bossFlag: 0
+  ririWaitTime: 3
+  DhiaWaitTime: 3
+  enemyWaitTime: 3
   riri: {fileID: 1854959374}
   dhia: {fileID: 2113024850}
   enemy: {fileID: 888653665}

@@ -5,10 +5,13 @@ using UnityEditorInternal;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
+using UnityEditor.ShaderKeywordFilter;
+using System;
 
 public class EncountSys : MonoBehaviour
 {
     //バトルコマンドのテキスト
+    [Header("バトルコマンドのテキスト")]
     [SerializeField]
     TextMeshProUGUI windowsMes = null;
     [SerializeField]
@@ -18,17 +21,22 @@ public class EncountSys : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI command3Text = null;
 
+    [Space(10)]
+
     //Moveフラグ
     bool ririMoveFlag = false;
     bool dhiaMoveFlag = false;
     bool enemyMoveFlag = false;
 
     //休憩階のフラグ
+    [NonSerialized]
     public bool restFlag = false;
 
     //ボス階のフラグ
+    [NonSerialized]
     public bool bossFlag = false;
 
+    //初回ターンフラグ
     bool fastMove = false;
 
     //ボタン連続入力抑制用
@@ -43,28 +51,43 @@ public class EncountSys : MonoBehaviour
     //ディアのリリー守り状態判別
     bool ririDefenseFlag = false;
 
+    //ターン切り替えの待機時間
+    [Header("ターン切り替え待機時間")]
+    [SerializeField, Tooltip("リリーのターン切り替え待機時間")]
+    float ririWaitTime = 0f;
+    [SerializeField, Tooltip("ディアのターン切り替え待機時間")]
+    float DhiaWaitTime = 0f;
+    [SerializeField, Tooltip("エネミーのターン切り替え待機時間")]
+    float enemyWaitTime = 0f;
+    
+    [Space(10)]
 
+    [Header("クラス参照")]
     [SerializeField]
     Riri riri = null;
     [SerializeField]
     Dhia dhia = null;
     [SerializeField]
     Enemy enemy = null;
-
     FloorNoSys floorNoSys = null;
     GameObject floorNoSysObj = null;
-
     [SerializeField]
     EnemyFloorRunSys enemyFloorRunSysObj = null;
 
+    [Space(10)]
+
     //体力ゲージのObj
-    [SerializeField]
+    [Header("体力ゲージ")]
+    [SerializeField, Tooltip("リリーの体力ゲージ")]
     Slider ririSlider = null;
-    [SerializeField]
+    [SerializeField, Tooltip("ディアの体力ゲージ")]
     Slider dhiaSlider = null;
-    [SerializeField]
+    [SerializeField, Tooltip("敵の体力ゲージ")]
     Slider enemySlider = null;
 
+    [Space(10)]
+
+    [Header("各キャラクターのオブジェクト")]
     //リリー,ディア,エネミーのObj
     [SerializeField]
     GameObject ririObj;
@@ -72,7 +95,6 @@ public class EncountSys : MonoBehaviour
     GameObject dhiaObj;
     [SerializeField]
     GameObject enemyObj;
-
 
     void Awake()
     {
@@ -91,6 +113,11 @@ public class EncountSys : MonoBehaviour
     #region Init処理
     void Init()
     {
+        // VSyncCount を Dont Sync に変更
+        QualitySettings.vSyncCount = 0;
+        // 60fpsを目標に設定
+        Application.targetFrameRate = 60;
+
         floorNoSysObj = GameObject.Find("FloorNo");
         floorNoSys = floorNoSysObj.GetComponent<FloorNoSys>();
 
@@ -153,6 +180,8 @@ public class EncountSys : MonoBehaviour
     #region ムーブ処理
     public void RiriMove()
     {
+        StopAllCoroutines();
+
         command1Text.text = "ヒール";
         command2Text.text = "オールヒール";
         command3Text.text = "バイキルト";
@@ -183,6 +212,8 @@ public class EncountSys : MonoBehaviour
 
     void DhiaMove()
     {
+        StopAllCoroutines();
+
         command1Text.text = "殴る";
         command2Text.text = "防御体制";
         command3Text.text = "守る";
@@ -208,6 +239,8 @@ public class EncountSys : MonoBehaviour
 
     void EnemyMove()
     {
+        StopAllCoroutines();
+
         if (enemy.deathFlag)
         {
             windowsMes.text = "敵を倒した！";
@@ -269,12 +302,14 @@ public class EncountSys : MonoBehaviour
         {
             if(dhia.maxhp < dhia.hp + 50)
             {
+                Debug.Log("コマンド1リリーHPマックス回復");
                 windowsMes.text = "リリーはヒールを唱えた！\n" + "ディア" + "のHPを"+  (dhia.maxhp - dhia.hp)  +"回復した!";
                 dhia.hp = dhia.maxhp;
                 dhiaSlider.value = dhiaSlider.maxValue;
             }
             else
             {
+                Debug.Log("コマンド1リリーHP差分回復");
                 windowsMes.text = "リリーはヒールを唱えた！\n" + "〇〇" + "のHPを50回復した!";
                 dhia.hp += 50;
                 dhiaSlider.value = (dhiaSlider.maxValue * (dhia.hp / dhia.maxhp));
@@ -286,6 +321,8 @@ public class EncountSys : MonoBehaviour
         {
             if(powerUpFlag)
             {
+                Debug.Log("コマンド1ディアパワーアップ攻撃");
+
                 windowsMes.text = "ディアのこうげき！" + dhia.power * 1.5f + "のダメージ!";
                 enemy.hp -= (dhia.power * 1.5f);
                 enemySlider.value *= (enemy.hp / enemy.maxhp);
@@ -293,6 +330,7 @@ public class EncountSys : MonoBehaviour
             }
             else
             {
+                Debug.Log("コマンド1ディア通常攻撃");
                 windowsMes.text = "ディアのこうげき！" + dhia.power + "のダメージ!";
                 enemy.hp -= dhia.power;
                 enemySlider.value *= (enemy.hp / enemy.maxhp);
@@ -305,6 +343,7 @@ public class EncountSys : MonoBehaviour
     {
         if(ririMoveFlag && !button && !fastMove)
         {
+            Debug.Log("コマンド2リリー");
             windowsMes.text = "リリーはオールヒールを唱えた！\n2人のHPを20ずつ回復した!";
             riri.hp += 20;
             dhia.hp += 20;
@@ -312,30 +351,37 @@ public class EncountSys : MonoBehaviour
             dhiaSlider.value = (dhiaSlider.maxValue * (dhia.hp / dhia.maxhp));
             button = true;
             StartCoroutine(RiriEnterWait());
+            return;
         }
         if(dhiaMoveFlag && !button && !fastMove)
         {
+            Debug.Log("コマンド2ディア");
             windowsMes.text = "ディアは身を守っている。";
             defenseFlag = true;
             button = true;
             StartCoroutine(DhiaEnterWait());
+            return;
         }
     }
     public void Command3Button()
     {
         if(ririMoveFlag && !button && !fastMove)
         {
+            Debug.Log("コマンド3リリー");
             windowsMes.text = "リリーはバイキルトを唱えた！\nディアの攻撃力が上昇した!";
             powerUpFlag = true;
             button = true;
             StartCoroutine(RiriEnterWait());
+            return;
         }
         if(dhiaMoveFlag && !button && !fastMove)
         {
+            Debug.Log("コマンド3ディア");
             windowsMes.text = "ディアはリリーを守っている。";
             ririDefenseFlag = true;
             button = true;
             StartCoroutine(DhiaEnterWait());
+            return;
         }
     }
     #endregion
@@ -344,10 +390,10 @@ public class EncountSys : MonoBehaviour
     #region 行動後の待機処理
     IEnumerator RiriEnterWait()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitUntil(() => ririMoveFlag);
+        yield return new WaitForSeconds(ririWaitTime);
         if(fastMove)
         {
-            Debug.Log("リリーエンターウェイト");
             windowsMes.text = "リリーの行動をにゅうりょくしてください";
             fastMove = false;
         }
@@ -360,23 +406,24 @@ public class EncountSys : MonoBehaviour
     }
     IEnumerator DhiaEnterWait()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitUntil(() => dhiaMoveFlag);
+        yield return new WaitForSeconds(DhiaWaitTime);
 
         if (button && dhiaMoveFlag)
         {
             dhiaMoveFlag = false;
-            button = false;
             EnemyMove();
+            button = false;
         }
     }
     IEnumerator EnemyEnterWait()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(enemyWaitTime);
 
         windowsMes.text = "リリーの行動をにゅうりょくしてください";
-        button = false;
         enemyMoveFlag = false;
         RiriMove();
+        button = false;
     }
     #endregion
 }
