@@ -98,11 +98,10 @@ public class EncountSys : MonoBehaviour
 
     void Awake()
     {
-        Init();
     }
     void Start()
     {
-
+        Init();
     }
 
     void Update()
@@ -158,6 +157,11 @@ public class EncountSys : MonoBehaviour
         ririSlider.value = ririSlider.maxValue;
         dhiaSlider.value = dhiaSlider.maxValue;
         enemySlider.value = enemySlider.maxValue;
+
+        //Max‚ÌHP‚ğŒ»İ‚ÌHP‚ÉŠi”[
+        ririSlider.value *= (riri.hp / riri.maxhp);
+        dhiaSlider.value *= (dhia.hp / dhia.maxhp);
+        enemySlider.value *= (enemy.hp / enemy.maxhp);
 
         fastMove = true;
         //windowsMes.text = "ƒŠƒŠ[‚Ìs“®‚ğ‚É‚ã‚¤‚è‚å‚­‚µ‚Ä‚­‚¾‚³‚¢";

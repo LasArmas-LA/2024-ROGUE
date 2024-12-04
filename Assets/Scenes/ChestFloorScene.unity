@@ -543,6 +543,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maincamera: {fileID: 2060830623}
   fade: {fileID: 1622646510}
+  restFlag: 0
   cameraMoveSpeed: {x: 5, y: 0, z: 0}
   chestObj: {fileID: 1251145348}
   windowMes: {fileID: 1483587123}
