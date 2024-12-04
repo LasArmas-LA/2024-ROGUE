@@ -320,6 +320,7 @@ public class EncountSys : MonoBehaviour
             }
             button = true;
             StartCoroutine(RiriEnterWait());
+            return;
         }
         if(dhiaMoveFlag && !button && !fastMove)
         {
@@ -341,6 +342,7 @@ public class EncountSys : MonoBehaviour
             }
             button = true;
             StartCoroutine(DhiaEnterWait());
+            return;
         }
     }
     public void Command2Button()

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc3b00f8a806bf14497f374c9396b341, type: 3}
-  m_Name: RiriStatus
+  m_Name: p_RiriStatus
   m_EditorClassIdentifier: 
   NAME: "\u30EA\u30EA\u30FC"
   MAXHP: 100
@@ -19,4 +19,9 @@ MonoBehaviour:
   MP: 0
   ATK: 0
   DEF: 10
-  armorData: []
+  armorData:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
