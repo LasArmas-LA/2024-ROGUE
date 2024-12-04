@@ -21,12 +21,19 @@ public class EncountSys : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI command3Text = null;
 
+    [SerializeField]
+    GameObject recoveryWin = null;
+
     [Space(10)]
 
     //Moveフラグ
     bool ririMoveFlag = false;
     bool dhiaMoveFlag = false;
     bool enemyMoveFlag = false;
+
+    //対象選択時のフラグ
+    bool ririSelectFlag = false;
+    bool dhiaSelectFlag = false;
 
     //休憩階のフラグ
     [NonSerialized]
@@ -184,8 +191,6 @@ public class EncountSys : MonoBehaviour
     #region ムーブ処理
     public void RiriMove()
     {
-        StopAllCoroutines();
-
         command1Text.text = "ヒール";
         command2Text.text = "オールヒール";
         command3Text.text = "バイキルト";
@@ -216,8 +221,6 @@ public class EncountSys : MonoBehaviour
 
     void DhiaMove()
     {
-        StopAllCoroutines();
-
         command1Text.text = "殴る";
         command2Text.text = "防御体制";
         command3Text.text = "守る";
@@ -243,8 +246,6 @@ public class EncountSys : MonoBehaviour
 
     void EnemyMove()
     {
-        StopAllCoroutines();
-
         if (enemy.deathFlag)
         {
             windowsMes.text = "敵を倒した！";
@@ -331,23 +332,53 @@ public class EncountSys : MonoBehaviour
     {
         if(ririMoveFlag && !button && !fastMove)
         {
-            if(dhia.maxhp < dhia.hp + 50)
+            windowsMes.text = "回復対象を選んでください";
+
+            if (ririSelectFlag || dhiaSelectFlag)
             {
-                Debug.Log("コマンド1リリーHPマックス回復");
-                windowsMes.text = "リリーはヒールを唱えた！\n" + "ディア" + "のHPを"+  (dhia.maxhp - dhia.hp)  +"回復した!";
-                dhia.hp = dhia.maxhp;
-                dhiaSlider.value = dhiaSlider.maxValue;
+                if (ririSelectFlag)
+                {
+                    if (riri.maxhp < riri.hp + 50)
+                    {
+                        Debug.Log("コマンド1リリーHPマックス回復");
+                        windowsMes.text = "リリーはヒールを唱えた！\n" + "リリー" + "のHPを" + (riri.maxhp - riri.hp) + "回復した!";
+                        riri.hp = riri.maxhp;
+                        ririSlider.value = ririSlider.maxValue;
+                    }
+                    else
+                    {
+                        Debug.Log("コマンド1リリーHP差分回復");
+                        windowsMes.text = "リリーはヒールを唱えた！\n" + "リリー" + "のHPを50回復した!";
+                        riri.hp += 50;
+                        ririSlider.value = (ririSlider.maxValue * (riri.hp / riri.maxhp));
+                    }
+                }
+                if (dhiaSelectFlag)
+                {
+                    if (dhia.maxhp < dhia.hp + 50)
+                    {
+                        Debug.Log("コマンド1リリーHPマックス回復");
+                        windowsMes.text = "リリーはヒールを唱えた！\n" + "ディア" + "のHPを" + (dhia.maxhp - dhia.hp) + "回復した!";
+                        dhia.hp = dhia.maxhp;
+                        dhiaSlider.value = dhiaSlider.maxValue;
+                    }
+                    else
+                    {
+                        Debug.Log("コマンド1リリーHP差分回復");
+                        windowsMes.text = "リリーはヒールを唱えた！\n" + "ディア" + "のHPを50回復した!";
+                        dhia.hp += 50;
+                        dhiaSlider.value = (dhiaSlider.maxValue * (dhia.hp / dhia.maxhp));
+                    }
+                    dhiaSelectFlag = false;
+                }
+                button = true;
+                StartCoroutine(RiriEnterWait());
+                return;
             }
             else
             {
-                Debug.Log("コマンド1リリーHP差分回復");
-                windowsMes.text = "リリーはヒールを唱えた！\n" + "〇〇" + "のHPを50回復した!";
-                dhia.hp += 50;
-                dhiaSlider.value = (dhiaSlider.maxValue * (dhia.hp / dhia.maxhp));
+                recoveryWin.SetActive(true);
             }
-            button = true;
-            StartCoroutine(RiriEnterWait());
-            return;
         }
         if(dhiaMoveFlag && !button && !fastMove)
         {
@@ -433,6 +464,19 @@ public class EncountSys : MonoBehaviour
             return;
         }
     }
+
+    public void RiriSlect()
+    {
+        ririSelectFlag = true;
+        recoveryWin.SetActive(false);
+        Command1Button();
+    }
+    public void DhiaSlect()
+    {
+        dhiaSelectFlag = true;
+        recoveryWin.SetActive(false);
+        Command1Button();
+    }
     #endregion
 
 
@@ -441,7 +485,7 @@ public class EncountSys : MonoBehaviour
     {
         yield return new WaitUntil(() => ririMoveFlag);
         yield return new WaitForSeconds(ririWaitTime);
-        if(fastMove)
+        if (fastMove)
         {
             windowsMes.text = "リリーの行動をにゅうりょくしてください";
             fastMove = false;
