@@ -12,20 +12,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6642b0cd12752c4990d1cdd0a161488, type: 3}
   m_Name: SheetData
   m_EditorClassIdentifier: 
-  sheetDataRecord:
-  - name: Riri
-    maxhp: 10
-    maxmp: 11
-    power: 12
-    probability: 0
-  - name: Dhia
-    maxhp: 13
-    maxmp: 14
-    power: 15
-    probability: 0
-  - name: Enemy
-    maxhp: 16
-    maxmp: 17
-    power: 18
-    probability: 0
+  characterParamDataRecord:
+  - C_NAME: Riri
+    C_MAXHP: 100
+    C_MAXMP: 10
+    C_ATK: 0
+    C_DEF: 10
+  - C_NAME: Dhia
+    C_MAXHP: 150
+    C_MAXMP: 100
+    C_ATK: 100
+    C_DEF: 10
+  - C_NAME: Enemy1
+    C_MAXHP: 200
+    C_MAXMP: 0
+    C_ATK: 50
+    C_DEF: 10
+  - C_NAME: Enemy2
+    C_MAXHP: 300
+    C_MAXMP: 0
+    C_ATK: 60
+    C_DEF: 20
+  - C_NAME: Boss
+    C_MAXHP: 1000
+    C_MAXMP: 1000
+    C_ATK: 300
+    C_DEF: 50
+  armorParamRecord:
+  - A_NAME: "\u9244\u306E\u30D1\u30FC\u30C4"
+    A_MAXHP: 0
+    A_MAXMP: 0
+    A_ATK: 0
+    A_DEF: 5
+    A_AVOIDANCE: 0
+  - A_NAME: "\u5E03\u306E\u30D1\u30FC\u30C4"
+    A_MAXHP: 0
+    A_MAXMP: 0
+    A_ATK: 0
+    A_DEF: 0
+    A_AVOIDANCE: 3
+  - A_NAME: "\u9285\u306E\u30D1\u30FC\u30C4"
+    A_MAXHP: 0
+    A_MAXMP: 0
+    A_ATK: 0
+    A_DEF: 3
+    A_AVOIDANCE: 1
+  - A_NAME: "\u83EF\u7F8E\u306A\u5E03\u306E\u30D1\u30FC\u30C4"
+    A_MAXHP: 0
+    A_MAXMP: 0
+    A_ATK: 0
+    A_DEF: 10
+    A_AVOIDANCE: -1
+  - A_NAME: "\u8FFD\u61B6\u306E\u30D1\u30FC\u30C4(\u982D)"
+    A_MAXHP: 0
+    A_MAXMP: 0
+    A_ATK: 5
+    A_DEF: 15
+    A_AVOIDANCE: 3
   url: https://docs.google.com/spreadsheets/d/e/2PACX-1vRJgqkJNq55QyXIFWGtifUasQtMk1pJCRt40c8xmjr01II8RrnedtRwPOR0Bp4L99XGpckIBNtzLBll/pub?output=csv

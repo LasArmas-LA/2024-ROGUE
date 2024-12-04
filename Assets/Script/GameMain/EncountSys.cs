@@ -255,20 +255,47 @@ public class EncountSys : MonoBehaviour
         {
             Debug.Log("エネミー");
             enemyMoveFlag = true;
-            if(defenseFlag)
+
+            int rnd = 0;
+            for (int i = 0; i < 5;i++)
             {
-                windowsMes.text = "てきのこうげき！" + enemy.power * 0.5f + "のダメージ!";
-                dhia.hp -= (enemy.power * 0.5f);
+                rnd = UnityEngine.Random.Range(0, 2);
             }
-            else
+            //攻撃対象リリー
+            if(rnd == 0)
             {
-                windowsMes.text = "てきのこうげき！" + enemy.power + "のダメージ!";
-                dhia.hp -= enemy.power;
+                //70%軽減
+                if (ririDefenseFlag)
+                {
+                    windowsMes.text = "てきのこうげき！ディアがリリーを守った！ディアに" + enemy.power * 0.3f + "のダメージ!";
+                    dhia.hp -= (enemy.power * 0.3f);
+                }
+                else
+                {
+                    windowsMes.text = "てきのこうげき！リリーに" + enemy.power + "のダメージ!";
+                    riri.hp -= enemy.power;
+                }
+
+            }
+            //攻撃対象ディア
+            else if (rnd == 1)
+            {
+                if (defenseFlag)
+                {
+                    windowsMes.text = "てきのこうげき！ディアに" + enemy.power * 0.5f + "のダメージ!";
+                    dhia.hp -= (enemy.power * 0.5f);
+                }
+                else
+                {
+                    windowsMes.text = "てきのこうげき！ディアに" + enemy.power + "のダメージ!";
+                    dhia.hp -= enemy.power;
+                }
             }
             ririSlider.value *= (riri.hp / riri.maxhp);
             dhiaSlider.value *= (dhia.hp / dhia.maxhp);
             button = true;
             StartCoroutine(EnemyEnterWait());
+            return;
         }
     }
     #endregion
@@ -350,9 +377,25 @@ public class EncountSys : MonoBehaviour
         if(ririMoveFlag && !button && !fastMove)
         {
             Debug.Log("コマンド2リリー");
-            windowsMes.text = "リリーはオールヒールを唱えた！\n2人のHPを20ずつ回復した!";
-            riri.hp += 20;
-            dhia.hp += 20;
+            
+            if(riri.maxhp > riri.hp + 20 && dhia.maxhp > dhia.hp + 20)
+            {
+                riri.hp += 20;
+                dhia.hp += 20;
+                windowsMes.text = "リリーはオールヒールを唱えた！\nリリーとディアのHPを20ずつ回復した!";
+            }
+            else
+            {
+                if(riri.maxhp < riri.hp + 20)
+                {
+                    riri.hp = riri.maxhp;
+                }
+                if(dhia.maxhp < dhia.hp + 20)
+                {
+                    dhia.hp = dhia.maxhp;
+                }
+                windowsMes.text = "リリーはオールヒールを唱えた！\nリリーのHPを"+ (riri.maxhp - riri.hp) + "ディアのHPを"+ (dhia.maxhp - dhia.hp) + "回復した!";
+            }
             ririSlider.value = (ririSlider.maxValue * (riri.hp / riri.maxhp));
             dhiaSlider.value = (dhiaSlider.maxValue * (dhia.hp / dhia.maxhp));
             button = true;
