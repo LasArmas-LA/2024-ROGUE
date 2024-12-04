@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static BaseEquipment;
 
 public class EnemyFloorRunSys : MonoBehaviour
 {
@@ -178,15 +179,87 @@ public class EnemyFloorRunSys : MonoBehaviour
 
         if(partsSlect[0])
         {
-            dhiaStatus.armorData[0] = equipmentManager.randomEquip[equipmentManager.rnd1];
+            //‰Eè
+            if(equipmentManager.randomEquip[equipmentManager.rnd1].equipmentType == EquipmentType.RightHand)
+            {
+                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd1];
+            }
+            //¶è
+            if (equipmentManager.randomEquip[equipmentManager.rnd1].equipmentType == EquipmentType.LeftHand)
+            {
+                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd1];
+            }
+            //‘«
+            if (equipmentManager.randomEquip[equipmentManager.rnd1].equipmentType == EquipmentType.Feet)
+            {
+                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd1];
+            }
+            //‘Ì
+            if (equipmentManager.randomEquip[equipmentManager.rnd1].equipmentType == EquipmentType.Body)
+            {
+                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd1];
+            }
+            //“ª
+            if (equipmentManager.randomEquip[equipmentManager.rnd1].equipmentType == EquipmentType.Head)
+            {
+                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd1];
+            }
         }
         if (partsSlect[1])
         {
-            dhiaStatus.armorData[1] = equipmentManager.randomEquip[equipmentManager.rnd2];
+            //‰Eè
+            if (equipmentManager.randomEquip[equipmentManager.rnd2].equipmentType == EquipmentType.RightHand)
+            {
+                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd2];
+            }
+            //¶è
+            if (equipmentManager.randomEquip[equipmentManager.rnd2].equipmentType == EquipmentType.LeftHand)
+            {
+                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd2];
+            }
+            //‘«
+            if (equipmentManager.randomEquip[equipmentManager.rnd2].equipmentType == EquipmentType.Feet)
+            {
+                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd2];
+            }
+            //‘Ì
+            if (equipmentManager.randomEquip[equipmentManager.rnd2].equipmentType == EquipmentType.Body)
+            {
+                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd2];
+            }
+            //“ª
+            if (equipmentManager.randomEquip[equipmentManager.rnd2].equipmentType == EquipmentType.Head)
+            {
+                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd2];
+            }
         }
         if (partsSlect[2])
         {
-            dhiaStatus.armorData[2] = equipmentManager.randomEquip[equipmentManager.rnd3];
+            //‰Eè
+            if (equipmentManager.randomEquip[equipmentManager.rnd3].equipmentType == EquipmentType.RightHand)
+            {
+                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd3];
+            }
+            //¶è
+            if (equipmentManager.randomEquip[equipmentManager.rnd3].equipmentType == EquipmentType.LeftHand)
+            {
+                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd3];
+            }
+            //‘«
+            if (equipmentManager.randomEquip[equipmentManager.rnd3].equipmentType == EquipmentType.Feet)
+            {
+                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd3];
+            }
+            //‘Ì
+            if (equipmentManager.randomEquip[equipmentManager.rnd3].equipmentType == EquipmentType.Body)
+            {
+                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd3];
+            }
+            //“ª
+            if (equipmentManager.randomEquip[equipmentManager.rnd3].equipmentType == EquipmentType.Head)
+            {
+                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd3];
+            }
         }
     }
 

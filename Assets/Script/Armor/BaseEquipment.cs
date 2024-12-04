@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [CreateAssetMenu(fileName = "NewEquipment", menuName = "Equipment/Create New Equipment")]
 public class BaseEquipment : ScriptableObject

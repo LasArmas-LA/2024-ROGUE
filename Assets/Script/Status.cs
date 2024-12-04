@@ -18,6 +18,14 @@ public class Status : ScriptableObject
 
     [Space(5)]
 
-    [Header("パーツ")]
-    public ScriptableObject[] armorData;
+    [Header("頭パーツ")]
+    public ScriptableObject headPartsData;
+    [Header("体パーツ")]
+    public ScriptableObject bodyPartsData;
+    [Header("足パーツ")]
+    public ScriptableObject legPartsData;
+    [Header("右手パーツ")]
+    public ScriptableObject righthandPartsData;
+    [Header("左手パーツ")]
+    public ScriptableObject lefthandPartsData;
 }
