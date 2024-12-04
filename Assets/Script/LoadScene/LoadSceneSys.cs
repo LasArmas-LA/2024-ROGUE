@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public class LoadSceneSys : MonoBehaviour
 {
-
     int rnd;
     string sceneName = null;
 
@@ -34,13 +33,6 @@ public class LoadSceneSys : MonoBehaviour
         {
             sceneName = "ChestFloorScene";
         }
-        //ãxåeÉtÉçÉA
-        /*
-        if(rnd == 3)
-        {
-            sceneName = "RestFloorScene";
-        }
-        */
         Invoke("SceneChenge", 1.0f);
     }
 

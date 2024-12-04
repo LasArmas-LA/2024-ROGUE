@@ -3,7 +3,7 @@ using UnityEngine;
 public class FloorNoSys : MonoBehaviour
 {
     [SerializeField]
-    public int floorNo = 0;
+    public int floorNo = 1;
 
     void Start()
     {

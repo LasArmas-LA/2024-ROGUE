@@ -14,7 +14,16 @@ public class EnemyFloorRunSys : MonoBehaviour
     [SerializeField]
     Image fade = null;
     bool fast = false;
+    bool button = false;
 
+    [SerializeField]
+    bool[] partsSlect;
+
+    [SerializeField]
+    bool allPartsSlect;
+
+    [SerializeField]
+    GameObject partsSlectWin = null;
 
     [SerializeField]
     Vector3 cameraMoveSpeed = Vector3.zero;
@@ -63,7 +72,6 @@ public class EnemyFloorRunSys : MonoBehaviour
         }
         if (battleEndFlag)
         {
-
             if (encountSys.restFlag)
             {
                 if (maincamera.transform.position.x <= 200)
@@ -79,15 +87,22 @@ public class EnemyFloorRunSys : MonoBehaviour
             }
             else
             {
-                if (maincamera.transform.position.x <= 300)
+                if (!allPartsSlect)
                 {
-                    windowMes.text = "’Tõ’†";
-                    maincamera.transform.position += cameraMoveSpeed * Time.deltaTime;
+                    partsSlectWin.SetActive(true);
                 }
                 else
                 {
-                    windowMes.text = "”à‚ðŒ©‚Â‚¯‚½I \nŽŸ‚ÌŠK‚Éi‚à‚¤";
-                    StartCoroutine(FloorEnd());
+                    if (maincamera.transform.position.x <= 300)
+                    {
+                        windowMes.text = "’Tõ’†";
+                        maincamera.transform.position += cameraMoveSpeed * Time.deltaTime;
+                    }
+                    else
+                    {
+                        windowMes.text = "”à‚ðŒ©‚Â‚¯‚½I \nŽŸ‚ÌŠK‚Éi‚à‚¤";
+                        StartCoroutine(FloorEnd());
+                    }
                 }
             }
         }
@@ -110,6 +125,41 @@ public class EnemyFloorRunSys : MonoBehaviour
         {
             runStratFlag = true;
         }
+    }
+
+    public void PartsSlect1()
+    {
+        if(!button)
+        {
+            partsSlect[0] = true;
+            partsSlect[1] = false;
+            partsSlect[2] = false;
+        }
+    }
+    public void PartsSlect2()
+    {
+        if (!button)
+        {
+            partsSlect[0] = false;
+            partsSlect[1] = true;
+            partsSlect[2] = false;
+        }
+    }
+    public void PartsSlect3()
+    {
+        if (!button)
+        {
+            partsSlect[0] = false;
+            partsSlect[1] = false;
+            partsSlect[2] = true;
+        }
+    }
+
+    public void PartsSlecteEnd()
+    {
+        button = true;
+        allPartsSlect = true;
+        partsSlectWin.SetActive(false);
     }
 
     void LoadScene()
