@@ -372,12 +372,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2902d1328144b8743bd6d989c5c6c1c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxhp: 30
-  maxmp: 35
+  dhiaStatus: {fileID: 0}
+  floorNoSys: {fileID: 0}
   hp: 0
-  mp: 0
-  power: 40
-  deathFlag: 0
 --- !u!114 &279799676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,6 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e191cdd330327204db7f2ab94feb6528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyStatus: []
   maxhp: 100
   maxmp: 20
   hp: 0
@@ -1738,12 +1736,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899386df95e21d44199db5a3f8339c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxhp: 15
-  maxmp: 20
+  ririStatus: {fileID: 0}
+  floorNoSys: {fileID: 0}
   hp: 0
-  mp: 0
-  power: 25
-  deathFlag: 0
 --- !u!114 &777911198
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,6 @@
+using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEditor;
 using UnityEngine;
 
 public class EquipmentManager : MonoBehaviour
@@ -7,6 +9,16 @@ public class EquipmentManager : MonoBehaviour
     public Vector2Int star1Range = new Vector2Int(10, 30);
     public Vector2Int star2Range = new Vector2Int(20, 60);
     public Vector2Int star3Range = new Vector2Int(30, 90);
+
+    [SerializeField]
+    public BaseEquipment[] randomEquip = null;
+
+    public int rnd1 = 0;
+    public int rnd2 = 0;
+    public int rnd3 = 0;
+
+    //[SerializeField]
+    //BaseEquipment[] baseEquipment = null;
 
     public BaseEquipment GenerateRandomEquipment(BaseEquipment baseData, int rarity)
     {
@@ -18,10 +30,12 @@ public class EquipmentManager : MonoBehaviour
         Vector2Int range = GetRarityRange(rarity);
 
         // 基本値に応じた数値範囲
+        /*
         randomEquipment.HP  = baseData.HP  + Random.Range(range.x,range.y + 1);
         randomEquipment.ATK = baseData.ATK + Random.Range(range.x,range.y + 1);
         randomEquipment.DEF = baseData.DEF + Random.Range(range.x,range.y + 1);
         randomEquipment.ROT = baseData.ROT + Random.Range(range.x,range.y + 1);
+        */
 
         return randomEquipment;
     }
@@ -40,18 +54,16 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void Start()
     {
-        // テスト用: 仮の装備データ
-        BaseEquipment testData = ScriptableObject.CreateInstance<BaseEquipment>();
-        testData.equipmentName = "Test Weapon";
-        testData.equipmentType = BaseEquipment.EquipmentType.LeftHand;
-        testData.HP = 0;
-        testData.ATK = 20;
-        testData.DEF = 5;
-        testData.ROT = 2;
+        rnd1 = Random.Range(1, randomEquip.Length);
+        rnd2 = Random.Range(1, randomEquip.Length);
+        rnd3 = Random.Range(1, randomEquip.Length);
 
-        BaseEquipment randomEquip = GenerateRandomEquipment(testData, 2); // ★2の装備を生成
-        Debug.Log($"Generated: {randomEquip.equipmentName} | ATK: {randomEquip.ATK} | DEF: {randomEquip.DEF}");
+        // テスト用: 仮の装備データ
+
+        Debug.Log($"Generated: {randomEquip[rnd1].equipmentName} | ATK: {randomEquip[rnd1].ATK} | DEF: {randomEquip[rnd1].DEF}");
+        Debug.Log($"Generated: {randomEquip[rnd2].equipmentName} | ATK: {randomEquip[rnd2].ATK} | DEF: {randomEquip[rnd2].DEF}");
+        Debug.Log($"Generated: {randomEquip[rnd3].equipmentName} | ATK: {randomEquip[rnd3].ATK} | DEF: {randomEquip[rnd3].DEF}");
     }
 }

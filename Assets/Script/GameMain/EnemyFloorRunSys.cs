@@ -20,6 +20,9 @@ public class EnemyFloorRunSys : MonoBehaviour
     bool[] partsSlect;
 
     [SerializeField]
+    TextMeshProUGUI[] slectText;
+
+    [SerializeField]
     bool allPartsSlect;
 
     [SerializeField]
@@ -37,6 +40,13 @@ public class EnemyFloorRunSys : MonoBehaviour
     [SerializeField]
     EncountSys encountSys = null;
 
+    [SerializeField]
+    EquipmentManager equipmentManager = null;
+
+    [SerializeField]
+    Status dhiaStatus = null;
+
+
     public TextMeshProUGUI windowMes = null;
 
     void Start()
@@ -49,6 +59,7 @@ public class EnemyFloorRunSys : MonoBehaviour
         windowMes.text = "íTçıíÜ";
         floorNoSysObj = GameObject.Find("FloorNo");
         floorNoSys = floorNoSysObj.GetComponent<FloorNoSys>();
+        equipmentManager.Start();
     }
     void Update()
     {
@@ -89,6 +100,10 @@ public class EnemyFloorRunSys : MonoBehaviour
             {
                 if (!allPartsSlect)
                 {
+                    slectText[0].text = equipmentManager.randomEquip[equipmentManager.rnd1].equipmentName + "\nATK :" + equipmentManager.randomEquip[equipmentManager.rnd1].ATK;
+                    slectText[1].text = equipmentManager.randomEquip[equipmentManager.rnd2].equipmentName + "\nATK :" + equipmentManager.randomEquip[equipmentManager.rnd2].ATK;
+                    slectText[2].text = equipmentManager.randomEquip[equipmentManager.rnd3].equipmentName + "\nATK :" + equipmentManager.randomEquip[equipmentManager.rnd3].ATK;
+
                     partsSlectWin.SetActive(true);
                 }
                 else
@@ -160,6 +175,19 @@ public class EnemyFloorRunSys : MonoBehaviour
         button = true;
         allPartsSlect = true;
         partsSlectWin.SetActive(false);
+
+        if(partsSlect[0])
+        {
+            dhiaStatus.armorData[0] = equipmentManager.randomEquip[equipmentManager.rnd1];
+        }
+        if (partsSlect[1])
+        {
+            dhiaStatus.armorData[1] = equipmentManager.randomEquip[equipmentManager.rnd2];
+        }
+        if (partsSlect[2])
+        {
+            dhiaStatus.armorData[2] = equipmentManager.randomEquip[equipmentManager.rnd3];
+        }
     }
 
     void LoadScene()

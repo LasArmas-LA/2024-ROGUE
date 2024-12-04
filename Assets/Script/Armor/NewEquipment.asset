@@ -9,17 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc3b00f8a806bf14497f374c9396b341, type: 3}
-  m_Name: p_DhiaStatus
+  m_Script: {fileID: 11500000, guid: a056cc0b10cef364cb2e883bbd92058f, type: 3}
+  m_Name: NewEquipment
   m_EditorClassIdentifier: 
-  NAME: "\u30C7\u30A3\u30A2"
-  MAXHP: 150
-  HP: 120
-  MAXMP: 100
-  MP: 100
-  ATK: 100
-  DEF: 10
-  armorData:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  equipmentName: 
+  equipmentType: 0
+  HP: 0
+  ATK: 0
+  DEF: 0
+  ROT: 0
