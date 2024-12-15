@@ -35,6 +35,9 @@ public class EnemyFloorRunSys : MonoBehaviour
     GameObject partsSlectWin = null;
 
     [SerializeField]
+    GameObject commandWin = null;
+
+    [SerializeField]
     Vector3 cameraMoveSpeed = Vector3.zero;
 
     [SerializeField]
@@ -65,6 +68,7 @@ public class EnemyFloorRunSys : MonoBehaviour
         windowMes.text = "’Tõ’†";
         floorNoSysObj = GameObject.Find("FloorNo");
         floorNoSys = floorNoSysObj.GetComponent<FloorNoSys>();
+        commandWin.SetActive(false);
         equipmentManager.Start();
     }
     void Update()
@@ -74,9 +78,11 @@ public class EnemyFloorRunSys : MonoBehaviour
         {
             if (maincamera.transform.position.x >= 150)
             {
+                //1‰ñ‚¾‚¯ŒÄ‚Ño‚·
                 if(!fast)
                 {
                     encountSys.RiriMove();
+                    commandWin.SetActive(true);
                     fast = true;
                     runStratFlag = false;
                 }
@@ -84,6 +90,8 @@ public class EnemyFloorRunSys : MonoBehaviour
             }
             else
             {
+                commandWin.SetActive(false);
+                //ƒJƒƒ‰‚ÌˆÚ“®ˆ—
                 maincamera.transform.position += cameraMoveSpeed * Time.deltaTime;
             }
         }
@@ -94,11 +102,13 @@ public class EnemyFloorRunSys : MonoBehaviour
                 if (maincamera.transform.position.x <= 200)
                 {
                     windowMes.text = "’Tõ’†";
+                    commandWin.SetActive(false);
                     maincamera.transform.position += cameraMoveSpeed * Time.deltaTime;
                 }
                 else
                 {
                     windowMes.text = "‹xŒe’†";
+                    commandWin.SetActive(false);
                     StartCoroutine(RestStay());
                 }
             }
@@ -186,11 +196,13 @@ public class EnemyFloorRunSys : MonoBehaviour
                     if (maincamera.transform.position.x <= 300)
                     {
                         windowMes.text = "’Tõ’†";
+                        commandWin.SetActive(false);
                         maincamera.transform.position += cameraMoveSpeed * Time.deltaTime;
                     }
                     else
                     {
                         windowMes.text = "”à‚ğŒ©‚Â‚¯‚½I \nŸ‚ÌŠK‚Éi‚à‚¤";
+                        commandWin.SetActive(false);
                         StartCoroutine(FloorEnd());
                     }
                 }
