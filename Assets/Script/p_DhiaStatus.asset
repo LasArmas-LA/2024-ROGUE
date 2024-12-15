@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NAME: "\u30C7\u30A3\u30A2"
   MAXHP: 150
-  HP: 120
+  HP: 150
   MAXMP: 100
   MP: 100
   ATK: 100
   DEF: 10
-  armorData:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  headPartsData: {fileID: 0}
+  bodyPartsData: {fileID: 0}
+  legPartsData: {fileID: 0}
+  righthandPartsData: {fileID: 0}
+  lefthandPartsData: {fileID: 0}

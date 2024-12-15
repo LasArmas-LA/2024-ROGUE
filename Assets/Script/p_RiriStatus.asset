@@ -19,7 +19,8 @@ MonoBehaviour:
   MP: 10
   ATK: 0
   DEF: 10
-  armorData:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  headPartsData: {fileID: 0}
+  bodyPartsData: {fileID: 0}
+  legPartsData: {fileID: 0}
+  righthandPartsData: {fileID: 0}
+  lefthandPartsData: {fileID: 0}

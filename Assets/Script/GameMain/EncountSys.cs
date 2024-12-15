@@ -1,11 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
-using UnityEditorInternal;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using UnityEngine.Rendering;
-using UnityEditor.ShaderKeywordFilter;
 using System;
 
 public class EncountSys : MonoBehaviour
@@ -216,6 +212,7 @@ public class EncountSys : MonoBehaviour
             Debug.Log("リリー");
             ririMoveFlag = true;
             StartCoroutine(RiriEnterWait());
+            return;
         }
     }
 
@@ -241,6 +238,7 @@ public class EncountSys : MonoBehaviour
             windowsMes.text = "ディアの行動をにゅうりょくしてください";
             button = false;
             StartCoroutine(DhiaEnterWait());
+            return;
         }
     }
 

@@ -20,11 +20,16 @@ public class EnemyFloorRunSys : MonoBehaviour
     [SerializeField]
     bool[] partsSlect;
 
+    string[] partsName = { "RightHand", "LeftHand", "Head", "Body", "Feet" };
     [SerializeField]
     TextMeshProUGUI[] slectText;
+    [SerializeField]
+    TextMeshProUGUI[] slectNowText;
 
     [SerializeField]
     bool allPartsSlect;
+
+    bool fastMove = true;
 
     [SerializeField]
     GameObject partsSlectWin = null;
@@ -101,9 +106,78 @@ public class EnemyFloorRunSys : MonoBehaviour
             {
                 if (!allPartsSlect)
                 {
-                    slectText[0].text = equipmentManager.randomEquip[equipmentManager.rnd1].equipmentName + "\nATK :" + equipmentManager.randomEquip[equipmentManager.rnd1].ATK;
-                    slectText[1].text = equipmentManager.randomEquip[equipmentManager.rnd2].equipmentName + "\nATK :" + equipmentManager.randomEquip[equipmentManager.rnd2].ATK;
-                    slectText[2].text = equipmentManager.randomEquip[equipmentManager.rnd3].equipmentName + "\nATK :" + equipmentManager.randomEquip[equipmentManager.rnd3].ATK;
+                    if (fastMove)
+                    {
+                        slectText[0].text = equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentName + "\nATK :" + equipmentManager.randomEquip[equipmentManager.rnd[0]].ATK;
+                        slectText[1].text = equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentName + "\nATK :" + equipmentManager.randomEquip[equipmentManager.rnd[1]].ATK;
+                        slectText[2].text = equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentName + "\nATK :" + equipmentManager.randomEquip[equipmentManager.rnd[2]].ATK;
+
+                        for (int i = 0; i < slectNowText.Length;)
+                        {
+                            //右手
+                            if (equipmentManager.randomEquip[equipmentManager.rnd[i]].equipmentType == EquipmentType.RightHand)
+                            {
+                                if (dhiaStatus.righthandPartsData != null)
+                                {
+                                    slectNowText[i].text = dhiaStatus.righthandPartsData.equipmentName + "\nATK :" + dhiaStatus.righthandPartsData.ATK;
+                                }
+                                else
+                                {
+                                    slectNowText[i].text = "";
+                                }
+                            }
+                            //左手
+                            if (equipmentManager.randomEquip[equipmentManager.rnd[i]].equipmentType == EquipmentType.LeftHand)
+                            {
+                                if (dhiaStatus.lefthandPartsData != null)
+                                {
+                                    slectNowText[i].text = dhiaStatus.lefthandPartsData.equipmentName + "\nATK :" + dhiaStatus.lefthandPartsData.ATK;
+                                }
+                                else
+                                {
+                                    slectNowText[i].text = "";
+                                }
+                            }
+                            //足
+                            if (equipmentManager.randomEquip[equipmentManager.rnd[i]].equipmentType == EquipmentType.Feet)
+                            {
+                                if (dhiaStatus.legPartsData != null)
+                                {
+                                    slectNowText[i].text = dhiaStatus.legPartsData.equipmentName + "\nATK :" + dhiaStatus.legPartsData.ATK;
+                                }
+                                else
+                                {
+                                    slectNowText[i].text = "";
+                                }
+                            }
+                            //体
+                            if (equipmentManager.randomEquip[equipmentManager.rnd[i]].equipmentType == EquipmentType.Body)
+                            {
+                                if (dhiaStatus.bodyPartsData != null)
+                                {
+                                    slectNowText[i].text = dhiaStatus.bodyPartsData.equipmentName + "\nATK :" + dhiaStatus.bodyPartsData.ATK;
+                                }
+                                else
+                                {
+                                    slectNowText[i].text = "";
+                                }
+                            }
+                            //頭
+                            if (equipmentManager.randomEquip[equipmentManager.rnd[i]].equipmentType == EquipmentType.Head)
+                            {
+                                if (dhiaStatus.headPartsData != null)
+                                {
+                                    slectNowText[i].text = dhiaStatus.headPartsData.equipmentName + "\nATK :" + dhiaStatus.headPartsData.ATK;
+                                }
+                                else
+                                {
+                                    slectNowText[i].text = "";
+                                }
+                            }
+                            i++;
+                        }
+                        fastMove = false;
+                    }
 
                     partsSlectWin.SetActive(true);
                 }
@@ -177,88 +251,89 @@ public class EnemyFloorRunSys : MonoBehaviour
         allPartsSlect = true;
         partsSlectWin.SetActive(false);
 
-        if(partsSlect[0])
+        
+        if (partsSlect[0])
         {
             //右手
-            if(equipmentManager.randomEquip[equipmentManager.rnd1].equipmentType == EquipmentType.RightHand)
+            if(equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.RightHand)
             {
-                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd1];
+                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
             }
             //左手
-            if (equipmentManager.randomEquip[equipmentManager.rnd1].equipmentType == EquipmentType.LeftHand)
+            if (equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.LeftHand)
             {
-                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd1];
+                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
             }
             //足
-            if (equipmentManager.randomEquip[equipmentManager.rnd1].equipmentType == EquipmentType.Feet)
+            if (equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.Feet)
             {
-                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd1];
+                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
             }
             //体
-            if (equipmentManager.randomEquip[equipmentManager.rnd1].equipmentType == EquipmentType.Body)
+            if (equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.Body)
             {
-                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd1];
+                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
             }
             //頭
-            if (equipmentManager.randomEquip[equipmentManager.rnd1].equipmentType == EquipmentType.Head)
+            if (equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.Head)
             {
-                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd1];
+                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
             }
         }
         if (partsSlect[1])
         {
             //右手
-            if (equipmentManager.randomEquip[equipmentManager.rnd2].equipmentType == EquipmentType.RightHand)
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.RightHand)
             {
-                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd2];
+                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
             }
             //左手
-            if (equipmentManager.randomEquip[equipmentManager.rnd2].equipmentType == EquipmentType.LeftHand)
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.LeftHand)
             {
-                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd2];
+                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
             }
             //足
-            if (equipmentManager.randomEquip[equipmentManager.rnd2].equipmentType == EquipmentType.Feet)
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.Feet)
             {
-                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd2];
+                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
             }
             //体
-            if (equipmentManager.randomEquip[equipmentManager.rnd2].equipmentType == EquipmentType.Body)
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.Body)
             {
-                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd2];
+                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
             }
             //頭
-            if (equipmentManager.randomEquip[equipmentManager.rnd2].equipmentType == EquipmentType.Head)
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.Head)
             {
-                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd2];
+                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
             }
         }
         if (partsSlect[2])
         {
             //右手
-            if (equipmentManager.randomEquip[equipmentManager.rnd3].equipmentType == EquipmentType.RightHand)
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.RightHand)
             {
-                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd3];
+                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
             }
             //左手
-            if (equipmentManager.randomEquip[equipmentManager.rnd3].equipmentType == EquipmentType.LeftHand)
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.LeftHand)
             {
-                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd3];
+                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
             }
             //足
-            if (equipmentManager.randomEquip[equipmentManager.rnd3].equipmentType == EquipmentType.Feet)
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.Feet)
             {
-                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd3];
+                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
             }
             //体
-            if (equipmentManager.randomEquip[equipmentManager.rnd3].equipmentType == EquipmentType.Body)
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.Body)
             {
-                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd3];
+                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
             }
             //頭
-            if (equipmentManager.randomEquip[equipmentManager.rnd3].equipmentType == EquipmentType.Head)
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.Head)
             {
-                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd3];
+                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
             }
         }
     }

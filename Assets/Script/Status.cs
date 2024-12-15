@@ -19,13 +19,13 @@ public class Status : ScriptableObject
     [Space(5)]
 
     [Header("頭パーツ")]
-    public ScriptableObject headPartsData;
+    public BaseEquipment headPartsData;
     [Header("体パーツ")]
-    public ScriptableObject bodyPartsData;
+    public BaseEquipment bodyPartsData;
     [Header("足パーツ")]
-    public ScriptableObject legPartsData;
+    public BaseEquipment legPartsData;
     [Header("右手パーツ")]
-    public ScriptableObject righthandPartsData;
+    public BaseEquipment righthandPartsData;
     [Header("左手パーツ")]
-    public ScriptableObject lefthandPartsData;
+    public BaseEquipment lefthandPartsData;
 }
