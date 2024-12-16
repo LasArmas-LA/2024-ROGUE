@@ -89,6 +89,13 @@ public class EncountSys : MonoBehaviour
     Slider enemySlider = null;
 
     [Space(10)]
+    [Header("各キャラクターの死亡フラグ")]
+    bool ririDeath = false;
+    bool dhiaDeath = false;
+    bool enemyDeath = false;
+
+
+    [Space(10)]
 
     [Header("各キャラクターのオブジェクト")]
     //リリー,ディア,エネミーのObj
@@ -167,8 +174,6 @@ public class EncountSys : MonoBehaviour
         enemySlider.value *= (enemy.hp / enemy.maxhp);
 
         fastMove = true;
-        //windowsMes.text = "リリーの行動をにゅうりょくしてください";
-        //RiriMove();
     }
     #endregion
 
@@ -190,11 +195,11 @@ public class EncountSys : MonoBehaviour
         command1Text.text = "ヒール";
         command2Text.text = "オールヒール";
         command3Text.text = "バイキルト";
-
-        if (enemy.deathFlag)
+        if(riri.deathFlag)
         {
-            windowsMes.text = "敵を倒した！";
-            enemyObj.SetActive(false);
+            //リリーが死亡している場合ターンをスキップ
+            DhiaMove();
+            
         }
         else
         {
@@ -218,17 +223,19 @@ public class EncountSys : MonoBehaviour
 
     void DhiaMove()
     {
+        //コマンドのテキスト処理
         command1Text.text = "殴る";
         command2Text.text = "防御体制";
         command3Text.text = "守る";
+
+        //守りのフラグを初期化
         ririDefenseFlag = false;
         defenseFlag = false;
 
-        if (enemy.deathFlag)
+        if (dhia.deathFlag)
         {
-            windowsMes.text = "敵を倒した！";
-            Invoke("EnemyDeat", 1.0f);
-            enemyObj.SetActive(false);
+            //ディアが死亡している場合ディアのターンをスキップ
+            EnemyMove();
         }
         else
         {
@@ -247,7 +254,7 @@ public class EncountSys : MonoBehaviour
         if (enemy.deathFlag)
         {
             windowsMes.text = "敵を倒した！";
-            Invoke("EnemyDeat", 1.0f);
+            Invoke("EnemyDeath", 1.0f);
             enemyObj.SetActive(false);
         }
         else
@@ -302,25 +309,19 @@ public class EncountSys : MonoBehaviour
 
     #region 死亡処理
 
-    void EnemyDeat()
+    void EnemyDeath()
     {
         enemyFloorRunSysObj.battleEndFlag = true;
-        bool enemyDeat = false;
-        if(!enemyDeat)
-        {
-            //floorNoSys.floorNo += 1;
-            enemyDeat = true;
-        }
     }
 
     void RiriDeath()
     {
-
+        enemyFloorRunSysObj.gameOverFlag = true;
     }
 
     void DhiaDeath()
     {
-
+        
     }
 
     #endregion

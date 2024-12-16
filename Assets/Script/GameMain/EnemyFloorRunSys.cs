@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -30,6 +31,9 @@ public class EnemyFloorRunSys : MonoBehaviour
     bool allPartsSlect;
 
     bool fastMove = true;
+
+    [NonSerialized]
+    public bool gameOverFlag = false;
 
     [SerializeField]
     GameObject partsSlectWin = null;
@@ -219,6 +223,11 @@ public class EnemyFloorRunSys : MonoBehaviour
                 floorEndFlag = false;
             }
         }
+
+        if(gameOverFlag)
+        {
+            GameOver();
+        }
     }
 
     void KeyIn()
@@ -227,6 +236,11 @@ public class EnemyFloorRunSys : MonoBehaviour
         {
             runStratFlag = true;
         }
+    }
+
+    void GameOver()
+    {
+
     }
 
     public void PartsSlect1()

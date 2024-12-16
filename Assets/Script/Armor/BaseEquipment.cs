@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Rendering;
 
 [CreateAssetMenu(fileName = "NewEquipment", menuName = "Equipment/Create New Equipment")]
@@ -10,6 +11,7 @@ public class BaseEquipment : ScriptableObject
     public int ATK;                     // UŒ‚—Í
     public int DEF;                     // –hŒä—Í
     public int ROT;                     // ‰ñ”ğ—¦iHj
+    public Image sprite = null;
 
     public enum EquipmentType
     {

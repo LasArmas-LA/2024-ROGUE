@@ -12,6 +12,7 @@ public class EquipmentManager : MonoBehaviour
 
     public void Start()
     {
+
     }
     void Update()
     {
