@@ -159,7 +159,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Riri-takarabako_0: -1210742134881399548
+      Riri-takarabako_1: 3065172434197598436
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
