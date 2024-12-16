@@ -1,0 +1,178 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "Param5",
+			"GroupId": "",
+			"Name": "攻撃腕"
+		},
+		{
+			"Id": "Param10",
+			"GroupId": "",
+			"Name": "シールド出現"
+		},
+		{
+			"Id": "Param11",
+			"GroupId": "",
+			"Name": "シールド傾き"
+		},
+		{
+			"Id": "Param13",
+			"GroupId": "",
+			"Name": "シールド移動"
+		},
+		{
+			"Id": "Param12",
+			"GroupId": "",
+			"Name": "シールド光"
+		},
+		{
+			"Id": "Param7",
+			"GroupId": "",
+			"Name": "腕"
+		},
+		{
+			"Id": "Param6",
+			"GroupId": "",
+			"Name": "攻撃腕表示"
+		},
+		{
+			"Id": "Param",
+			"GroupId": "",
+			"Name": "発光"
+		},
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "角度 X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "角度 Y"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "",
+			"Name": "角度 Z"
+		},
+		{
+			"Id": "ParamEyeROpen",
+			"GroupId": "",
+			"Name": "目　開閉"
+		},
+		{
+			"Id": "ParamEyeRSmile",
+			"GroupId": "",
+			"Name": "目　笑顔"
+		},
+		{
+			"Id": "ParamBrowRY",
+			"GroupId": "",
+			"Name": "眉　上下"
+		},
+		{
+			"Id": "ParamBrowRAngle",
+			"GroupId": "",
+			"Name": "眉　角度"
+		},
+		{
+			"Id": "ParamBrowRForm",
+			"GroupId": "",
+			"Name": "眉　変形"
+		},
+		{
+			"Id": "ParamMouthForm",
+			"GroupId": "",
+			"Name": "口　変形"
+		},
+		{
+			"Id": "ParamMouthOpenY",
+			"GroupId": "",
+			"Name": "口　開閉"
+		},
+		{
+			"Id": "ParamBodyAngleX",
+			"GroupId": "",
+			"Name": "体の回転　X"
+		},
+		{
+			"Id": "ParamBodyAngleY",
+			"GroupId": "",
+			"Name": "体の回転　Y"
+		},
+		{
+			"Id": "ParamBodyAngleZ",
+			"GroupId": "",
+			"Name": "体の回転　Z"
+		},
+		{
+			"Id": "Param9",
+			"GroupId": "",
+			"Name": "歩き"
+		},
+		{
+			"Id": "ParamBreath",
+			"GroupId": "",
+			"Name": "呼吸"
+		},
+		{
+			"Id": "ParamHairFront",
+			"GroupId": "",
+			"Name": "髪揺れ　前"
+		},
+		{
+			"Id": "ParamHairSide",
+			"GroupId": "",
+			"Name": "髪揺れ　横"
+		},
+		{
+			"Id": "ParamHairBack",
+			"GroupId": "",
+			"Name": "髪揺れ　後"
+		},
+		{
+			"Id": "Param2",
+			"GroupId": "",
+			"Name": "髪2"
+		},
+		{
+			"Id": "Param4",
+			"GroupId": "",
+			"Name": "髪3"
+		},
+		{
+			"Id": "Param3",
+			"GroupId": "",
+			"Name": "髪4"
+		},
+		{
+			"Id": "Param8",
+			"GroupId": "",
+			"Name": "服揺れ"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "Part",
+			"Name": "シールド"
+		},
+		{
+			"Id": "Part2",
+			"Name": "髪"
+		},
+		{
+			"Id": "Part3",
+			"Name": "顔"
+		},
+		{
+			"Id": "Part4",
+			"Name": "胴"
+		},
+		{
+			"Id": "Part5",
+			"Name": "下半身"
+		}
+	]
+}
