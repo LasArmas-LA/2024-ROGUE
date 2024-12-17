@@ -27,8 +27,10 @@ public class ChestFloorSys : MonoBehaviour
     FloorNoSys floorNoSys = null;
     GameObject floorNoSysObj = null;
 
-
     public TextMeshProUGUI windowMes = null;
+
+    [SerializeField]
+    GameObject goalObj = null;
 
     void Start()
     {
@@ -56,7 +58,7 @@ public class ChestFloorSys : MonoBehaviour
         KeyIn();
         if (runStratFlag)
         {
-            if(maincamera.transform.position.x >= 15)
+            if(maincamera.transform.position.x >= chestObj.transform.position.x - 5)
             {
                 windowMes.text = "宝箱を見つけた！\n 中にはパーツが入っていた！";
                 chestObj.SetActive(false);
@@ -85,7 +87,7 @@ public class ChestFloorSys : MonoBehaviour
             }
             else
             {
-                if (maincamera.transform.position.x <= 30)
+                if (maincamera.transform.position.x <= goalObj.transform.position.x + 5)
                 {
                     windowMes.text = "探索中";
                     maincamera.transform.position += cameraMoveSpeed * Time.deltaTime;
