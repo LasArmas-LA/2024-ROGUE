@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class Dhia : MonoBehaviour
 {
+    //ディアのステータス
     [SerializeField]
     Status dhiaStatus = null;
+    //階層データ管理システム
     [SerializeField]
     FloorNoSys floorNoSys = null;
 
@@ -13,6 +15,7 @@ public class Dhia : MonoBehaviour
     [NonSerialized]
     public float maxmp = 0;
 
+    [NonSerialized]
     public float hp = 0;
     [NonSerialized]
     public float mp = 0;
