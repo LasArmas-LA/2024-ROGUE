@@ -65,4 +65,17 @@ public class Dhia : MonoBehaviour
         dhiaStatus.HP = hp;
         dhiaStatus.MP = mp;
     }
+
+    public void Skil1()
+    {
+
+    }
+    public void Skil2()
+    {
+
+    }
+    public void Skil3()
+    {
+
+    }
 }

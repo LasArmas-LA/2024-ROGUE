@@ -62,4 +62,17 @@ public class Riri : MonoBehaviour
         ririStatus.HP = hp;
         ririStatus.MP = mp;
     }
+
+    public void Skil1()
+    {
+
+    }
+    public void Skil2()
+    {
+
+    }
+    public void Skil3()
+    {
+
+    }
 }

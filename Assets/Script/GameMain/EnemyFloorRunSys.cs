@@ -8,54 +8,77 @@ using static BaseEquipment;
 
 public class EnemyFloorRunSys : MonoBehaviour
 {
+    //メインカメラ
     public Camera maincamera = null;
 
+    //敵の場所まで歩くフラグ
     bool runStratFlag = false;
+    //敵を倒して扉まで歩く時のフラグ
     public bool battleEndFlag = false;
+    //扉に着いてその階が終了する時のフラグ
     bool floorEndFlag = false;
+    //フェードアウト用
     [SerializeField]
     Image fade = null;
+    //最初に1回だけ呼び出したい処理
     bool fast = false;
+    //ボタンの多段押し防止
     bool button = false;
 
+    //どのドロップしたパーツを選択しているかの確認用
     [SerializeField]
     bool[] partsSlect;
 
+    //パーツの名前
     string[] partsName = { "RightHand", "LeftHand", "Head", "Body", "Feet" };
+
+    //ドロップしたパーツの情報表示用
     [SerializeField]
     TextMeshProUGUI[] slectText;
+
+    //現在装備しているパーツの情報表示用
     [SerializeField]
     TextMeshProUGUI[] slectNowText;
 
-    [SerializeField]
+    //パーツを選択後確定させた時の判断
     bool allPartsSlect;
 
+    //最初に1回だけ呼び出したい処理
     bool fastMove = true;
 
+    //ゲームオーバーフラグ
     [NonSerialized]
     public bool gameOverFlag = false;
 
+    //パーツを選択するウィンドウ
     [SerializeField]
     GameObject partsSlectWin = null;
 
+    //コマンドを選択するウィンドウ
     [SerializeField]
     GameObject commandWin = null;
 
+    //カメラの動く速度
     [SerializeField]
     Vector3 cameraMoveSpeed = Vector3.zero;
 
+    //チェストのオブジェクト
     [SerializeField]
     GameObject chestObj = null;
 
+    //階層データ管理システム
     FloorNoSys floorNoSys = null;
     GameObject floorNoSysObj = null;
 
+    //エンカウントを管理するシステム
     [SerializeField]
     EncountSys encountSys = null;
 
+    //装備をランダムで入手するロジック組みのシステム
     [SerializeField]
     EquipmentManager equipmentManager = null;
 
+    //ディアのステータス
     [SerializeField]
     Status dhiaStatus = null;
 

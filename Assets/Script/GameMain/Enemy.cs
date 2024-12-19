@@ -41,4 +41,9 @@ public class Enemy : MonoBehaviour
             deathFlag = true;
         }
     }
+
+    public void Skil()
+    {
+
+    }
 }

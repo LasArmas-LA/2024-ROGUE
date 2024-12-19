@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using System.Threading;
 
 public class EncountSys : MonoBehaviour
 {
@@ -106,17 +107,81 @@ public class EncountSys : MonoBehaviour
     [SerializeField]
     GameObject enemyObj;
 
+    private enum GameState
+    { 
+        WAIT,
+
+        RIRI_TRUN,
+        RIRI_ANIMATION,
+
+        DHIA_TRUN,
+        DHIA_ANIMATION,
+
+        ENEMY_TRUN,
+        ENEMY_ANIMATION,
+        
+        RESULT,
+        GAME_END
+    }
+    GameState gameState;
+
+    private enum Command
+    {
+        Command1,
+        Command2,
+        Command3,
+    }
+    Command playerCommand;
+
+    [SerializeField]
+    [Tooltip("コマンド選択時の表示テキスト")]
+    String[] texts1 = null;
+
     void Awake()
     {
+
     }
     void Start()
     {
         Init();
     }
 
+    private float waitT;
+
     void Update()
     {
+        switch (gameState)
+        {
+            case GameState.WAIT:
 
+                break;
+            case GameState.RIRI_TRUN:
+                // キー入力待ち
+
+                break;
+            case GameState.RIRI_ANIMATION:
+                // 待機処理
+                waitT += Time.deltaTime;
+                if(waitT > 100){
+                    gameState = GameState.ENEMY_TRUN;
+                }
+                break;
+            case GameState.DHIA_TRUN:
+                break;
+            case GameState.DHIA_ANIMATION:
+                break;
+            case GameState.ENEMY_TRUN:
+                break;
+            case GameState.ENEMY_ANIMATION:
+                break;
+            case GameState.RESULT:
+                gameState = GameState.GAME_END;
+                // プレイヤーのHPが0だったら
+                // ゲームオーバー
+                Debug.Log(texts1[(int)Command.Command1]);
+
+                break;
+        }
     }
 
     #region Init処理
@@ -139,6 +204,7 @@ public class EncountSys : MonoBehaviour
         {
             restFlag = false;
         }
+        //ボスフロアフラグオン
         if (floorNoSys.floorNo % 10 == 0 && floorNoSys.floorNo != 0)
         {
             bossFlag = true;
@@ -192,6 +258,17 @@ public class EncountSys : MonoBehaviour
     #region ムーブ処理
     public void RiriMove()
     {
+        gameState = GameState.RIRI_TRUN;
+
+        if (riri.hp <= 0)
+        {
+           RiriDeath();
+        }
+        if(dhia.hp <= 0)
+        {
+           DhiaDeath();
+        }
+
         command1Text.text = "ヒール";
         command2Text.text = "オールヒール";
         command3Text.text = "バイキルト";
@@ -199,7 +276,6 @@ public class EncountSys : MonoBehaviour
         {
             //リリーが死亡している場合ターンをスキップ
             DhiaMove();
-            
         }
         else
         {
@@ -223,15 +299,7 @@ public class EncountSys : MonoBehaviour
 
     void DhiaMove()
     {
-        //コマンドのテキスト処理
-        command1Text.text = "殴る";
-        command2Text.text = "防御体制";
-        command3Text.text = "守る";
-
-        //守りのフラグを初期化
-        ririDefenseFlag = false;
-        defenseFlag = false;
-
+        gameState = GameState.DHIA_TRUN;
         if (dhia.deathFlag)
         {
             //ディアが死亡している場合ディアのターンをスキップ
@@ -240,6 +308,15 @@ public class EncountSys : MonoBehaviour
         else
         {
             Debug.Log("ディア");
+            //コマンドのテキスト処理
+            command1Text.text = "殴る";
+            command2Text.text = "防御体制";
+            command3Text.text = "守る";
+
+            //守りのフラグを初期化
+            ririDefenseFlag = false;
+            defenseFlag = false;
+
             dhiaMoveFlag = true;
             ririMoveFlag = false;
             windowsMes.text = "ディアの行動をにゅうりょくしてください";
@@ -251,6 +328,8 @@ public class EncountSys : MonoBehaviour
 
     void EnemyMove()
     {
+        gameState = GameState.ENEMY_TRUN;
+
         if (enemy.deathFlag)
         {
             windowsMes.text = "敵を倒した！";
@@ -267,6 +346,11 @@ public class EncountSys : MonoBehaviour
             {
                 rnd = UnityEngine.Random.Range(0, 2);
             }
+            if(dhiaDeath)
+            {
+                rnd = 0;
+            }
+
             //攻撃対象リリー
             if(rnd == 0)
             {
@@ -321,7 +405,8 @@ public class EncountSys : MonoBehaviour
 
     void DhiaDeath()
     {
-        
+        dhiaDeath = true;
+        dhiaObj.SetActive(false);
     }
 
     #endregion
@@ -331,6 +416,8 @@ public class EncountSys : MonoBehaviour
     {
         if(ririMoveFlag && !button && !fastMove)
         {
+            if (gameState != GameState.RIRI_TRUN) { return; }
+
             windowsMes.text = "回復対象を選んでください";
 
             if (ririSelectFlag || dhiaSelectFlag)
@@ -381,7 +468,9 @@ public class EncountSys : MonoBehaviour
         }
         if(dhiaMoveFlag && !button && !fastMove)
         {
-            if(powerUpFlag)
+            if (gameState != GameState.DHIA_TRUN) { return; }
+
+            if (powerUpFlag)
             {
                 Debug.Log("コマンド1ディアパワーアップ攻撃");
 
@@ -406,6 +495,8 @@ public class EncountSys : MonoBehaviour
     {
         if(ririMoveFlag && !button && !fastMove)
         {
+            if (gameState != GameState.RIRI_TRUN) { return; }
+
             Debug.Log("コマンド2リリー");
             
             if(riri.maxhp > riri.hp + 20 && dhia.maxhp > dhia.hp + 20)
@@ -434,6 +525,8 @@ public class EncountSys : MonoBehaviour
         }
         if(dhiaMoveFlag && !button && !fastMove)
         {
+            if (gameState != GameState.DHIA_TRUN) { return; }
+
             Debug.Log("コマンド2ディア");
             windowsMes.text = "ディアは身を守っている。";
             defenseFlag = true;
@@ -446,6 +539,8 @@ public class EncountSys : MonoBehaviour
     {
         if(ririMoveFlag && !button && !fastMove)
         {
+            if (gameState != GameState.RIRI_TRUN) { return; }
+
             Debug.Log("コマンド3リリー");
             windowsMes.text = "リリーはバイキルトを唱えた！\nディアの攻撃力が上昇した!";
             powerUpFlag = true;
@@ -455,6 +550,8 @@ public class EncountSys : MonoBehaviour
         }
         if(dhiaMoveFlag && !button && !fastMove)
         {
+            if (gameState != GameState.DHIA_TRUN) { return; }
+
             Debug.Log("コマンド3ディア");
             windowsMes.text = "ディアはリリーを守っている。";
             ririDefenseFlag = true;
@@ -466,22 +563,46 @@ public class EncountSys : MonoBehaviour
 
     public void RiriSlect()
     {
+        if(gameState != GameState.RIRI_TRUN) { return; }
+
         ririSelectFlag = true;
         recoveryWin.SetActive(false);
         Command1Button();
     }
     public void DhiaSlect()
     {
+        if (gameState != GameState.RIRI_TRUN) { return; }
+
         dhiaSelectFlag = true;
         recoveryWin.SetActive(false);
         Command1Button();
     }
     #endregion
 
+    public void Result(int no)
+    {
+        switch (playerCommand)
+        { 
+            case Command.Command1:
+                // 攻撃
+                gameState = GameState.RIRI_ANIMATION;
+                // コルーチン開始
+                
+
+                break;
+            case Command.Command2:
+                // 防御
+
+                break;
+        }
+    }
+
 
     #region 行動後の待機処理
     IEnumerator RiriEnterWait()
     {
+        if (gameState != GameState.RIRI_TRUN) { yield return null; }
+
         yield return new WaitUntil(() => ririMoveFlag);
         yield return new WaitForSeconds(ririWaitTime);
         if (fastMove)
@@ -498,6 +619,8 @@ public class EncountSys : MonoBehaviour
     }
     IEnumerator DhiaEnterWait()
     {
+        if (gameState != GameState.DHIA_TRUN) { yield return null; }
+
         yield return new WaitUntil(() => dhiaMoveFlag);
         yield return new WaitForSeconds(DhiaWaitTime);
 
@@ -510,6 +633,8 @@ public class EncountSys : MonoBehaviour
     }
     IEnumerator EnemyEnterWait()
     {
+        if (gameState != GameState.ENEMY_TRUN) { yield return null; }
+
         yield return new WaitForSeconds(enemyWaitTime);
 
         windowsMes.text = "リリーの行動をにゅうりょくしてください";
