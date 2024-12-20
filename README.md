@@ -48,18 +48,6 @@
 - スペースは×
 - アンダーバー( _ )を使用すること
 
-```
-悪い例
-riri.png
-riri_haikei.png
-
-良い例
-Riri.png
-Riri_Haikei.png
-
-```
-
-
 ## Git コミットメッセージ
 
 GitHub の Commit（コミット）メッセージの意味は下記を参照
