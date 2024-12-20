@@ -329,8 +329,7 @@ public class EncountSys : MonoBehaviour
     void EnemyMove()
     {
         gameState = GameState.ENEMY_TRUN;
-
-        if (enemy.deathFlag)
+        if (enemyMoveFlag) 
         {
             windowsMes.text = "ìGÇì|ÇµÇΩÅI";
             Invoke("EnemyDeath", 1.0f);

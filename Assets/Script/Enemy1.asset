@@ -19,4 +19,9 @@ MonoBehaviour:
   MP: 0
   ATK: 10
   DEF: 0
-  armorData: []
+  image: {fileID: 1484816159402449389, guid: 826a34d511d18c74194303d7711d9a65, type: 3}
+  headPartsData: {fileID: 0}
+  bodyPartsData: {fileID: 0}
+  legPartsData: {fileID: 0}
+  righthandPartsData: {fileID: 0}
+  lefthandPartsData: {fileID: 0}

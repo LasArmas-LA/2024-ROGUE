@@ -1,10 +1,12 @@
+using System;
+using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TestEncount : MonoBehaviour
 {
-    enum MainTurn
+    public enum MainTurn
     {
         WAIT,
 
@@ -19,18 +21,18 @@ public class TestEncount : MonoBehaviour
 
         END
     }
-    MainTurn mainTurn;
+    public MainTurn mainTurn;
 
     //バトルコマンドのテキスト
     [Header("バトルコマンドのテキスト")]
     [SerializeField]
-    TextMeshProUGUI windowsMes = null;
+    public TextMeshProUGUI windowsMes = null;
     [SerializeField]
-    TextMeshProUGUI command1Text = null;
+    public TextMeshProUGUI command1Text = null;
     [SerializeField]
-    TextMeshProUGUI command2Text = null;
+    public TextMeshProUGUI command2Text = null;
     [SerializeField]
-    TextMeshProUGUI command3Text = null;
+    public TextMeshProUGUI command3Text = null;
 
     //スクリプト参照
     [SerializeField]
@@ -85,6 +87,13 @@ public class TestEncount : MonoBehaviour
     [SerializeField]
     GameObject enemyObj;
 
+    //休憩階のフラグ
+    [NonSerialized]
+    public bool restFlag = false;
+
+    //ボス階のフラグ
+    [NonSerialized]
+    public bool bossFlag = false;
 
     void Start()
     {
@@ -93,7 +102,7 @@ public class TestEncount : MonoBehaviour
 
     void Init()
     {
-        mainTurn = MainTurn.RIRIMOVE;
+        mainTurn = MainTurn.WAIT;
 
         //MaxHPの格納
         ririSlider.maxValue = riri.maxhp;
@@ -114,7 +123,6 @@ public class TestEncount : MonoBehaviour
         ririSlider.value *= (riri.hp / riri.maxhp);
         dhiaSlider.value *= (dhia.hp / dhia.maxhp);
         enemySlider.value *= (enemy.hp / enemy.maxhp);
-
     }
 
     void FixedUpdate()
@@ -124,14 +132,36 @@ public class TestEncount : MonoBehaviour
             case MainTurn.WAIT:
                 break;
             case MainTurn.RIRIMOVE:
+                //リリー死亡時ターンをスキップ
+                if(riri.deathFlag)
+                {
+                    mainTurn = MainTurn.DHIAMOVE;
+                }
                 break;
             case MainTurn.RIRIANIM:
                 break;
             case MainTurn.DHIAMOVE:
+                //ディア死亡時ターンをスキップ
+                if (dhia.deathFlag)
+                {
+                    mainTurn = MainTurn.ENEMYMOVE;
+                }
                 break;
             case MainTurn.DHIAANIM:
+                if (enemy.deathFlag)
+                {
+                    //タイマー開始
+                    timer += Time.deltaTime;
+
+                    if(timer >= 3)
+                    {
+                        mainTurn = MainTurn.END;
+                        timer = 0;
+                    }
+                }
                 break;
             case MainTurn.ENEMYMOVE:
+                //敵を倒した。ゲーム終了。
                 break;
             case MainTurn.ENEMYANIM:
                 break;
@@ -142,13 +172,18 @@ public class TestEncount : MonoBehaviour
         RiriMove();
         DhiaMove();
         EnemyMove();
+
+        ririSlider.value = (ririSlider.maxValue * (riri.hp / riri.maxhp));
+        dhiaSlider.value = (dhiaSlider.maxValue * (dhia.hp / dhia.maxhp));
+        enemySlider.value = (enemySlider.maxValue * (enemy.hp / enemy.maxhp));
     }
 
     //コマンド処理
-    bool command1 = false;
-    bool command2 = false;
-    bool command3 = false;
+    public bool command1 = false;
+    public bool command2 = false;
+    public bool command3 = false;
     bool button = false;
+    bool coLock = false;
 
     public void Command1()
     {
@@ -179,7 +214,6 @@ public class TestEncount : MonoBehaviour
     {
         if (mainTurn == MainTurn.RIRIMOVE || mainTurn == MainTurn.RIRIANIM)
         {
-            windowsMes.text = "リリーの行動をにゅうりょくしてください";
             command1Text.text = "ヒール";
             command2Text.text = "オールヒール";
             command3Text.text = "バイキルト";
@@ -193,18 +227,26 @@ public class TestEncount : MonoBehaviour
                 //ステータスを変更
                 mainTurn = MainTurn.RIRIANIM;
 
-                if (command1)
+                if (!coLock)
                 {
-                    ririScript.Skil1();
+                    if (command1)
+                    {
+                        ririScript.Skil1();
+                    }
+                    if (command2)
+                    {
+                        ririScript.Skil2();
+                    }
+                    if (command3)
+                    {
+                        ririScript.Skil3();
+                    }
+                    coLock = true;
                 }
-                if (command2)
-                {
-                    ririScript.Skil2();
-                }
-                if (command3)
-                {
-                    ririScript.Skil3();
-                }
+            }
+            else
+            {
+                windowsMes.text = "リリーの行動をにゅうりょくしてください";
             }
             //待機時間を超えたら
             if (timer >= waitTime)
@@ -216,6 +258,8 @@ public class TestEncount : MonoBehaviour
                 command1 = false;
                 command2 = false;
                 command3 = false;
+                coLock = false;
+                ririScript.button = false;
             }
         }
     }
@@ -224,7 +268,6 @@ public class TestEncount : MonoBehaviour
         if (mainTurn == MainTurn.DHIAMOVE || mainTurn == MainTurn.DHIAANIM)
         {
             Debug.Log("ディアのターン");
-            windowsMes.text = "ディアの行動をにゅうりょくしてください";
             command1Text.text = "殴る";
             command2Text.text = "防御体制";
             command3Text.text = "守る";
@@ -237,53 +280,64 @@ public class TestEncount : MonoBehaviour
                 //ステータスを変更
                 mainTurn = MainTurn.DHIAANIM;
 
-                if (command1)
+                if (!coLock)
                 {
-                    dhiaScript.Skil1();
+                    if (command1)
+                    {
+                        dhiaScript.Skil1();
+                    }
+                    if (command2)
+                    {
+                        dhiaScript.Skil2();
+                    }
+                    if (command3)
+                    {
+                        dhiaScript.Skil3();
+                    }
+                    coLock = true;
                 }
-                if (command2)
-                {
-                    dhiaScript.Skil2();
-                }
-                if (command3)
-                {
-                    dhiaScript.Skil3();
-                }
-
-                //待機時間を超えたら
-                if (timer >= waitTime)
+            
+                //待機時間を超えて敵が生きている時
+                if (timer >= waitTime && !enemy.deathFlag)
                 {
                     //ステータスを変更
                     mainTurn = MainTurn.ENEMYMOVE;
                     timer = 0;
                     button = false;
+                    coLock = false;
                     command1 = false;
                     command2 = false;
                     command3 = false;
                 }
             }
+            else
+            {
+                windowsMes.text = "ディアの行動をにゅうりょくしてください";
+            }
         }
     }
     void EnemyMove()
     {
-        if (mainTurn == MainTurn.ENEMYMOVE || mainTurn == MainTurn.ENEMYANIM)
+        if (mainTurn == MainTurn.ENEMYMOVE)
         {
-            windowsMes.text = "エネミーの攻撃";
-
             //タイマー開始
             timer += Time.deltaTime;
 
             //ステータスを変更
-            mainTurn = MainTurn.ENEMYANIM;
+            //mainTurn = MainTurn.ENEMYANIM;
 
-            Debug.Log("エネミーのターン");
-            enemyScript.Skil();
+            if (!coLock)
+            {
+                enemyScript.Skil();
+                coLock = true;
+            }
 
             //待機時間を超えたら
             if (timer >= waitTime)
             {
                 //ステータスを変更
                 mainTurn = MainTurn.RIRIMOVE;
+                coLock = false;
                 timer = 0;
             }
         }

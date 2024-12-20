@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static BaseEquipment;
+using static TestEncount;
 
 public class EnemyFloorRunSys : MonoBehaviour
 {
@@ -72,7 +73,7 @@ public class EnemyFloorRunSys : MonoBehaviour
 
     //エンカウントを管理するシステム
     [SerializeField]
-    EncountSys encountSys = null;
+    TestEncount encountSys = null;
 
     //装備をランダムで入手するロジック組みのシステム
     [SerializeField]
@@ -81,6 +82,13 @@ public class EnemyFloorRunSys : MonoBehaviour
     //ディアのステータス
     [SerializeField]
     Status dhiaStatus = null;
+
+    [SerializeField]
+    GameObject enemyObj = null;
+    [SerializeField]
+    GameObject restObj = null;
+    [SerializeField]
+    GameObject doorObj = null;
 
 
     public TextMeshProUGUI windowMes = null;
@@ -100,15 +108,37 @@ public class EnemyFloorRunSys : MonoBehaviour
     }
     void Update()
     {
-        KeyIn();
-        if (runStratFlag)
+        CameraMove();
+
+        //フェードアウト処理
+        if (floorEndFlag)
         {
-            if (maincamera.transform.position.x >= 150)
+            Invoke("LoadScene", 1.0f);
+            if (fade != null)
+            {
+
+                floorEndFlag = false;
+            }
+        }
+
+        if(gameOverFlag)
+        {
+            GameOver();
+        }
+    }
+
+    void CameraMove()
+    {
+        if (encountSys.mainTurn == MainTurn.WAIT)
+        {
+            if (maincamera.transform.position.x >= enemyObj.transform.position.x - 50)
             {
                 //1回だけ呼び出す
-                if(!fast)
+                if (!fast)
                 {
-                    encountSys.RiriMove();
+                    //ステータスの変更
+                    encountSys.mainTurn = TestEncount.MainTurn.RIRIMOVE;
+
                     commandWin.SetActive(true);
                     fast = true;
                     runStratFlag = false;
@@ -122,11 +152,11 @@ public class EnemyFloorRunSys : MonoBehaviour
                 maincamera.transform.position += cameraMoveSpeed * Time.deltaTime;
             }
         }
-        if (battleEndFlag)
+        if (encountSys.mainTurn == MainTurn.END)
         {
             if (encountSys.restFlag)
             {
-                if (maincamera.transform.position.x <= 200)
+                if (maincamera.transform.position.x <= restObj.transform.position.x - 50)
                 {
                     windowMes.text = "探索中";
                     commandWin.SetActive(false);
@@ -149,6 +179,7 @@ public class EnemyFloorRunSys : MonoBehaviour
                         slectText[1].text = equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentName + "\nATK :" + equipmentManager.randomEquip[equipmentManager.rnd[1]].ATK;
                         slectText[2].text = equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentName + "\nATK :" + equipmentManager.randomEquip[equipmentManager.rnd[2]].ATK;
 
+                        //ドロップパーツの表示処理
                         for (int i = 0; i < slectNowText.Length;)
                         {
                             //右手
@@ -220,7 +251,7 @@ public class EnemyFloorRunSys : MonoBehaviour
                 }
                 else
                 {
-                    if (maincamera.transform.position.x <= 300)
+                    if (maincamera.transform.position.x <= doorObj.transform.position.x - 50)
                     {
                         windowMes.text = "探索中";
                         commandWin.SetActive(false);
@@ -236,29 +267,6 @@ public class EnemyFloorRunSys : MonoBehaviour
             }
         }
 
-        //フェードアウト処理
-        if (floorEndFlag)
-        {
-            Invoke("LoadScene", 1.0f);
-            if (fade != null)
-            {
-
-                floorEndFlag = false;
-            }
-        }
-
-        if(gameOverFlag)
-        {
-            GameOver();
-        }
-    }
-
-    void KeyIn()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && !battleEndFlag)
-        {
-            runStratFlag = true;
-        }
     }
 
     void GameOver()

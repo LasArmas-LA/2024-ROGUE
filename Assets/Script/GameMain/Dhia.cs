@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Dhia : MonoBehaviour
 {
@@ -27,6 +28,28 @@ public class Dhia : MonoBehaviour
     [NonSerialized]
     public bool deathFlag = false;
 
+    [NonSerialized]
+    public bool powerUpFlag = false;
+
+    [NonSerialized]
+    public bool ririDefenseFlag = false;
+
+    [NonSerialized]
+    public bool defenseFlag = false;
+
+    [Header("クラス参照")]
+    [SerializeField]
+    Riri riri = null;
+    [SerializeField]
+    Enemy enemy = null;
+
+    [SerializeField]
+    TestEncount encountSys = null;
+
+    [SerializeField]
+    GameObject dhiaMain = null;
+    
+
     void Awake()
     {
         Init();
@@ -39,6 +62,8 @@ public class Dhia : MonoBehaviour
         maxmp = dhiaStatus.MAXMP;
         power = dhiaStatus.ATK;
         def = dhiaStatus.DEF;
+
+        this.gameObject.transform.localScale = new Vector3(1, 1, 1);
 
         if (floorNoSys != null)
         {
@@ -61,6 +86,7 @@ public class Dhia : MonoBehaviour
         if(hp <= 0)
         {
             deathFlag = true;
+            dhiaMain.gameObject.transform.localScale = new Vector3(0, 0, 0);
         }
         dhiaStatus.HP = hp;
         dhiaStatus.MP = mp;
@@ -68,14 +94,30 @@ public class Dhia : MonoBehaviour
 
     public void Skil1()
     {
+        if (powerUpFlag)
+        {
+            Debug.Log("コマンド1ディアパワーアップ攻撃");
 
+            encountSys.windowsMes.text = "ディアのこうげき！" + power * 1.5f + "のダメージ!";
+            enemy.hp -= (power * 1.5f);
+            powerUpFlag = false;
+        }
+        else
+        {
+            Debug.Log("コマンド1ディア通常攻撃");
+            encountSys.windowsMes.text = "ディアのこうげき！" + power + "のダメージ!";
+            enemy.hp -= power;
+        }
     }
     public void Skil2()
     {
-
+        encountSys.windowsMes.text = "ディアは身を守っている。";
+        defenseFlag = true;
     }
     public void Skil3()
     {
-
+        Debug.Log("コマンド3ディア");
+        encountSys.windowsMes.text = "ディアはリリーを守っている。";
+        ririDefenseFlag = true;
     }
 }
