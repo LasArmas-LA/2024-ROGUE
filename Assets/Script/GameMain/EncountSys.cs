@@ -7,7 +7,7 @@ using System.Threading;
 
 public class EncountSys : MonoBehaviour
 {
-    //バトルコマンドのテキスト
+   /* //バトルコマンドのテキスト
     [Header("バトルコマンドのテキスト")]
     [SerializeField]
     TextMeshProUGUI windowsMes = null;
@@ -642,4 +642,5 @@ public class EncountSys : MonoBehaviour
         button = false;
     }
     #endregion
+   */
 }

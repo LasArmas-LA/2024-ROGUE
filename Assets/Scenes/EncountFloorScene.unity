@@ -734,9 +734,9 @@ MonoBehaviour:
   encountSys: {fileID: 180505726}
   equipmentManager: {fileID: 1372105963}
   dhiaStatus: {fileID: 11400000, guid: ff9529fcff4a1bd4d81150027e4d3b9b, type: 2}
-  enemyObj: {fileID: 0}
-  restObj: {fileID: 0}
-  doorObj: {fileID: 0}
+  enemyObj: {fileID: 888653661}
+  restObj: {fileID: 1854959370}
+  doorObj: {fileID: 1901998080}
   windowMes: {fileID: 1213364531}
 --- !u!4 &165805358
 Transform:
@@ -783,28 +783,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec73341b5c1de9b4ea5e85799b36a363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  windowsMes: {fileID: 1213364531}
-  command1Text: {fileID: 1962552018}
-  command2Text: {fileID: 425735355}
-  command3Text: {fileID: 1355190683}
-  recoveryWin: {fileID: 224750540}
-  ririWaitTime: 3
-  DhiaWaitTime: 3
-  enemyWaitTime: 3
-  riri: {fileID: 1854959374}
-  dhia: {fileID: 2113024850}
-  enemy: {fileID: 888653665}
-  enemyFloorRunSysObj: {fileID: 165805357}
-  ririSlider: {fileID: 1106386393}
-  dhiaSlider: {fileID: 128803057}
-  enemySlider: {fileID: 1853348663}
-  ririObj: {fileID: 1854959370}
-  dhiaObj: {fileID: 2113024846}
-  enemyObj: {fileID: 888653661}
-  texts1:
-  - "\u3053\u3046\u3052\u304D"
-  - "\u307C\u3046\u304E\u3087"
-  - "\u304B\u3044\u3072"
 --- !u!4 &180505725
 Transform:
   m_ObjectHideFlags: 0
@@ -839,18 +817,17 @@ MonoBehaviour:
   command3Text: {fileID: 1355190683}
   ririScript: {fileID: 1854959374}
   dhiaScript: {fileID: 2113024850}
-  enemyScript: {fileID: 888653665}
   waitTime: 5
-  riri: {fileID: 1854959374}
-  dhia: {fileID: 2113024850}
-  enemy: {fileID: 888653665}
+  rndEnemy: {fileID: 1557075842}
   enemyFloorRunSysObj: {fileID: 165805357}
   ririSlider: {fileID: 1106386393}
   dhiaSlider: {fileID: 128803057}
-  enemySlider: {fileID: 1853348663}
   ririObj: {fileID: 1854959370}
   dhiaObj: {fileID: 2113024846}
-  enemyObj: {fileID: 888653661}
+  enemyObj:
+  - {fileID: 888653661}
+  - {fileID: 1172505225}
+  rnd: 0
   command1: 0
   command2: 0
   command3: 0
@@ -2173,7 +2150,7 @@ GameObject:
   - component: {fileID: 888653663}
   - component: {fileID: 888653665}
   m_Layer: 5
-  m_Name: EnemyObj
+  m_Name: RabbitObj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2188,10 +2165,9 @@ RectTransform:
   m_GameObject: {fileID: 888653661}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 1853348662}
+  m_Children: []
   m_Father: {fileID: 1557075841}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2246,23 +2222,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 888653661}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e191cdd330327204db7f2ab94feb6528, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ab62dbae2773ba4ba13e7c6d3abc381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyStatus:
-  - {fileID: 11400000, guid: 2df0c384f88ce564e977c7ad96935fff, type: 2}
-  - {fileID: 11400000, guid: ac8279a08e7fac2419a29cb5500062b0, type: 2}
-  - {fileID: 11400000, guid: 4608df9b75bdeef4dbdf9356e9bb5c67, type: 2}
-  maxhp: 300
-  maxmp: 20
+  maxhp: 0
+  maxmp: 0
   hp: 0
   mp: 0
-  power: 40
+  power: 0
   deathFlag: 0
   enemyMain: {fileID: 1557075840}
+  enemy:
+  - {fileID: 888653665}
+  - {fileID: 1172505230}
+  encountSys: {fileID: 180505726}
+  enemySlider: {fileID: 1853348663}
+  enemyStatus: {fileID: 11400000, guid: 2df0c384f88ce564e977c7ad96935fff, type: 2}
   riri: {fileID: 1854959374}
   dhia: {fileID: 2113024850}
   encountSys: {fileID: 180505726}
+  enemySys: {fileID: 1557075842}
 --- !u!1 &909951215
 GameObject:
   m_ObjectHideFlags: 0
@@ -2825,7 +2804,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 2.4999838, y: 0}
+  m_AnchoredPosition: {x: 2.4999695, y: 0}
   m_SizeDelta: {x: -5.000033, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1042042787
@@ -3398,7 +3377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1144620488
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3456,6 +3435,111 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1144620487}
   m_CullTransparentMesh: 1
+--- !u!1 &1172505225
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1172505226}
+  - component: {fileID: 1172505229}
+  - component: {fileID: 1172505228}
+  - component: {fileID: 1172505230}
+  m_Layer: 5
+  m_Name: BirdObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1172505226
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172505225}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1557075841}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 54, y: 66}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1172505228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172505225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -986670264632791016, guid: 79289f683ce386844972a0a7bc38fd77, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1172505229
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172505225}
+  m_CullTransparentMesh: 1
+--- !u!114 &1172505230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172505225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ff71a9573e4ed747b60d928020ad960, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxhp: 0
+  maxmp: 0
+  hp: 0
+  mp: 0
+  power: 0
+  deathFlag: 0
+  enemyMain: {fileID: 1557075840}
+  enemy:
+  - {fileID: 888653665}
+  - {fileID: 1172505230}
+  encountSys: {fileID: 180505726}
+  enemySlider: {fileID: 1853348663}
+  enemyStatus: {fileID: 11400000, guid: ac8279a08e7fac2419a29cb5500062b0, type: 2}
+  riri: {fileID: 1854959374}
+  dhia: {fileID: 2113024850}
+  encountSys: {fileID: 180505726}
+  enemySys: {fileID: 1557075842}
 --- !u!1 &1172549605
 GameObject:
   m_ObjectHideFlags: 0
@@ -4944,6 +5028,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1557075841}
+  - component: {fileID: 1557075842}
   m_Layer: 5
   m_Name: Enemy
   m_TagString: Untagged
@@ -4964,6 +5049,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 888653662}
+  - {fileID: 1172505226}
+  - {fileID: 1853348662}
   m_Father: {fileID: 352088539}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4971,6 +5058,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1557075842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557075840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e191cdd330327204db7f2ab94feb6528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxhp: 0
+  maxmp: 0
+  hp: 0
+  mp: 0
+  power: 0
+  deathFlag: 0
+  enemyMain: {fileID: 1557075840}
+  enemy:
+  - {fileID: 888653665}
+  - {fileID: 1172505230}
+  encountSys: {fileID: 180505726}
+  enemySlider: {fileID: 1853348663}
 --- !u!1 &1570391693
 GameObject:
   m_ObjectHideFlags: 0
@@ -5968,18 +6079,18 @@ RectTransform:
   m_GameObject: {fileID: 1853348661}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1042042786}
   - {fileID: 1876032298}
   - {fileID: 909951216}
-  m_Father: {fileID: 888653662}
+  m_Father: {fileID: 1557075841}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 400}
-  m_SizeDelta: {x: 250, y: 90}
+  m_AnchoredPosition: {x: 0, y: 27.8}
+  m_SizeDelta: {x: 600, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1853348663
 MonoBehaviour:
@@ -6124,8 +6235,8 @@ MonoBehaviour:
   floorNoSys: {fileID: 0}
   hp: 0
   dhia: {fileID: 2113024850}
-  enemy: {fileID: 888653665}
   recoveryWin: {fileID: 224750540}
+  commandWin: {fileID: 1510563395}
   encountSys: {fileID: 180505726}
   ririMain: {fileID: 1122348336}
   button: 0
@@ -7269,7 +7380,6 @@ MonoBehaviour:
   dhiaStatus: {fileID: 11400000, guid: ff9529fcff4a1bd4d81150027e4d3b9b, type: 2}
   floorNoSys: {fileID: 0}
   riri: {fileID: 1854959374}
-  enemy: {fileID: 888653665}
   encountSys: {fileID: 180505726}
   dhiaMain: {fileID: 1363568879}
 --- !u!1 &2140426081

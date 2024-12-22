@@ -15,7 +15,8 @@ public class Status : ScriptableObject
     public float MP = 0;
     public float ATK = 0;
     public float DEF = 0;
-    public Sprite image = null;
+
+    public GameObject obj = null;
 
     [Space(5)]
 

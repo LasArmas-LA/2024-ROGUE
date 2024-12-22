@@ -1,21 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour
+public class Bird : EnemyManager
 {
     [SerializeField]
-    Status[] enemyStatus = null;
+    Status enemyStatus = null;
 
-    public float maxhp = 0;
-    public float maxmp = 0;
 
-    public float hp = 0;
-    public float mp = 0;
-    public float power = 0;
-
-    public bool deathFlag = false;
-
-    [SerializeField]
-    GameObject enemyMain = null;
 
     [Header("クラス参照")]
     [SerializeField]
@@ -26,40 +17,35 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     TestEncount encountSys = null;
 
-    int rnd = 0;
-    void Awake()
-    {
-        Init();
-    }
+    [SerializeField]
+    EnemyManager enemySys = null;
 
-    void Init()
-    {
-        Debug.Log(enemyStatus.Length);
-        rnd = Random.Range(0, enemyStatus.Length);
 
-        maxhp = enemyStatus[rnd].MAXHP;
-        maxmp = enemyStatus[rnd].MAXMP;
-        power = enemyStatus[rnd].ATK;
+    public override void InitBird()
+    {
+        Debug.Log("初期化");
+
+        deathFlag = false;
+
+        maxhp = enemyStatus.MAXHP;
+        maxmp = enemyStatus.MAXMP;
+        power = enemyStatus.ATK;
+
+
         hp = maxhp;
         mp = maxmp;
-        enemyMain.transform.localScale = new Vector3(1, 1, 1);
-        deathFlag = false;
     }
-
 
     void Update()
     {
-        if(hp <= 0)
+        if (hp <= 0)
         {
-            deathFlag = true;
-            enemyMain.transform.localScale = new Vector3(0, 0, 0);
+            enemySys.deathFlag = true;
         }
     }
 
-    public void Skil()
+    public override void Skil()
     {
-        Debug.Log("エネミー");
-
         int rnd = 0;
         for (int i = 0; i < 1; i++)
         {
@@ -101,5 +87,11 @@ public class Enemy : MonoBehaviour
                 dhia.hp -= power;
             }
         }
+    }
+
+
+    public override void AddWords()
+    {
+        
     }
 }

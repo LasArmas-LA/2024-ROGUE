@@ -1,5 +1,5 @@
 using System;
-using System.Drawing;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,23 +39,15 @@ public class TestEncount : MonoBehaviour
     Riri ririScript = null;
     [SerializeField]
     Dhia dhiaScript = null;
-    [SerializeField]
-    Enemy enemyScript = null;
 
     //待機時間
     [SerializeField]
     float waitTime = 0;
     float timer = 0;
 
-    [Header("クラス参照")]
-    [SerializeField]
-    Riri riri = null;
-    [SerializeField]
-    Dhia dhia = null;
-    [SerializeField]
-    Enemy enemy = null;
     FloorNoSys floorNoSys = null;
     GameObject floorNoSysObj = null;
+    public EnemyManager rndEnemy = null;
     [SerializeField]
     EnemyFloorRunSys enemyFloorRunSysObj = null;
 
@@ -66,8 +58,6 @@ public class TestEncount : MonoBehaviour
     Slider ririSlider = null;
     [SerializeField, Tooltip("ディアの体力ゲージ")]
     Slider dhiaSlider = null;
-    [SerializeField, Tooltip("敵の体力ゲージ")]
-    Slider enemySlider = null;
 
     [Space(10)]
     [Header("各キャラクターの死亡フラグ")]
@@ -84,8 +74,6 @@ public class TestEncount : MonoBehaviour
     GameObject ririObj;
     [SerializeField]
     GameObject dhiaObj;
-    [SerializeField]
-    GameObject enemyObj;
 
     //休憩階のフラグ
     [NonSerialized]
@@ -95,6 +83,11 @@ public class TestEncount : MonoBehaviour
     [NonSerialized]
     public bool bossFlag = false;
 
+    [SerializeField]
+    GameObject[] enemyObj = null;
+
+    public int rnd = 0;
+
     void Start()
     {
         Init();
@@ -102,27 +95,35 @@ public class TestEncount : MonoBehaviour
 
     void Init()
     {
+        //ステータスを待機状態に変更
         mainTurn = MainTurn.WAIT;
 
+        //エネミーのランダム抽選用
+        rnd = UnityEngine.Random.Range(0, enemyObj.Length);
+
+        //ランダムで選ばれたエネミーオブジェクトの表示
+        enemyObj[rnd].transform.localScale = new Vector3(1,1,1);
+
+        //その情報を格納
+        //rndEnemy = rndEnemy.enemy[rnd].GetComponentInParent<EnemyManager>();
+
+
+
         //MaxHPの格納
-        ririSlider.maxValue = riri.maxhp;
-        dhiaSlider.maxValue = dhia.maxhp;
-        enemySlider.maxValue = enemy.maxhp;
+        ririSlider.maxValue = ririScript.maxhp;
+        dhiaSlider.maxValue = dhiaScript.maxhp;
 
         //MinHPの格納
         ririSlider.minValue = 0;
         dhiaSlider.minValue = 0;
-        enemySlider.minValue = 0;
 
         //MaxのHPを現在のHPに格納
         ririSlider.value = ririSlider.maxValue;
         dhiaSlider.value = dhiaSlider.maxValue;
-        enemySlider.value = enemySlider.maxValue;
 
         //MaxのHPを現在のHPに格納
-        ririSlider.value *= (riri.hp / riri.maxhp);
-        dhiaSlider.value *= (dhia.hp / dhia.maxhp);
-        enemySlider.value *= (enemy.hp / enemy.maxhp);
+        ririSlider.value *= (ririScript.hp / ririScript.maxhp);
+        dhiaSlider.value *= (dhiaScript.hp / dhiaScript.maxhp);
     }
 
     void FixedUpdate()
@@ -133,7 +134,7 @@ public class TestEncount : MonoBehaviour
                 break;
             case MainTurn.RIRIMOVE:
                 //リリー死亡時ターンをスキップ
-                if(riri.deathFlag)
+                if(ririScript.deathFlag)
                 {
                     mainTurn = MainTurn.DHIAMOVE;
                 }
@@ -142,13 +143,13 @@ public class TestEncount : MonoBehaviour
                 break;
             case MainTurn.DHIAMOVE:
                 //ディア死亡時ターンをスキップ
-                if (dhia.deathFlag)
+                if (dhiaScript.deathFlag)
                 {
                     mainTurn = MainTurn.ENEMYMOVE;
                 }
                 break;
             case MainTurn.DHIAANIM:
-                if (enemy.deathFlag)
+                if (rndEnemy.deathFlag)
                 {
                     //タイマー開始
                     timer += Time.deltaTime;
@@ -173,9 +174,8 @@ public class TestEncount : MonoBehaviour
         DhiaMove();
         EnemyMove();
 
-        ririSlider.value = (ririSlider.maxValue * (riri.hp / riri.maxhp));
-        dhiaSlider.value = (dhiaSlider.maxValue * (dhia.hp / dhia.maxhp));
-        enemySlider.value = (enemySlider.maxValue * (enemy.hp / enemy.maxhp));
+        ririSlider.value = (ririSlider.maxValue * (ririScript.hp / ririScript.maxhp));
+        dhiaSlider.value = (dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp));
     }
 
     //コマンド処理
@@ -187,6 +187,7 @@ public class TestEncount : MonoBehaviour
 
     public void Command1()
     {
+        //多段押し防止
         if(!button)
         {
             button = true;
@@ -195,7 +196,8 @@ public class TestEncount : MonoBehaviour
     }
     public void Command2()
     {
-        if(!button)
+        //多段押し防止
+        if (!button)
         {
             button = true;
             command2 = true;
@@ -203,6 +205,7 @@ public class TestEncount : MonoBehaviour
     }
     public void Command3()
     {
+        //多段押し防止
         if (!button)
         {
             button = true;
@@ -298,7 +301,7 @@ public class TestEncount : MonoBehaviour
                 }
             
                 //待機時間を超えて敵が生きている時
-                if (timer >= waitTime && !enemy.deathFlag)
+                if (timer >= waitTime && !enemyDeath)
                 {
                     //ステータスを変更
                     mainTurn = MainTurn.ENEMYMOVE;
@@ -328,7 +331,8 @@ public class TestEncount : MonoBehaviour
 
             if (!coLock)
             {
-                enemyScript.Skil();
+                //Init時に選択されたエネミーのスキル関数を呼び出す
+                rndEnemy.Move();
                 coLock = true;
             }
 

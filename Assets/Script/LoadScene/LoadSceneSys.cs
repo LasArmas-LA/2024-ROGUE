@@ -14,7 +14,6 @@ public class LoadSceneSys : MonoBehaviour
     int chestFloor = 0;
 
     int floorNo = 0;
-    
     void Start()
     {
         floorNo += 1;

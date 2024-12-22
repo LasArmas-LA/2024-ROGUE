@@ -40,8 +40,6 @@ public class Dhia : MonoBehaviour
     [Header("クラス参照")]
     [SerializeField]
     Riri riri = null;
-    [SerializeField]
-    Enemy enemy = null;
 
     [SerializeField]
     TestEncount encountSys = null;
@@ -99,14 +97,14 @@ public class Dhia : MonoBehaviour
             Debug.Log("コマンド1ディアパワーアップ攻撃");
 
             encountSys.windowsMes.text = "ディアのこうげき！" + power * 1.5f + "のダメージ!";
-            enemy.hp -= (power * 1.5f);
+            encountSys.rndEnemy.hp -= (power * 1.5f);
             powerUpFlag = false;
         }
         else
         {
             Debug.Log("コマンド1ディア通常攻撃");
             encountSys.windowsMes.text = "ディアのこうげき！" + power + "のダメージ!";
-            enemy.hp -= power;
+            encountSys.rndEnemy.hp -= power;
         }
     }
     public void Skil2()

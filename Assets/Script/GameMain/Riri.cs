@@ -31,8 +31,6 @@ public class Riri : MonoBehaviour
     [Header("ÉNÉâÉXéQè∆")]
     [SerializeField]
     Dhia dhia = null;
-    [SerializeField]
-    Enemy enemy = null;
 
     [Space(10)]
 
@@ -44,6 +42,8 @@ public class Riri : MonoBehaviour
 
     [SerializeField]
     GameObject recoveryWin = null;
+    [SerializeField]
+    GameObject commandWin = null;
 
     [SerializeField]
     TestEncount encountSys = null;
@@ -99,6 +99,7 @@ public class Riri : MonoBehaviour
         if (!button)
         {
             recoveryWin.SetActive(true);
+            commandWin.SetActive(false);
         }
     }
     public void Skil2()
@@ -187,5 +188,6 @@ public class Riri : MonoBehaviour
             dhiaSelectFlag = false;
         }
         recoveryWin.SetActive(false);
+        commandWin.SetActive(true);
     }
 }
