@@ -24,7 +24,7 @@ public class EnemyManager : MonoBehaviour
     public EnemyManager[] enemy = null;
 
     [SerializeField]
-    TestEncount encountSys = null;
+    public TestEncount encountSys = null;
 
     [SerializeField, Tooltip("“G‚Ì‘Ì—ÍƒQ[ƒW")]
     public Slider enemySlider = null;

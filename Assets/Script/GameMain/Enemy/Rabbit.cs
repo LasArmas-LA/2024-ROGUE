@@ -14,11 +14,12 @@ public class Rabbit : EnemyManager
     [SerializeField]
     Dhia dhia = null;
 
-    [SerializeField]
-    TestEncount encountSys = null;
 
     [SerializeField]
     EnemyManager enemySys = null;
+
+    //攻撃力の補正値
+    float powerValue = 0f;
 
 
 
@@ -47,48 +48,72 @@ public class Rabbit : EnemyManager
 
     public override void Skil()
     {
-        Debug.Log("エネミー");
-
-        int rnd = 0;
+        int skilRnd = 0;
+        int slectNo = 0;
         for (int i = 0; i < 1; i++)
         {
-            rnd = UnityEngine.Random.Range(0, 2);
-        }
-        //ディアが死んでいる時攻撃対象をリリーに上書き
-        if (dhia.deathFlag)
-        {
-            rnd = 0;
+            //0か1の乱数
+            skilRnd = UnityEngine.Random.Range(1, 101);
         }
 
-        //攻撃対象リリー
-        if (rnd == 0)
+        //スキル1
+        if(skilRnd <= 70)
         {
-            //70%軽減
-            if (dhia.ririDefenseFlag)
+            //リリーの方がHP多い時
+            if (riri.hp > dhia.hp)
             {
-                encountSys.windowsMes.text = "てきのこうげき！ディアがリリーを守った！ディアに" + power * 0.3f + "のダメージ!";
-                dhia.hp -= (power * 0.3f);
+                slectNo = 0;
             }
+            //ディアの方がHP多い時
             else
             {
-                encountSys.windowsMes.text = "てきのこうげき！リリーに" + power + "のダメージ!";
-                riri.hp -= power;
+                slectNo = 1;
+            }
+
+            //ディアが死んでいる時攻撃対象をリリーに上書き
+            if (dhia.deathFlag)
+            {
+                slectNo = 0;
+            }
+
+            //攻撃対象リリー
+            if (slectNo == 0)
+            {
+                //70%軽減
+                if (dhia.ririDefenseFlag)
+                {
+                    encountSys.windowsMes.text = "ウサギのこうげき！ディアがリリーを守った！ディアに" + ((power + (power * powerValue)) * 0.3f) + "のダメージ!";
+                    dhia.hp -= ((power +(power * powerValue)) * 0.3f);
+                }
+                else
+                {
+                    encountSys.windowsMes.text = "ウサギのこうげき！リリーに" + (power + (power * powerValue)) + "のダメージ!";
+                    riri.hp -= (power + (power * powerValue));
+                }
+
+            }
+            //攻撃対象ディア
+            else if (slectNo == 1)
+            {
+                if (dhia.defenseFlag)
+                {
+                    encountSys.windowsMes.text = "ウサギのこうげき！ディアに" + ((power + (power * powerValue)) * 0.5f) + "のダメージ!";
+                    dhia.hp -= ((power + (power * powerValue)) * 0.5f);
+                }
+                else
+                {
+                    encountSys.windowsMes.text = "ウサギのこうげき！ディアに" + (power + (power * powerValue)) + "のダメージ!";
+                    dhia.hp -= (power + (power * powerValue));
+                }
             }
 
         }
-        //攻撃対象ディア
-        else if (rnd == 1)
+
+        //スキル2
+        if (skilRnd >= 71)
         {
-            if (dhia.defenseFlag)
-            {
-                encountSys.windowsMes.text = "てきのこうげき！ディアに" + power * 0.5f + "のダメージ!";
-                dhia.hp -= (power * 0.5f);
-            }
-            else
-            {
-                encountSys.windowsMes.text = "てきのこうげき！ディアに" + power + "のダメージ!";
-                dhia.hp -= power;
-            }
+            encountSys.windowsMes.text = "ウサギはにんじんシチューを飲んだ！\nウサギの攻撃力が15%アップした！";
+            powerValue += 0.15f;
         }
     }
 

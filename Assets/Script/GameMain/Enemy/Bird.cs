@@ -6,16 +6,11 @@ public class Bird : EnemyManager
     [SerializeField]
     Status enemyStatus = null;
 
-
-
     [Header("ƒNƒ‰ƒXQÆ")]
     [SerializeField]
     Riri riri = null;
     [SerializeField]
     Dhia dhia = null;
-
-    [SerializeField]
-    TestEncount encountSys = null;
 
     [SerializeField]
     EnemyManager enemySys = null;
