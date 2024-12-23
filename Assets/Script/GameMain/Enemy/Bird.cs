@@ -22,6 +22,8 @@ public class Bird : EnemyManager
 
         deathFlag = false;
 
+        this.gameObject.transform.localScale = Vector3.zero;
+
         maxhp = enemyStatus.MAXHP;
         maxmp = enemyStatus.MAXMP;
         power = enemyStatus.ATK;

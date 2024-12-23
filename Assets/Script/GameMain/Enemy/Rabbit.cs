@@ -27,6 +27,8 @@ public class Rabbit : EnemyManager
     {
         Debug.Log("‰Šú‰»");
         deathFlag = false;
+        
+        this.gameObject.transform.localScale = Vector3.zero;
 
         maxhp = enemyStatus.MAXHP;
         maxmp = enemyStatus.MAXMP;
