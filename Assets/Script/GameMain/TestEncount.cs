@@ -100,6 +100,7 @@ public class TestEncount : MonoBehaviour
 
         //エネミーのランダム抽選用
         rnd = UnityEngine.Random.Range(0, enemyObj.Length);
+        rnd = 1;
 
         //ランダムで選ばれたエネミーオブジェクトの表示
         enemyObj[rnd].transform.localScale = new Vector3(1,1,1);

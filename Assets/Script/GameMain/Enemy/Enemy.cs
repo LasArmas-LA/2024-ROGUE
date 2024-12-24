@@ -31,75 +31,70 @@ public class EnemyManager : MonoBehaviour
 
 
     int rnd = 0;
-    public void Awake()
-    {
-    }
-    private void Start()
-    {
+    void Start()
+    {   
         Init();
     }
 
-    public virtual void AddWords()
-    {
 
-    }
-
+    bool fast = true;
     void Init()
     {
-        Debug.Log("rabbit");
-
-
-
-
-        //エネミーの親オブジェクトの初期化
-        enemyMain.transform.localScale = new Vector3(1, 1, 1);
-
-        //出現したエネミーの判別
-        switch (encountSys.rnd)
+        if (this.gameObject.name == "Enemy")
         {
-            //うさぎ
-            case 0:
-                Debug.Log("うさぎ");
-                InitRabbit();
-                maxhp = enemy[0].maxhp;
-                maxmp = enemy[0].maxmp;
-                power = enemy[0].power;
-                hp = maxhp;
-                mp = maxmp;
-                break;
-            //ふくろう
-            case 1:
-                Debug.Log("ふくろう");
-                InitRabbit();
-                maxhp = enemy[0].maxhp;
-                maxmp = enemy[0].maxmp;
-                power = enemy[0].power;
-                hp = maxhp;
-                mp = maxmp;
-                break;
-            //
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            case 7:
-                break;
-            case 8:
-                break;
-            case 9:
-                break;
+            enemy[0].transform.localScale = Vector3.zero;
+            enemy[1].transform.localScale = Vector3.zero;
+            Debug.Log("親初期化");
+            //エネミーの親オブジェクトの初期化
+            enemyMain.transform.localScale = new Vector3(1, 1, 1);
+
+            //出現したエネミーの判別
+            switch (encountSys.rnd)
+            {
+                //うさぎ
+                case 0:
+                    Debug.Log("うさぎ");
+                    enemy[0].InitRabbit();
+                    maxhp = enemy[0].maxhp;
+                    maxmp = enemy[0].maxmp;
+                    power = enemy[0].power;
+                    hp = maxhp;
+                    mp = maxmp;
+                    break;
+                //ふくろう
+                case 1:
+                    Debug.Log("ふくろう");
+                    enemy[1].InitBird();
+                    maxhp = enemy[1].maxhp;
+                    maxmp = enemy[1].maxmp;
+                    power = enemy[1].power;
+                    hp = maxhp;
+                    mp = maxmp;
+                    break;
+                //
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                case 8:
+                    break;
+                case 9:
+                    break;
+            }
+            //HPバーの初期化
+            enemySlider.maxValue = maxhp;
+            enemySlider.minValue = 0;
+            enemySlider.value = enemySlider.maxValue;
+            enemySlider.value *= (hp / maxhp);
         }
-        //HPバーの初期化
-        enemySlider.maxValue = maxhp;
-        enemySlider.minValue = 0;
-        enemySlider.value = enemySlider.maxValue;
-        enemySlider.value *= (hp / maxhp);
     }
 
     void Update()
@@ -157,7 +152,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public virtual void Skil(){}
-    public virtual void InitBird(){}
-    public virtual void InitRabbit(){}
+    public virtual void Skil(){ return; }
+    public virtual void InitBird(){ return; }
+    public virtual void InitRabbit(){ return; }
 }

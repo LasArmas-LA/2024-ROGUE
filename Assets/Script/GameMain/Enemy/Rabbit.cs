@@ -28,7 +28,7 @@ public class Rabbit : EnemyManager
         Debug.Log("初期化");
         deathFlag = false;
         
-        this.gameObject.transform.localScale = Vector3.zero;
+        this.gameObject.transform.localScale =  new Vector3(1,1,1);
 
         maxhp = enemyStatus.MAXHP;
         maxmp = enemyStatus.MAXMP;
@@ -37,7 +37,6 @@ public class Rabbit : EnemyManager
 
         hp = maxhp;
         mp = maxmp;
-
     }
 
     void Update()
@@ -61,6 +60,10 @@ public class Rabbit : EnemyManager
         //スキル1
         if(skilRnd <= 70)
         {
+
+            float ririDamage = DamageCalculation(power, riri.def);
+            float dhiaDamage = DamageCalculation(power, dhia.def);
+
             //リリーの方がHP多い時
             if (riri.hp > dhia.hp)
             {
@@ -84,28 +87,27 @@ public class Rabbit : EnemyManager
                 //70%軽減
                 if (dhia.ririDefenseFlag)
                 {
-                    encountSys.windowsMes.text = "ウサギのこうげき！ディアがリリーを守った！ディアに" + ((power + (power * powerValue)) * 0.3f) + "のダメージ!";
-                    dhia.hp -= ((power +(power * powerValue)) * 0.3f);
+                    encountSys.windowsMes.text = "ウサギのこうげき！ディアがリリーを守った！ディアに" + ( ririDamage * 0.3f) + "のダメージ!";
+                    dhia.hp -= (ririDamage * 0.3f);
                 }
                 else
                 {
-                    encountSys.windowsMes.text = "ウサギのこうげき！リリーに" + (power + (power * powerValue)) + "のダメージ!";
-                    riri.hp -= (power + (power * powerValue));
+                    encountSys.windowsMes.text = "ウサギのこうげき！リリーに" + (ririDamage) + "のダメージ!";
+                    riri.hp -= (ririDamage);
                 }
-
             }
             //攻撃対象ディア
             else if (slectNo == 1)
             {
                 if (dhia.defenseFlag)
                 {
-                    encountSys.windowsMes.text = "ウサギのこうげき！ディアに" + ((power + (power * powerValue)) * 0.5f) + "のダメージ!";
-                    dhia.hp -= ((power + (power * powerValue)) * 0.5f);
+                    encountSys.windowsMes.text = "ウサギのこうげき！ディアに" + (dhiaDamage * 0.5f) + "のダメージ!";
+                    dhia.hp -= (dhiaDamage * 0.5f);
                 }
                 else
                 {
-                    encountSys.windowsMes.text = "ウサギのこうげき！ディアに" + (power + (power * powerValue)) + "のダメージ!";
-                    dhia.hp -= (power + (power * powerValue));
+                    encountSys.windowsMes.text = "ウサギのこうげき！ディアに" + (dhiaDamage) + "のダメージ!";
+                    dhia.hp -= (dhiaDamage);
                 }
             }
 
@@ -120,8 +122,11 @@ public class Rabbit : EnemyManager
     }
 
 
-    public override void AddWords()
+
+    //ダメージ計算用
+    float DamageCalculation(float attack,float defense)
     {
-        
+        float damage = ((attack) + (attack * powerValue) / 2) - (defense / 4);
+        return damage;
     }
 }

@@ -22,7 +22,7 @@ public class Bird : EnemyManager
 
         deathFlag = false;
 
-        this.gameObject.transform.localScale = Vector3.zero;
+        this.gameObject.transform.localScale = new Vector3(1,1,1);
 
         maxhp = enemyStatus.MAXHP;
         maxmp = enemyStatus.MAXMP;
@@ -84,11 +84,5 @@ public class Bird : EnemyManager
                 dhia.hp -= power;
             }
         }
-    }
-
-
-    public override void AddWords()
-    {
-        
     }
 }

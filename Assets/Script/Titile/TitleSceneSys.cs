@@ -8,6 +8,20 @@ public class TitleSceneSys : MonoBehaviour
     [SerializeField]
     Image fade = null;
 
+    [SerializeField]
+    GameObject floorNoSys = null;
+
+    [SerializeField]
+    Slider bgmVolObj = null;
+    [SerializeField]
+    Slider seVolObj = null;
+
+    [SerializeField]
+    AudioSource[] audioSources = null;
+
+    [SerializeField]
+    AudioClip[] audioClip = null;
+
     void Start()
     {
         Init();
@@ -15,7 +29,30 @@ public class TitleSceneSys : MonoBehaviour
 
     void Init()
     {
+        if (GameObject.Find("FloorNo") == null)
+        {
+            //é¿ëÃâª
+            GameObject floorNoSysClone = Instantiate(floorNoSys);
 
+            //ñºëOÇÃïœçX
+            floorNoSysClone.name = "FloorNo";
+
+            DontDestroyOnLoad(floorNoSysClone);
+        }
+
+        //AudioÇÃèâä˙âª
+        bgmVolObj.maxValue = 1;
+        bgmVolObj.minValue = 0;
+        bgmVolObj.value = 0.5f;
+        seVolObj.maxValue = 1;
+        seVolObj.minValue = 0;
+        seVolObj.value = 0.5f;
+    }
+
+    void Update()
+    {
+        audioSources[0].volume = bgmVolObj.value;
+        audioSources[1].volume = seVolObj.value;
     }
 
     public void OnStratButton()
