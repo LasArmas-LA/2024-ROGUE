@@ -115,7 +115,10 @@ public class Dhia : MonoBehaviour
         if(hp <= 0)
         {
             deathFlag = true;
-            dhiaMain.gameObject.transform.localScale = new Vector3(0, 0, 0);
+            if (this.transform.localScale.x >= 0)
+            {
+                this.transform.localScale -= new Vector3(1, 1, 1) * Time.deltaTime;
+            }
         }
         dhiaStatus.HP = hp;
         dhiaStatus.MP = mp;

@@ -86,7 +86,10 @@ public class Riri : MonoBehaviour
         if (hp <= 0)
         {
             deathFlag = true;
-            ririMain.gameObject.transform.localScale = new Vector3(0, 0, 0);
+            if (this.transform.localScale.x >= 0)
+            {
+                this.transform.localScale -= new Vector3(1, 1, 1) * Time.deltaTime;
+            }
         }
         ririStatus.HP = hp;
         ririStatus.MP = mp;
