@@ -98,9 +98,10 @@ public class TestEncount : MonoBehaviour
         //ステータスを待機状態に変更
         mainTurn = MainTurn.WAIT;
 
+        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
+
         //エネミーのランダム抽選用
         rnd = UnityEngine.Random.Range(0, enemyObj.Length);
-        rnd = 1;
 
         //ランダムで選ばれたエネミーオブジェクトの表示
         enemyObj[rnd].transform.localScale = new Vector3(1,1,1);

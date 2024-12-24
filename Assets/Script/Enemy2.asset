@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc3b00f8a806bf14497f374c9396b341, type: 3}
   m_Name: Enemy2
   m_EditorClassIdentifier: 
-  NAME: "\u30A8\u30CD\u30DF\u30FC2"
-  MAXHP: 200
+  NAME: "\u3075\u304F\u308D\u3046"
+  MAXHP: 50
   HP: 0
   MAXMP: 0
   MP: 0
-  ATK: 20
-  DEF: 0
-  image: {fileID: -986670264632791016, guid: 79289f683ce386844972a0a7bc38fd77, type: 3}
+  ATK: 80
+  DEF: 10
+  obj: {fileID: 0}
   headPartsData: {fileID: 0}
   bodyPartsData: {fileID: 0}
   legPartsData: {fileID: 0}

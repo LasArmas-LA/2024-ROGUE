@@ -20,9 +20,9 @@ public class Riri : MonoBehaviour
     [NonSerialized]
     public float mp = 0;
     [NonSerialized]
-    public float power = 0;
+    public int power = 0;
     [NonSerialized]
-    public float def = 0;
+    public int def = 0;
 
     [NonSerialized]
     public bool deathFlag = false;
