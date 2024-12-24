@@ -34,8 +34,6 @@ public class Riri : MonoBehaviour
 
     [Space(10)]
 
-
-
     //ëŒè€ëIëéûÇÃÉtÉâÉO
     bool ririSelectFlag = false;
     bool dhiaSelectFlag = false;
@@ -63,8 +61,8 @@ public class Riri : MonoBehaviour
         floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
         maxhp = ririStatus.MAXHP;
         maxmp = ririStatus.MAXMP;
-        power = ririStatus.ATK;
-        def = ririStatus.DEF;
+        power = ririStatus.DEFATK;
+        def = ririStatus.DEFDEF;
         this.gameObject.transform.localScale = new Vector3(1, 1, 1);
 
         if (floorNoSys != null)

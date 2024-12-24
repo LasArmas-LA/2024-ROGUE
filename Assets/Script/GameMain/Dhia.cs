@@ -64,7 +64,6 @@ public class Dhia : MonoBehaviour
         def = dhiaStatus.DEF;
 
         this.gameObject.transform.localScale = new Vector3(1, 1, 1);
-        enemyDamage = DamageCalculation(power, encountSys.rndEnemy.def);
 
         if (floorNoSys != null)
         {
@@ -80,6 +79,35 @@ public class Dhia : MonoBehaviour
                 mp = dhiaStatus.MP;
             }
         }
+
+        //パーツのステータスを反映する処理
+        if (dhiaStatus.headPartsData != null)
+        {
+            power += dhiaStatus.headPartsData.ATK;
+            def += dhiaStatus.headPartsData.DEF;
+        }
+        if (dhiaStatus.bodyPartsData != null)
+        {
+            power += dhiaStatus.bodyPartsData.ATK;
+            def += dhiaStatus.bodyPartsData.DEF;
+        }
+        if (dhiaStatus.legPartsData != null)
+        {
+            power += dhiaStatus.legPartsData.ATK;
+            def += dhiaStatus.legPartsData.DEF;
+        }
+        if (dhiaStatus.righthandPartsData != null)
+        {
+            power += dhiaStatus.righthandPartsData.ATK;
+            def += dhiaStatus.righthandPartsData.DEF;
+        }
+        if (dhiaStatus.lefthandPartsData != null)
+        {
+            power += dhiaStatus.lefthandPartsData.ATK;
+            def += dhiaStatus.lefthandPartsData.DEF;
+        }
+
+        enemyDamage = DamageCalculation(power, encountSys.rndEnemy.def);
     }
 
     void Update()
