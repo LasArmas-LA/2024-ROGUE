@@ -159,7 +159,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Riri_haikei_kagami_0: -3802535989353840512
+      Riri_haikei_kagami_1: 3512816550162860237
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
