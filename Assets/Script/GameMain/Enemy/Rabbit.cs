@@ -33,7 +33,7 @@ public class Rabbit : EnemyManager
         maxhp = enemyStatus.MAXHP;
         maxmp = enemyStatus.MAXMP;
         power = enemyStatus.ATK;
-
+        def = enemyStatus.DEF;
 
         hp = maxhp;
         mp = maxmp;
@@ -41,20 +41,17 @@ public class Rabbit : EnemyManager
 
     void Update()
     {
-        if (hp <= 0)
-        {
-            enemySys.deathFlag = true;
-        }
+
     }
 
-    public override void Skil()
+    public override void SkilRabbit()
     {
         int skilRnd = 0;
         int slectNo = 0;
         for (int i = 0; i < 1; i++)
         {
-            //0か1の乱数
-            skilRnd = UnityEngine.Random.Range(1, 101);
+            //0から100の乱数
+            skilRnd = UnityEngine.Random.Range(1, 100);
         }
 
         //スキル1
@@ -124,9 +121,21 @@ public class Rabbit : EnemyManager
 
 
     //ダメージ計算用
-    float DamageCalculation(float attack,float defense)
+    int DamageCalculation(int attack,int defense)
     {
-        float damage = ((attack) + (attack * powerValue) / 2) - (defense / 4);
+        //シード値の変更
+        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
+
+        //素のダメージ計算
+        int damage = (attack + (attack * (int)powerValue) / 2) - (defense / 4);
+
+        //ダメージ振幅の計算
+        int width = damage / 16 + 1;
+
+        //ダメージ振幅値を加味した計算
+        damage = UnityEngine.Random.Range(damage - width, damage + width);
+
+        //呼び出し側にダメージ数を返す
         return damage;
     }
 }

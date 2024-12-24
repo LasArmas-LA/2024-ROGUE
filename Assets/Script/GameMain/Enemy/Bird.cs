@@ -15,6 +15,9 @@ public class Bird : EnemyManager
     [SerializeField]
     EnemyManager enemySys = null;
 
+    //攻撃力の補正値
+    float powerValue = 0f;
+
 
     public override void InitBird()
     {
@@ -27,6 +30,7 @@ public class Bird : EnemyManager
         maxhp = enemyStatus.MAXHP;
         maxmp = enemyStatus.MAXMP;
         power = enemyStatus.ATK;
+        def = enemyStatus.DEF;
 
 
         hp = maxhp;
@@ -35,54 +39,98 @@ public class Bird : EnemyManager
 
     void Update()
     {
-        if (hp <= 0)
-        {
-            enemySys.deathFlag = true;
-        }
+
     }
 
-    public override void Skil()
+    public override void SkilBird()
     {
-        int rnd = 0;
+        int skilRnd = 0;
+        int slectNo = 0;
         for (int i = 0; i < 1; i++)
         {
-            rnd = UnityEngine.Random.Range(0, 2);
-        }
-        //ディアが死んでいる時攻撃対象をリリーに上書き
-        if (dhia.deathFlag)
-        {
-            rnd = 0;
+            //0から100の乱数
+            skilRnd = UnityEngine.Random.Range(1, 100);
         }
 
-        //攻撃対象リリー
-        if (rnd == 0)
+        //スキル1
+        if (skilRnd <= 100)
         {
-            //70%軽減
-            if (dhia.ririDefenseFlag)
+            int ririDamage = DamageCalculation(power, riri.def);
+            float dhiaDamage = DamageCalculation(power, dhia.def);
+
+            //リリーの方がHP多い時
+            if (riri.hp > dhia.hp)
             {
-                encountSys.windowsMes.text = "てきのこうげき！ディアがリリーを守った！ディアに" + power * 0.3f + "のダメージ!";
-                dhia.hp -= (power * 0.3f);
+                slectNo = 1;
             }
+            //ディアの方がHP多い時
             else
             {
-                encountSys.windowsMes.text = "てきのこうげき！リリーに" + power + "のダメージ!";
-                riri.hp -= power;
+                slectNo = 0;
+            }
+
+            //ディアが死んでいる時攻撃対象をリリーに上書き
+            if (dhia.deathFlag)
+            {
+                slectNo = 0;
+            }
+
+            //攻撃対象リリー
+            if (slectNo == 0)
+            {
+                //70%軽減
+                if (dhia.ririDefenseFlag)
+                {
+                    encountSys.windowsMes.text = "ふくろうのこうげき！ディアがリリーを守った！ディアに" + (ririDamage * 0.3f) + "のダメージ!";
+                    dhia.hp -= (ririDamage * 0.3f);
+                }
+                else
+                {
+                    encountSys.windowsMes.text = "ふくろうのこうげき！リリーに" + (ririDamage) + "のダメージ!";
+                    riri.hp -= (ririDamage);
+                }
+            }
+            //攻撃対象ディア
+            else if (slectNo == 1)
+            {
+                if (dhia.defenseFlag)
+                {
+                    encountSys.windowsMes.text = "ふくろうのこうげき！ディアに" + (dhiaDamage * 0.5f) + "のダメージ!";
+                    dhia.hp -= (dhiaDamage * 0.5f);
+                }
+                else
+                {
+                    encountSys.windowsMes.text = "ふくろうのこうげき！ディアに" + (dhiaDamage) + "のダメージ!";
+                    dhia.hp -= (dhiaDamage);
+                }
             }
 
         }
-        //攻撃対象ディア
-        else if (rnd == 1)
+
+        //スキル2
+        if (skilRnd >= 1000)
         {
-            if (dhia.defenseFlag)
-            {
-                encountSys.windowsMes.text = "てきのこうげき！ディアに" + power * 0.5f + "のダメージ!";
-                dhia.hp -= (power * 0.5f);
-            }
-            else
-            {
-                encountSys.windowsMes.text = "てきのこうげき！ディアに" + power + "のダメージ!";
-                dhia.hp -= power;
-            }
+
         }
     }
+
+    //ダメージ計算用
+    int DamageCalculation(int attack, int defense)
+    {
+        //シード値の変更
+        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
+
+        //素のダメージ計算
+        int damage = (attack + (attack * (int)powerValue) / 2) - (defense / 4);
+
+        //ダメージ振幅の計算
+        int width = damage / 16 + 1;
+
+        //ダメージ振幅値を加味した計算
+        damage = UnityEngine.Random.Range(damage - width, damage + width);
+
+        //呼び出し側にダメージ数を返す
+        return damage;
+    }
+
 }

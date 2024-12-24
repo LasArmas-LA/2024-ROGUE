@@ -20,9 +20,9 @@ public class Riri : MonoBehaviour
     [NonSerialized]
     public float mp = 0;
     [NonSerialized]
-    public float power = 0;
+    public int power = 0;
     [NonSerialized]
-    public float def = 0;
+    public int def = 0;
 
     [NonSerialized]
     public bool deathFlag = false;
@@ -33,8 +33,6 @@ public class Riri : MonoBehaviour
     Dhia dhia = null;
 
     [Space(10)]
-
-
 
     //ëŒè€ëIëéûÇÃÉtÉâÉO
     bool ririSelectFlag = false;
@@ -63,8 +61,8 @@ public class Riri : MonoBehaviour
         floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
         maxhp = ririStatus.MAXHP;
         maxmp = ririStatus.MAXMP;
-        power = ririStatus.ATK;
-        def = ririStatus.DEF;
+        power = ririStatus.DEFATK;
+        def = ririStatus.DEFDEF;
         this.gameObject.transform.localScale = new Vector3(1, 1, 1);
 
         if (floorNoSys != null)
@@ -88,7 +86,10 @@ public class Riri : MonoBehaviour
         if (hp <= 0)
         {
             deathFlag = true;
-            ririMain.gameObject.transform.localScale = new Vector3(0, 0, 0);
+            if (this.transform.localScale.x >= 0)
+            {
+                this.transform.localScale -= new Vector3(1, 1, 1) * Time.deltaTime;
+            }
         }
         ririStatus.HP = hp;
         ririStatus.MP = mp;

@@ -11,7 +11,8 @@ public class EnemyManager : MonoBehaviour
 
     public float hp = 0;
     public float mp = 0;
-    public float power = 0;
+    public int power = 0;
+    public int def = 0;
 
     public bool deathFlag = false;
 
@@ -44,6 +45,7 @@ public class EnemyManager : MonoBehaviour
         {
             enemy[0].transform.localScale = Vector3.zero;
             enemy[1].transform.localScale = Vector3.zero;
+            deathFlag = false;
             Debug.Log("親初期化");
             //エネミーの親オブジェクトの初期化
             enemyMain.transform.localScale = new Vector3(1, 1, 1);
@@ -58,6 +60,7 @@ public class EnemyManager : MonoBehaviour
                     maxhp = enemy[0].maxhp;
                     maxmp = enemy[0].maxmp;
                     power = enemy[0].power;
+                    def = enemy[0].def;
                     hp = maxhp;
                     mp = maxmp;
                     break;
@@ -68,6 +71,7 @@ public class EnemyManager : MonoBehaviour
                     maxhp = enemy[1].maxhp;
                     maxmp = enemy[1].maxmp;
                     power = enemy[1].power;
+                    def = enemy[1].def;
                     hp = maxhp;
                     mp = maxmp;
                     break;
@@ -97,6 +101,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    public bool death = false;
     void Update()
     {
         enemySlider.value = (enemySlider.maxValue * (hp / maxhp));
@@ -124,15 +129,13 @@ public class EnemyManager : MonoBehaviour
         {
             //うさぎ
             case 0:
-                enemy[0].Skil();
-                Skil();
+                enemy[0].SkilRabbit();
                 break;
             //ふくろう
             case 1:
-                enemy[1].Skil();
+                enemy[1].SkilBird();
                 break;
             case 2:
-                Skil();
                 break;
             //
             case 3:
@@ -152,7 +155,8 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public virtual void Skil(){ return; }
+    public virtual void SkilBird(){ return; }
+    public virtual void SkilRabbit(){ return; }
     public virtual void InitBird(){ return; }
     public virtual void InitRabbit(){ return; }
 }

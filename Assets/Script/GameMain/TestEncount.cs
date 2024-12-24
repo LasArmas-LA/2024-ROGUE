@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TestEncount : MonoBehaviour
@@ -18,6 +19,8 @@ public class TestEncount : MonoBehaviour
 
         ENEMYMOVE,
         ENEMYANIM,
+        
+        GAMEOVER,
 
         END
     }
@@ -98,9 +101,10 @@ public class TestEncount : MonoBehaviour
         //ステータスを待機状態に変更
         mainTurn = MainTurn.WAIT;
 
+        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
+
         //エネミーのランダム抽選用
         rnd = UnityEngine.Random.Range(0, enemyObj.Length);
-        rnd = 1;
 
         //ランダムで選ばれたエネミーオブジェクトの表示
         enemyObj[rnd].transform.localScale = new Vector3(1,1,1);
@@ -137,7 +141,7 @@ public class TestEncount : MonoBehaviour
                 //リリー死亡時ターンをスキップ
                 if(ririScript.deathFlag)
                 {
-                    mainTurn = MainTurn.DHIAMOVE;
+                    mainTurn = MainTurn.GAMEOVER;
                 }
                 break;
             case MainTurn.RIRIANIM:
@@ -166,6 +170,16 @@ public class TestEncount : MonoBehaviour
                 //敵を倒した。ゲーム終了。
                 break;
             case MainTurn.ENEMYANIM:
+                break;
+            case MainTurn.GAMEOVER:
+                timer += Time.deltaTime;
+
+                if (timer >= 2)
+                {
+                    SceneManager.LoadScene("GameOver");
+                    timer = 0;
+                }
+
                 break;
             case MainTurn.END:
                 break;
