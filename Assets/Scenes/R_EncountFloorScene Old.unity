@@ -734,9 +734,9 @@ MonoBehaviour:
   encountSys: {fileID: 180505726}
   equipmentManager: {fileID: 1372105963}
   dhiaStatus: {fileID: 11400000, guid: ff9529fcff4a1bd4d81150027e4d3b9b, type: 2}
-  enemyObj: {fileID: 888653661}
+  enemyObj: {fileID: 1557075840}
   restObj: {fileID: 1854959370}
-  doorObj: {fileID: 1901998080}
+  doorObj: {fileID: 338075631}
   windowMes: {fileID: 1213364531}
 --- !u!4 &165805358
 Transform:
@@ -1169,6 +1169,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93715c80a10502b45bf41e4dc86c2f61, type: 3}
+--- !u!1 &338075631 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1412843468822957990, guid: 93715c80a10502b45bf41e4dc86c2f61, type: 3}
+  m_PrefabInstance: {fileID: 338075630}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &352088535
 GameObject:
   m_ObjectHideFlags: 0
@@ -1249,7 +1254,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &352088539
 RectTransform:
@@ -1270,7 +1275,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 205, y: 300}
+  m_AnchoredPosition: {x: 205, y: 0}
   m_SizeDelta: {x: 205.3, y: 115.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &362301612
@@ -5584,7 +5589,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1561322892
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6818,7 +6823,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1901998081
 RectTransform:
   m_ObjectHideFlags: 0

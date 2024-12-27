@@ -4,47 +4,53 @@ using UnityEngine.SceneManagement;
 public class LoadSceneSys : MonoBehaviour
 {
     int rnd;
-    string sceneName = null;
+    //シーン名
+    [Header("シーン名")]
+    [NamedArrayAttribute(new string[] { "タイトル", "ロビー", "ロード","ストーリー","敵フロア","宝箱フロア","ゲームオーバー","ゲームクリア"})]
+    public string[] sceneName = null;
 
+    string loadSceneName = null;
+
+    //敵フロアの割合(確率)
     [SerializeField]
     [Range(0, 100)]
     int enemyFloor = 0;
 
+    //チェストフロアの割合(確率)
     [Range(0, 100)]
     int chestFloor = 0;
 
-    int floorNo = 0;
+    //シーン切り替えの待機時間
+    [SerializeField]
+    float chengeWaitTime = 0;
+
     void Start()
     {
-        floorNo += 1;
+        //シード値の変更
+        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
 
         rnd = Random.Range(1, 101);
+
 
         chestFloor = 100 - enemyFloor;
 
         //敵フロア
         if (rnd <= enemyFloor)
         {
-            sceneName = "EncountFloorScene";
+            loadSceneName = sceneName[4];
         }
         //チェストフロア
         if (rnd >= enemyFloor)
         {
-            sceneName = "ChestFloorScene";
+            loadSceneName = sceneName[5];
         }
-        Invoke("SceneChenge", 1.0f);
-    }
 
-    void Update()
-    {
-        rnd = Random.Range(1, 101);    
+        //待機後シーンを切り替え
+        Invoke("SceneChenge", chengeWaitTime);
     }
 
     void SceneChenge()
     {
-        PlayerPrefs.SetInt("フロア階層", floorNo);
-        PlayerPrefs.Save();
-
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(loadSceneName);
     }
 }

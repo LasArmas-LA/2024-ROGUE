@@ -6,20 +6,32 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Title.unity
+    guid: 34fed3e13934bbe48853578fbb37b620
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: f709a067901060f42afea483ed79673d
+  - enabled: 1
+    path: Assets/Scenes/Story.unity
+    guid: 6de17064db9cd4d4ba9c2b795ec98520
   - enabled: 1
     path: Assets/Scenes/LoadScene.unity
     guid: 24d6810ffb0486f4a8ed108467f41b48
   - enabled: 1
-    path: Assets/Scenes/RestFloorScene.unity
-    guid: c1b4b8774c65e4c4f86a594ae40f7510
-  - enabled: 1
-    path: Assets/Scenes/EncountFloorScene.unity
+    path: Assets/Scenes/R_EncountFloorScene Old.unity
     guid: e11194fe9cfa8ad4ca0eef79b3e8b3d5
   - enabled: 1
-    path: Assets/Scenes/ChestFloorScene.unity
+    path: Assets/Scenes/GameOver.unity
+    guid: 215a160d8034bdc4aa2d7a0e34260bac
+  - enabled: 0
+    path: Assets/Scenes/_old/RestFloorScene.unity
+    guid: c1b4b8774c65e4c4f86a594ae40f7510
+  - enabled: 0
+    path: Assets/Scenes/_old/ChestFloorScene.unity
     guid: f0148be8fc51a7d4d90fb8688720bb2a
+  - enabled: 0
+    path: Assets/Scenes/_old/SampleScene.unity
+    guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
