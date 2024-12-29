@@ -37,6 +37,10 @@ public class EnemyFloorRunSys : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI[] slectText;
 
+    //ドロップしたパーツの画像表示用
+    [SerializeField]
+    Image[] dropPartsSp = null;
+
     //現在装備しているパーツの情報表示用
     [SerializeField]
     TextMeshProUGUI[] slectNowText;
@@ -175,12 +179,18 @@ public class EnemyFloorRunSys : MonoBehaviour
                 {
                     if (fastMove)
                     {
-                        slectText[0].text = equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentName + "\nATK :" + equipmentManager.randomEquip[equipmentManager.rnd[0]].ATK;
-                        slectText[1].text = equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentName + "\nATK :" + equipmentManager.randomEquip[equipmentManager.rnd[1]].ATK;
-                        slectText[2].text = equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentName + "\nATK :" + equipmentManager.randomEquip[equipmentManager.rnd[2]].ATK;
+                        //ドロップ装備の表示処理
+                        slectText[0].text = equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentName;
+                        slectText[1].text = equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentName;
+                        slectText[2].text = equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentName;
 
-                        //ドロップパーツの表示処理
-                        for (int i = 0; i < slectNowText.Length;)
+                        //ドロップ装備の画像表示処理
+                        dropPartsSp[0].sprite = equipmentManager.randomEquip[equipmentManager.rnd[0]].sprite;
+                        dropPartsSp[1].sprite = equipmentManager.randomEquip[equipmentManager.rnd[1]].sprite;
+                        dropPartsSp[2].sprite = equipmentManager.randomEquip[equipmentManager.rnd[2]].sprite;
+
+                        //装備中パーツの表示処理
+                        /*for (int i = 0; i < slectNowText.Length;)
                         {
                             //右手
                             if (equipmentManager.randomEquip[equipmentManager.rnd[i]].equipmentType == EquipmentType.RightHand)
@@ -244,11 +254,13 @@ public class EnemyFloorRunSys : MonoBehaviour
                             }
                             i++;
                         }
+                        */
                         fastMove = false;
                     }
 
                     partsSlectWin.SetActive(true);
                 }
+                //装備が選ばれたらドアまで移動する処理
                 else
                 {
                     if (maincamera.transform.position.x <= doorObj.transform.position.x - 50)
@@ -308,7 +320,7 @@ public class EnemyFloorRunSys : MonoBehaviour
         allPartsSlect = true;
         partsSlectWin.SetActive(false);
 
-        
+        //該当する部位にパーツデータを格納する処理
         if (partsSlect[0])
         {
             //右手
@@ -400,6 +412,7 @@ public class EnemyFloorRunSys : MonoBehaviour
         SceneManager.LoadScene("LoadScene");
     }
 
+    //ドアまで到着した時の処理
     IEnumerator FloorEnd()
     {
         yield return new WaitForSeconds(1.0f);
