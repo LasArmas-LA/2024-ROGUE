@@ -42,6 +42,8 @@ public class TestEncount : MonoBehaviour
     Riri ririScript = null;
     [SerializeField]
     Dhia dhiaScript = null;
+    [SerializeField]
+    EnemyManager enemyScript = null;
 
     //待機時間
     [SerializeField]
@@ -91,6 +93,8 @@ public class TestEncount : MonoBehaviour
 
     public int rnd = 0;
 
+    Outline outline = null;
+
     void Start()
     {
         Init();
@@ -112,7 +116,7 @@ public class TestEncount : MonoBehaviour
         //その情報を格納
         //rndEnemy = rndEnemy.enemy[rnd].GetComponentInParent<EnemyManager>();
 
-
+        
 
         //MaxHPの格納
         ririSlider.maxValue = ririScript.maxhp;
@@ -125,11 +129,15 @@ public class TestEncount : MonoBehaviour
         //MaxのHPを現在のHPに格納
         ririSlider.value = ririSlider.maxValue;
         dhiaSlider.value = dhiaSlider.maxValue;
-
+        
         //MaxのHPを現在のHPに格納
         ririSlider.value *= (ririScript.hp / ririScript.maxhp);
         dhiaSlider.value *= (dhiaScript.hp / dhiaScript.maxhp);
     }
+
+    bool fast = true;
+    float ririhpdf = 0;
+    float dhiahpdf = 0;
 
     void FixedUpdate()
     {
@@ -143,14 +151,31 @@ public class TestEncount : MonoBehaviour
                 {
                     mainTurn = MainTurn.GAMEOVER;
                 }
+                if(fast)
+                {
+                    //ダメージを受けた時を判別できるように格納
+                    ririhpdf = ririScript.hp;
+                    fast = false;
+                }
                 break;
             case MainTurn.RIRIANIM:
+                if (!fast)
+                {
+                    fast = true;
+                }
+
                 break;
             case MainTurn.DHIAMOVE:
                 //ディア死亡時ターンをスキップ
                 if (dhiaScript.deathFlag)
                 {
                     mainTurn = MainTurn.ENEMYMOVE;
+                }
+                if (fast)
+                {
+                    //ダメージを受けた時を判別できるように格納
+                    dhiahpdf = dhiaScript.hp;
+                    fast = false;
                 }
                 break;
             case MainTurn.DHIAANIM:
@@ -165,9 +190,13 @@ public class TestEncount : MonoBehaviour
                         timer = 0;
                     }
                 }
+                if(!fast)
+                {
+                    fast = true;
+                }
                 break;
             case MainTurn.ENEMYMOVE:
-                //敵を倒した。ゲーム終了。
+                enemyScript.enemyHpDef = enemyScript.hp;
                 break;
             case MainTurn.ENEMYANIM:
                 break;
@@ -189,8 +218,31 @@ public class TestEncount : MonoBehaviour
         DhiaMove();
         EnemyMove();
 
-        ririSlider.value = (ririSlider.maxValue * (ririScript.hp / ririScript.maxhp));
-        dhiaSlider.value = (dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp));
+        //リリーのHPが削られた時
+        if (ririhpdf > ririScript.hp && ririSlider.value >= (ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)))
+        {
+            Debug.Log("リリーが攻撃を受けた");
+            ririSlider.value -= (ririSlider.maxValue * (ririScript.hp / ririScript.maxhp))* 1.5f * Time.deltaTime;
+        }
+
+        //リリーのHPが回復された時
+        if (ririhpdf < ririScript.hp && ririSlider.value <= (ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)))
+        {
+            ririSlider.value += (ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)) * Time.deltaTime;
+        }
+
+        //ディアのHPが削られた時
+        if (dhiahpdf > dhiaScript.hp && dhiaSlider.value >= (dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)))
+        {
+            Debug.Log("ディアが攻撃を受けた");
+            dhiaSlider.value -= (dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)) * 1.5f * Time.deltaTime;
+        }
+
+        //ディアのHPが回復された時
+        if (dhiahpdf < dhiaScript.hp && dhiaSlider.value <= (dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)))
+        {
+            dhiaSlider.value += (dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)) * Time.deltaTime;
+        }
     }
 
     //コマンド処理

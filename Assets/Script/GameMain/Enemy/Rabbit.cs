@@ -57,7 +57,6 @@ public class Rabbit : EnemyManager
         //ƒXƒLƒ‹1
         if(skilRnd <= 70)
         {
-
             float ririDamage = DamageCalculation(power, riri.def);
             float dhiaDamage = DamageCalculation(power, dhia.def);
 

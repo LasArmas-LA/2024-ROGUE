@@ -39,6 +39,7 @@ public class EnemyManager : MonoBehaviour
 
 
     bool fast = true;
+    public float enemyHpDef = 0;
     void Init()
     {
         if (this.gameObject.name == "Enemy")
@@ -98,16 +99,24 @@ public class EnemyManager : MonoBehaviour
             enemySlider.minValue = 0;
             enemySlider.value = enemySlider.maxValue;
             enemySlider.value *= (hp / maxhp);
+
+            enemyHpDef = hp;
         }
     }
 
     public bool death = false;
     void Update()
     {
-        enemySlider.value = (enemySlider.maxValue * (hp / maxhp));
+        //エネミーのHPが削られた時
+        if (enemyHpDef > hp && enemySlider.value >= (enemySlider.maxValue * (hp / maxhp)))
+        {
+            Debug.Log("リリーが攻撃を受けた");
+            enemySlider.value -= (enemySlider.maxValue * (hp / maxhp)) * 1.5f * Time.deltaTime;
+        }
+
 
         //エネミー死亡時の処理
-        if(hp <= 0)
+        if (hp <= 0)
         {
             if (enemyMain.transform.localScale.x >= 0)
             {
