@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 403ae2dd693bb1d4b924f6b8d206b053, type: 3}
+  m_Name: Enemy_owl.fadeMotionList
+  m_EditorClassIdentifier: 
+  MotionInstanceIds: 86ebfbff2ae1fbff02e1fbffdae0fbffb2e0fbff8ae0fbff62e0fbff
+  CubismFadeMotionObjects:
+  - {fileID: 11400000, guid: 502b92f001e15db459e0bd9c1d156b1b, type: 2}
+  - {fileID: 11400000, guid: 43ceff0ba219f1846b2c749350a4d893, type: 2}
+  - {fileID: 11400000, guid: 46c4fbb990700a14fa25e88434493a34, type: 2}
+  - {fileID: 11400000, guid: 1c87bf1270841a94398ad1e9cad1a300, type: 2}
+  - {fileID: 11400000, guid: d04e7b51e79c5df47b25cd460e3ef6e7, type: 2}
+  - {fileID: 11400000, guid: 7bf36af2887ce3d4191f8ee6510b8e88, type: 2}
+  - {fileID: 11400000, guid: 45c866d86b4d9bc41b50ce5aae5cf9f4, type: 2}

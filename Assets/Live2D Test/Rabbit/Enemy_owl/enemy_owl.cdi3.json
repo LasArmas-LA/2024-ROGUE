@@ -1,0 +1,184 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "Param6",
+			"GroupId": "ParamGroup",
+			"Name": "羽1"
+		},
+		{
+			"Id": "Param7",
+			"GroupId": "ParamGroup",
+			"Name": "羽1先"
+		},
+		{
+			"Id": "Param8",
+			"GroupId": "ParamGroup",
+			"Name": "羽2"
+		},
+		{
+			"Id": "Param9",
+			"GroupId": "ParamGroup",
+			"Name": "羽2先"
+		},
+		{
+			"Id": "Param10",
+			"GroupId": "ParamGroup",
+			"Name": "羽3"
+		},
+		{
+			"Id": "Param11",
+			"GroupId": "ParamGroup",
+			"Name": "羽3先"
+		},
+		{
+			"Id": "Param12",
+			"GroupId": "ParamGroup",
+			"Name": "羽4"
+		},
+		{
+			"Id": "Param13",
+			"GroupId": "ParamGroup",
+			"Name": "羽4先"
+		},
+		{
+			"Id": "Param14",
+			"GroupId": "ParamGroup",
+			"Name": "羽5"
+		},
+		{
+			"Id": "Param15",
+			"GroupId": "ParamGroup",
+			"Name": "羽5先"
+		},
+		{
+			"Id": "Param16",
+			"GroupId": "",
+			"Name": "羽→回転"
+		},
+		{
+			"Id": "Param24",
+			"GroupId": "",
+			"Name": "羽←回転"
+		},
+		{
+			"Id": "Param18",
+			"GroupId": "",
+			"Name": "羽切り替え"
+		},
+		{
+			"Id": "Param17",
+			"GroupId": "",
+			"Name": "羽→はばたき"
+		},
+		{
+			"Id": "Param19",
+			"GroupId": "",
+			"Name": "羽←はばたき"
+		},
+		{
+			"Id": "Param5",
+			"GroupId": "",
+			"Name": "顔回転"
+		},
+		{
+			"Id": "Param20",
+			"GroupId": "",
+			"Name": "しっぽ地面"
+		},
+		{
+			"Id": "ParamBreath",
+			"GroupId": "",
+			"Name": "呼吸"
+		},
+		{
+			"Id": "Param",
+			"GroupId": "",
+			"Name": "目発光"
+		},
+		{
+			"Id": "Param2",
+			"GroupId": "",
+			"Name": "石発光"
+		},
+		{
+			"Id": "Param3",
+			"GroupId": "",
+			"Name": "紐ゆれ"
+		},
+		{
+			"Id": "Param4",
+			"GroupId": "",
+			"Name": "透明度"
+		},
+		{
+			"Id": "Param21",
+			"GroupId": "",
+			"Name": "煙透明度"
+		},
+		{
+			"Id": "Param25",
+			"GroupId": "",
+			"Name": "体回転"
+		},
+		{
+			"Id": "Param22",
+			"GroupId": "",
+			"Name": "煙揺らめき"
+		},
+		{
+			"Id": "Param23",
+			"GroupId": "",
+			"Name": "足"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "羽"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Part10",
+			"Name": "smoke.psd"
+		},
+		{
+			"Id": "Part",
+			"Name": "歯車"
+		},
+		{
+			"Id": "Part2",
+			"Name": "顔"
+		},
+		{
+			"Id": "Part3",
+			"Name": "服パーツ"
+		},
+		{
+			"Id": "Part4",
+			"Name": "体パーツ"
+		},
+		{
+			"Id": "Part5",
+			"Name": "足→パーツ"
+		},
+		{
+			"Id": "Part6",
+			"Name": "足←"
+		},
+		{
+			"Id": "Part7",
+			"Name": "羽→"
+		},
+		{
+			"Id": "Part8",
+			"Name": "羽←"
+		},
+		{
+			"Id": "Part9",
+			"Name": "しっぽ"
+		}
+	]
+}

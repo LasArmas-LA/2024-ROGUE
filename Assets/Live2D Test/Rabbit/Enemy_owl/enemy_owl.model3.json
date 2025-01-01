@@ -1,0 +1,24 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "enemy_owl.moc3",
+		"Textures": [
+			"enemy_owl.4096/texture_00.png",
+			"enemy_owl.4096/texture_01.png",
+			"enemy_owl.4096/texture_02.png"
+		],
+		"DisplayInfo": "enemy_owl.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}

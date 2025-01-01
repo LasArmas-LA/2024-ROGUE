@@ -80,6 +80,17 @@ public class TestEncount : MonoBehaviour
     [SerializeField]
     GameObject dhiaObj;
 
+    [Space(10)]
+
+    [Header("各キャラクターのコマンドUI")]
+    [SerializeField]
+    GameObject ririCommand = null;
+    [SerializeField]
+    GameObject dhiaCommand = null;
+
+
+    [Space(10)]
+
     //休憩階のフラグ
     [NonSerialized]
     public bool restFlag = false;
@@ -92,8 +103,6 @@ public class TestEncount : MonoBehaviour
     GameObject[] enemyObj = null;
 
     public int rnd = 0;
-
-    Outline outline = null;
 
     void Start()
     {
@@ -139,7 +148,7 @@ public class TestEncount : MonoBehaviour
     float ririhpdf = 0;
     float dhiahpdf = 0;
 
-    void FixedUpdate()
+    void Update()
     {
         switch (mainTurn)
         {
@@ -153,6 +162,10 @@ public class TestEncount : MonoBehaviour
                 }
                 if(fast)
                 {
+                    //コマンド部分の表示切り替え
+                    dhiaCommand.SetActive(false);
+                    ririCommand.SetActive(true);
+
                     //ダメージを受けた時を判別できるように格納
                     ririhpdf = ririScript.hp;
                     fast = false;
@@ -173,6 +186,10 @@ public class TestEncount : MonoBehaviour
                 }
                 if (fast)
                 {
+                    //コマンド部分の表示切り替え
+                    ririCommand.SetActive(false);
+                    dhiaCommand.SetActive(true);
+
                     //ダメージを受けた時を判別できるように格納
                     dhiahpdf = dhiaScript.hp;
                     fast = false;
@@ -223,12 +240,15 @@ public class TestEncount : MonoBehaviour
         {
             Debug.Log("リリーが攻撃を受けた");
             ririSlider.value -= (ririSlider.maxValue * (ririScript.hp / ririScript.maxhp))* 1.5f * Time.deltaTime;
+            ririhpdf = ririScript.hp;
+            
         }
 
         //リリーのHPが回復された時
-        if (ririhpdf < ririScript.hp && ririSlider.value <= (ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)))
+        if (ririhpdf < ririScript.hp && ririSlider.value >= (ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)))
         {
             ririSlider.value += (ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)) * Time.deltaTime;
+            ririhpdf = ririScript.hp;
         }
 
         //ディアのHPが削られた時
@@ -236,12 +256,14 @@ public class TestEncount : MonoBehaviour
         {
             Debug.Log("ディアが攻撃を受けた");
             dhiaSlider.value -= (dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)) * 1.5f * Time.deltaTime;
+            dhiahpdf = dhiaScript.hp;
         }
 
         //ディアのHPが回復された時
-        if (dhiahpdf < dhiaScript.hp && dhiaSlider.value <= (dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)))
+        if (dhiahpdf < dhiaScript.hp && dhiaSlider.value >= (dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)))
         {
             dhiaSlider.value += (dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)) * Time.deltaTime;
+            dhiahpdf = dhiaScript.hp;
         }
     }
 

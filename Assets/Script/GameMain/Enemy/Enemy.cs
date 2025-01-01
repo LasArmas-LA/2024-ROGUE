@@ -110,7 +110,7 @@ public class EnemyManager : MonoBehaviour
         //エネミーのHPが削られた時
         if (enemyHpDef > hp && enemySlider.value >= (enemySlider.maxValue * (hp / maxhp)))
         {
-            Debug.Log("リリーが攻撃を受けた");
+            Debug.Log("敵に攻撃をした");
             enemySlider.value -= (enemySlider.maxValue * (hp / maxhp)) * 1.5f * Time.deltaTime;
         }
 
@@ -118,6 +118,9 @@ public class EnemyManager : MonoBehaviour
         //エネミー死亡時の処理
         if (hp <= 0)
         {
+
+            Debug.Log("敵に攻撃をした");
+
             if (enemyMain.transform.localScale.x >= 0)
             {
                 enemyMain.transform.localScale -= new Vector3(1, 1, 1) * Time.deltaTime;

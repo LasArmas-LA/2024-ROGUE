@@ -55,20 +55,25 @@ public class Riri : MonoBehaviour
     {
         Init();
     }
+    void Start()
+    {
+    }
 
     void Init()
     {
-        floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
         maxhp = ririStatus.MAXHP;
         maxmp = ririStatus.MAXMP;
         power = ririStatus.DEFATK;
         def = ririStatus.DEFDEF;
         this.gameObject.transform.localScale = new Vector3(1, 1, 1);
 
+        floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
+
         if (floorNoSys != null)
         {
             if (floorNoSys.floorNo == 0)
             {
+                Debug.Log("0ŠK‚Å‚·");
                 hp = maxhp;
                 mp = maxmp;
                 deathFlag = false;

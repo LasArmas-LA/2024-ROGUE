@@ -132,6 +132,7 @@ public class Dhia : MonoBehaviour
 
             encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage * 1.5f + "のダメージ!";
             encountSys.rndEnemy.hp -= (enemyDamage * 1.5f);
+
             powerUpFlag = false;
         }
         else
@@ -139,6 +140,7 @@ public class Dhia : MonoBehaviour
             Debug.Log("コマンド1ディア通常攻撃");
             encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage + "のダメージ!";
             encountSys.rndEnemy.hp -= enemyDamage;
+
         }
     }
     public void Skil2()

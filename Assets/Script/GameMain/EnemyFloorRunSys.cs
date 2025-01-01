@@ -65,7 +65,7 @@ public class EnemyFloorRunSys : MonoBehaviour
 
     //カメラの動く速度
     [SerializeField]
-    Vector3 cameraMoveSpeed = Vector3.zero;
+    Vector3 characterMoveSpeed = Vector3.zero;
 
     //チェストのオブジェクト
     [SerializeField]
@@ -73,6 +73,7 @@ public class EnemyFloorRunSys : MonoBehaviour
 
     //階層データ管理システム
     FloorNoSys floorNoSys = null;
+    [SerializeField]
     GameObject floorNoSysObj = null;
 
     //エンカウントを管理するシステム
@@ -94,10 +95,25 @@ public class EnemyFloorRunSys : MonoBehaviour
     [SerializeField]
     GameObject doorObj = null;
 
+    //アニメーション
+    [SerializeField]
+    Animator ririAnim = null;
+    [SerializeField]
+    Animator dhiaAnim = null;
+
+    //各キャラクターのオブジェクト
+    [SerializeField]
+    GameObject ririObj = null;
+    [SerializeField]
+    GameObject dhiaObj = null;
+    //キャラクターの親オブジェクト
+    [SerializeField]
+    GameObject characterMainObj = null;
+
 
     public TextMeshProUGUI windowMes = null;
 
-    void Start()
+    void Awake()
     {
         Init();
     }
@@ -105,13 +121,24 @@ public class EnemyFloorRunSys : MonoBehaviour
     void Init()
     {
         windowMes.text = "探索中";
-        floorNoSysObj = GameObject.Find("FloorNo");
+        if(GameObject.Find("FloorNo") == null)
+        {
+            GameObject floorNoSys =  Instantiate(floorNoSysObj);
+            DontDestroyOnLoad(floorNoSys);
+
+            floorNoSys.name = "FloorNo";
+        }
         floorNoSys = floorNoSysObj.GetComponent<FloorNoSys>();
         commandWin.SetActive(false);
         equipmentManager.Start();
+
+        //歩きアニメーションを開始
+        ririAnim.SetBool("R_Walk",true);
+        dhiaAnim.SetBool("D_Walk",true);
     }
     void Update()
     {
+        CharMove();
         CameraMove();
 
         //フェードアウト処理
@@ -131,11 +158,21 @@ public class EnemyFloorRunSys : MonoBehaviour
         }
     }
 
-    void CameraMove()
+    void CameraMove() 
+    {
+        if (maincamera.transform.position.x <= 227)
+        {
+            Vector3 cameraPos = maincamera.transform.position;
+            cameraPos.x = characterMainObj.transform.position.x + 50;
+            maincamera.transform.position = cameraPos;
+        }
+    }
+
+    void CharMove()
     {
         if (encountSys.mainTurn == MainTurn.WAIT)
         {
-            if (maincamera.transform.position.x >= enemyObj.transform.position.x - 50)
+            if (characterMainObj.transform.position.x >= enemyObj.transform.position.x - 100)
             {
                 //1回だけ呼び出す
                 if (!fast)
@@ -143,6 +180,11 @@ public class EnemyFloorRunSys : MonoBehaviour
                     //ステータスの変更
                     encountSys.mainTurn = TestEncount.MainTurn.RIRIMOVE;
 
+                    //歩きアニメーションを停止
+                    ririAnim.SetBool("R_Walk", false);
+                    dhiaAnim.SetBool("D_Walk", false);
+
+                    //コマンドを表示
                     commandWin.SetActive(true);
                     fast = true;
                     runStratFlag = false;
@@ -152,23 +194,32 @@ public class EnemyFloorRunSys : MonoBehaviour
             else
             {
                 commandWin.SetActive(false);
-                //カメラの移動処理
-                maincamera.transform.position += cameraMoveSpeed * Time.deltaTime;
+                //キャラクター親オブジェクトの移動処理
+                characterMainObj.transform.position += characterMoveSpeed * Time.deltaTime;
             }
         }
         if (encountSys.mainTurn == MainTurn.END)
         {
             if (encountSys.restFlag)
             {
-                if (maincamera.transform.position.x <= restObj.transform.position.x - 50)
+                if (characterMainObj.transform.position.x <= restObj.transform.position.x - 50)
                 {
                     windowMes.text = "探索中";
                     commandWin.SetActive(false);
-                    maincamera.transform.position += cameraMoveSpeed * Time.deltaTime;
+
+                    //歩きアニメーションを開始
+                    ririAnim.SetBool("R_Walk", true);
+                    dhiaAnim.SetBool("D_Walk", true);
+                    characterMainObj.transform.position += characterMoveSpeed * Time.deltaTime;
                 }
                 else
                 {
                     windowMes.text = "休憩中";
+                    //歩きアニメーションを停止
+                    ririAnim.SetBool("R_Walk", false);
+                    dhiaAnim.SetBool("D_Walk", false);
+
+                    //コマンドを非表示
                     commandWin.SetActive(false);
                     StartCoroutine(RestStay());
                 }
@@ -263,15 +314,21 @@ public class EnemyFloorRunSys : MonoBehaviour
                 //装備が選ばれたらドアまで移動する処理
                 else
                 {
-                    if (maincamera.transform.position.x <= doorObj.transform.position.x - 50)
+                    if (characterMainObj.transform.position.x <= doorObj.transform.position.x - 10)
                     {
                         windowMes.text = "探索中";
                         commandWin.SetActive(false);
-                        maincamera.transform.position += cameraMoveSpeed * Time.deltaTime;
+                        characterMainObj.transform.position += characterMoveSpeed * Time.deltaTime;
+                        //歩きアニメーションを開始
+                        ririAnim.SetBool("R_Walk", true);
+                        dhiaAnim.SetBool("D_Walk", true);
                     }
                     else
                     {
                         windowMes.text = "扉を見つけた！ \n次の階に進もう";
+                        //歩きアニメーションを停止
+                        ririAnim.SetBool("R_Walk", false);
+                        dhiaAnim.SetBool("D_Walk", false);
                         commandWin.SetActive(false);
                         StartCoroutine(FloorEnd());
                     }
