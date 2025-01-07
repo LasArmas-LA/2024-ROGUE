@@ -15,6 +15,13 @@ public class Bird : EnemyManager
     [SerializeField]
     EnemyManager enemySys = null;
 
+    //アニメーション管理用
+    [SerializeField]
+    public Animator birdAnim = null;
+    float timerBird = 0;
+    public bool timerFlag = false;
+
+
     //攻撃力の補正値
     float powerValue = 0f;
 
@@ -39,11 +46,27 @@ public class Bird : EnemyManager
 
     void Update()
     {
+        if (timerFlag)
+        {
+            timerBird += Time.deltaTime;
 
+            if (timerBird >= 3.5f)
+            {
+                birdAnim.SetBool("Eb_Attack1", false);
+                birdAnim.SetBool("Eb_Damage2", false);
+                riri.ririAnim.SetBool("R_TakeDamage", false);
+                dhia.dhiaAnim.SetBool("D_TakeDamage", false);
+
+                timerBird = 0;
+                timerFlag = false;
+            }
+        }
     }
 
     public override void SkilBird()
     {
+        timerFlag = true;
+        birdAnim.SetBool("Eb_Attack1",true);
         int skilRnd = 0;
         int slectNo = 0;
         for (int i = 0; i < 1; i++)
@@ -78,6 +101,9 @@ public class Bird : EnemyManager
             //攻撃対象リリー
             if (slectNo == 0)
             {
+                Invoke("RiriDamage", 1f);
+                timerFlag = true;
+
                 //70%軽減
                 if (dhia.ririDefenseFlag)
                 {
@@ -89,10 +115,15 @@ public class Bird : EnemyManager
                     encountSys.windowsMes.text = "ふくろうのこうげき！リリーに" + (ririDamage) + "のダメージ!";
                     riri.hp -= (ririDamage);
                 }
+                encountSys.HpMoveWait("Riri");
             }
             //攻撃対象ディア
             else if (slectNo == 1)
             {
+                Invoke("DhiaDamage", 1f);
+
+                timerFlag = true;
+
                 if (dhia.defenseFlag)
                 {
                     encountSys.windowsMes.text = "ふくろうのこうげき！ディアに" + (dhiaDamage * 0.5f) + "のダメージ!";
@@ -103,8 +134,8 @@ public class Bird : EnemyManager
                     encountSys.windowsMes.text = "ふくろうのこうげき！ディアに" + (dhiaDamage) + "のダメージ!";
                     dhia.hp -= (dhiaDamage);
                 }
+                encountSys.HpMoveWait("Dhia");
             }
-
         }
 
         //スキル2
@@ -114,6 +145,14 @@ public class Bird : EnemyManager
         }
     }
 
+    void RiriDamage()
+    {
+        riri.ririAnim.SetBool("R_TakeDamage", true);
+    }
+    void DhiaDamage()
+    {
+        dhia.dhiaAnim.SetBool("D_TakeDamage", true);
+    }
     //ダメージ計算用
     int DamageCalculation(int attack, int defense)
     {

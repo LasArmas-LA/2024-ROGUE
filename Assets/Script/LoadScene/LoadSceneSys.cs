@@ -26,6 +26,7 @@ public class LoadSceneSys : MonoBehaviour
 
     void Start()
     {
+        /*
         //シード値の変更
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
 
@@ -45,6 +46,9 @@ public class LoadSceneSys : MonoBehaviour
             loadSceneName = sceneName[5];
         }
 
+        */
+
+        loadSceneName = sceneName[4];
         //待機後シーンを切り替え
         Invoke("SceneChenge", chengeWaitTime);
     }

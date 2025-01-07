@@ -21,6 +21,12 @@ public class Rabbit : EnemyManager
     //攻撃力の補正値
     float powerValue = 0f;
 
+    //うさぎのアニメーション
+    public Animator rabbitAnim = null;
+
+    float timerRabbit = 0;
+    public bool timerFlag = false;
+
 
 
     public override void InitRabbit()
@@ -41,13 +47,33 @@ public class Rabbit : EnemyManager
 
     void Update()
     {
+        if (timerFlag)
+        {
+            timerRabbit += Time.deltaTime;
 
+            if(timerRabbit >= 1.0f)
+            {
+                rabbitAnim.SetBool("Attack", false);
+                rabbitAnim.SetBool("Damage2", false);
+            }
+            if (timerRabbit >= 3.5f)
+            {
+                riri.ririAnim.SetBool("R_TakeDamage", false);
+                dhia.dhiaAnim.SetBool("D_TakeDamage", false);
+
+                timerRabbit = 0;
+                timerFlag = false;
+            }
+        }
     }
 
     public override void SkilRabbit()
     {
         int skilRnd = 0;
         int slectNo = 0;
+
+        timerFlag = true;
+        rabbitAnim.SetBool("Attack", true);
         for (int i = 0; i < 1; i++)
         {
             //0から100の乱数
@@ -55,8 +81,9 @@ public class Rabbit : EnemyManager
         }
 
         //スキル1
-        if(skilRnd <= 70)
+        if(skilRnd <= 100)
         {
+            
             float ririDamage = DamageCalculation(power, riri.def);
             float dhiaDamage = DamageCalculation(power, dhia.def);
 
@@ -80,6 +107,8 @@ public class Rabbit : EnemyManager
             //攻撃対象リリー
             if (slectNo == 0)
             {
+                Invoke("RiriDamage", 1.2f);
+
                 //70%軽減
                 if (dhia.ririDefenseFlag)
                 {
@@ -91,10 +120,14 @@ public class Rabbit : EnemyManager
                     encountSys.windowsMes.text = "ウサギのこうげき！リリーに" + (ririDamage) + "のダメージ!";
                     riri.hp -= (ririDamage);
                 }
+
+                encountSys.HpMoveWait("Riri");
             }
             //攻撃対象ディア
             else if (slectNo == 1)
             {
+                Invoke("DhiaDamage", 1.2f);
+
                 if (dhia.defenseFlag)
                 {
                     encountSys.windowsMes.text = "ウサギのこうげき！ディアに" + (dhiaDamage * 0.5f) + "のダメージ!";
@@ -105,18 +138,28 @@ public class Rabbit : EnemyManager
                     encountSys.windowsMes.text = "ウサギのこうげき！ディアに" + (dhiaDamage) + "のダメージ!";
                     dhia.hp -= (dhiaDamage);
                 }
+
+                encountSys.HpMoveWait("Dhia");
             }
 
         }
 
         //スキル2
-        if (skilRnd >= 71)
+        if (skilRnd >= 710)
         {
             encountSys.windowsMes.text = "ウサギはにんじんシチューを飲んだ！\nウサギの攻撃力が15%アップした！";
             powerValue += 0.15f;
         }
     }
 
+    void RiriDamage()
+    {
+        riri.ririAnim.SetBool("R_TakeDamage", true);
+    }
+    void DhiaDamage()
+    {
+        dhia.dhiaAnim.SetBool("D_TakeDamage", true);
+    }
 
 
     //ダメージ計算用

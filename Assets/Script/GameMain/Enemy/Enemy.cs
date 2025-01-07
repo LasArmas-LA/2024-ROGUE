@@ -23,12 +23,20 @@ public class EnemyManager : MonoBehaviour
 
     [SerializeField]
     public EnemyManager[] enemy = null;
+    [SerializeField]
+    GameObject[] enemyObj = null;
 
     [SerializeField]
     public TestEncount encountSys = null;
 
     [SerializeField, Tooltip("敵の体力ゲージ")]
     public Slider enemySlider = null;
+
+    [SerializeField]
+    Bird birdScript = null;
+    [SerializeField]
+    Rabbit rabbitScript = null;
+
 
 
     int rnd = 0;
@@ -64,6 +72,9 @@ public class EnemyManager : MonoBehaviour
                     def = enemy[0].def;
                     hp = maxhp;
                     mp = maxmp;
+
+                    enemyObj[0].transform.localScale = new Vector3(1, 1, 1);
+                    enemyObj[1].transform.localScale = Vector3.zero;
                     break;
                 //ふくろう
                 case 1:
@@ -75,6 +86,10 @@ public class EnemyManager : MonoBehaviour
                     def = enemy[1].def;
                     hp = maxhp;
                     mp = maxmp;
+
+                    enemyObj[0].transform.localScale = Vector3.zero;
+                    enemyObj[1].transform.localScale = new Vector3(1, 1, 1);
+
                     break;
                 //
                 case 2:
@@ -107,28 +122,55 @@ public class EnemyManager : MonoBehaviour
     public bool death = false;
     void Update()
     {
-        //エネミーのHPが削られた時
-        if (enemyHpDef > hp && enemySlider.value >= (enemySlider.maxValue * (hp / maxhp)))
+
+        //敵のHPが削られた時
+        if (enemyHpDef > hp)
         {
-            Debug.Log("敵に攻撃をした");
-            enemySlider.value -= (enemySlider.maxValue * (hp / maxhp)) * 1.5f * Time.deltaTime;
+            Debug.Log("敵を攻撃した！");
+            //一気に削って値が0以下になった時の処理
+            if (hp <= 0)
+            {
+                hp = 0;
+                enemySlider.value -= (maxhp * Time.deltaTime);
+            }
+
+            else
+            {
+                enemySlider.value -= ((enemySlider.maxValue * (hp / maxhp)) * Time.deltaTime);
+
+                if (enemySlider.value <= hp)
+                {
+                    enemyHpDef = hp;
+                    enemySlider.value = hp;
+                }
+            }
         }
+
 
 
         //エネミー死亡時の処理
         if (hp <= 0)
-        {
-
-            Debug.Log("敵に攻撃をした");
-
-            if (enemyMain.transform.localScale.x >= 0)
+        {   
+            //うさぎの死亡アニメーション
+            if(encountSys.rnd == 0)
             {
-                enemyMain.transform.localScale -= new Vector3(1, 1, 1) * Time.deltaTime;
+                rabbitScript.rabbitAnim.SetBool("Destroy", true);
             }
+            //鳥の死亡アニメーション
+            if(encountSys.rnd == 1)
+            {
+                birdScript.birdAnim.SetBool("Eb_Destroy", true);
+            }
+
 
             timer += Time.deltaTime;
             if(timer >= 1f)
             {
+                if (enemyMain.transform.localScale.x >= 0)
+                {
+                    enemyMain.transform.localScale -= new Vector3(1, 1, 1) * Time.deltaTime;
+                }
+
                 deathFlag = true;
             }
         }

@@ -16,7 +16,6 @@ public class Dhia : MonoBehaviour
     [NonSerialized]
     public float maxmp = 0;
 
-    [NonSerialized]
     public float hp = 0;
     [NonSerialized]
     public float mp = 0;
@@ -48,7 +47,20 @@ public class Dhia : MonoBehaviour
 
     [SerializeField]
     GameObject dhiaMain = null;
-    
+
+    [SerializeField]
+    Rabbit rabbitScript = null;
+    [SerializeField]
+    Bird birdScript = null;
+
+
+    //アニメーション管理用
+    [SerializeField]
+    public Animator dhiaAnim = null;
+    float timer = 0;
+    bool timerFlag = false;
+
+
 
     void Awake()
     {
@@ -122,17 +134,47 @@ public class Dhia : MonoBehaviour
         }
         dhiaStatus.HP = hp;
         dhiaStatus.MP = mp;
+
+        if (timerFlag)
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= 3.5f)
+            {
+                dhiaAnim.SetBool("D_Attack", false);
+
+                timer = 0;
+                timerFlag = false;
+            }
+        }
     }
 
     public void Skil1()
     {
+        timerFlag = true;
+        dhiaAnim.SetBool("D_Attack", true);
+
+        Invoke("Skill1Move", 3f);
+    }
+
+    void Skill1Move()
+    {
+        //ウサギの時
+        if (encountSys.rnd == 0)
+        {
+            rabbitScript.rabbitAnim.SetBool("Damage2", true);
+            rabbitScript.timerFlag = true;
+        }
+        //鳥の時
+        if(encountSys.rnd == 1)
+        {
+            birdScript.birdAnim.SetBool("Eb_Damage2", true);
+            birdScript.timerFlag = true;
+        }
         if (powerUpFlag)
         {
-            Debug.Log("コマンド1ディアパワーアップ攻撃");
-
             encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage * 1.5f + "のダメージ!";
             encountSys.rndEnemy.hp -= (enemyDamage * 1.5f);
-
             powerUpFlag = false;
         }
         else
@@ -140,16 +182,19 @@ public class Dhia : MonoBehaviour
             Debug.Log("コマンド1ディア通常攻撃");
             encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage + "のダメージ!";
             encountSys.rndEnemy.hp -= enemyDamage;
-
         }
     }
+
+
     public void Skil2()
     {
+        dhiaAnim.SetBool("D_Shield", true);
         encountSys.windowsMes.text = "ディアは身を守っている。";
         defenseFlag = true;
     }
     public void Skil3()
     {
+        dhiaAnim.SetBool("D_Shield", true);
         Debug.Log("コマンド3ディア");
         encountSys.windowsMes.text = "ディアはリリーを守っている。";
         ririDefenseFlag = true;

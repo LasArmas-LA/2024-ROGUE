@@ -4,23 +4,28 @@ using UnityEngine.SceneManagement;
 
 public class TitleSceneSys : MonoBehaviour
 {
-
+    //フェード用のイメージ
     [SerializeField]
     Image fade = null;
 
+    //階層データ保存用
     [SerializeField]
     GameObject floorNoSys = null;
 
+    //BGMとSEの音量調節用のスライダー
     [SerializeField]
     Slider bgmVolObj = null;
     [SerializeField]
     Slider seVolObj = null;
 
+    //オーディオソース
     [SerializeField]
     AudioSource[] audioSources = null;
 
+    //オーディオクリップ
     [SerializeField]
     AudioClip[] audioClip = null;
+    bool fast = true;
 
     void Start()
     {
@@ -51,8 +56,14 @@ public class TitleSceneSys : MonoBehaviour
 
     void Update()
     {
-        audioSources[0].volume = bgmVolObj.value;
-        audioSources[1].volume = seVolObj.value;
+        //audioSources[0].volume = bgmVolObj.value;
+       //audioSources[1].volume = seVolObj.value;
+
+        if(Input.anyKeyDown && fast)
+        {
+            fast = false;
+            OnStratButton();
+        }
     }
 
     public void OnStratButton()

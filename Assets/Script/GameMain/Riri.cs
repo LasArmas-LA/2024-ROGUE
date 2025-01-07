@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Threading;
 
 public class Riri : MonoBehaviour
 {
@@ -49,7 +50,15 @@ public class Riri : MonoBehaviour
     [SerializeField]
     GameObject ririMain = null;
 
+    [SerializeField]
+    public Animator ririAnim = null;
+
     public bool button = false;
+
+    //アニメーション制御用のタイマーとフラグ
+    float timer = 0;
+    bool timerFlag = false;
+
 
     void Awake()
     {
@@ -96,6 +105,34 @@ public class Riri : MonoBehaviour
                 this.transform.localScale -= new Vector3(1, 1, 1) * Time.deltaTime;
             }
         }
+
+        if(ririSelectFlag || dhiaSelectFlag)
+        {
+            encountSys.timer += Time.deltaTime;
+
+            if(encountSys.timer >= 3.5f)
+            {
+                ririAnim.SetBool("R_Skill", false);
+            }
+            if (encountSys.timer >= encountSys.waitTime)
+            {
+                ririSelectFlag = false;
+                dhiaSelectFlag = false;
+            }
+        }
+
+        if(timerFlag)
+        {
+            timer += Time.deltaTime;
+
+            if(timer >= 3.5f)
+            {
+                ririAnim.SetBool("R_Skill", false);
+
+                timer = 0;
+                timerFlag = false;
+            }
+        }
         ririStatus.HP = hp;
         ririStatus.MP = mp;
     }
@@ -110,6 +147,10 @@ public class Riri : MonoBehaviour
     }
     public void Skil2()
     {
+        //アニメーションのカウントダウンとアニメーションスタート
+        timerFlag = true;
+        ririAnim.SetBool("R_Skill", true);
+
         if (maxhp > hp + 20 && dhia.maxhp > dhia.hp + 20)
         {
             hp += 20;
@@ -132,6 +173,11 @@ public class Riri : MonoBehaviour
     }
     public void Skil3()
     {
+
+        //アニメーションのカウントダウンとアニメーションスタート
+        timerFlag = true;
+        ririAnim.SetBool("R_Skill", true);
+
         Debug.Log("コマンド3リリー");
         encountSys.windowsMes.text = "リリーはバイキルトを唱えた！\nディアの攻撃力が上昇した!";
         dhia.powerUpFlag = true;
@@ -144,6 +190,7 @@ public class Riri : MonoBehaviour
         {
             button = true;
             ririSelectFlag = true;
+            ririAnim.SetBool("R_Skill", true);
             RecoveryWin();
         }
     }
@@ -154,6 +201,7 @@ public class Riri : MonoBehaviour
         {
             button = true;
             dhiaSelectFlag = true;
+            ririAnim.SetBool("R_Skill", true);
             RecoveryWin();
         }
     }
@@ -174,8 +222,6 @@ public class Riri : MonoBehaviour
                 encountSys.windowsMes.text = "リリーはヒールを唱えた！\n" + "リリー" + "のHPを50回復した!";
                 hp += 50;
             }
-            ririSelectFlag = false;
-            
         }
         if (dhiaSelectFlag)
         {
@@ -191,7 +237,6 @@ public class Riri : MonoBehaviour
                 encountSys.windowsMes.text = "リリーはヒールを唱えた！\n" + "ディア" + "のHPを50回復した!";
                 dhia.hp += 50;
             }
-            dhiaSelectFlag = false;
         }
         recoveryWin.SetActive(false);
         commandWin.SetActive(true);

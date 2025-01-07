@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -44,17 +45,17 @@ public class TestEncount : MonoBehaviour
     Dhia dhiaScript = null;
     [SerializeField]
     EnemyManager enemyScript = null;
+    [SerializeField]
+    EnemyFloorRunSys enemyFloorRunSysObj = null;
+    FloorNoSys floorNoSys = null;
 
     //待機時間
     [SerializeField]
-    float waitTime = 0;
-    float timer = 0;
+    public float waitTime = 0;
+    public float timer = 0;
 
-    FloorNoSys floorNoSys = null;
     GameObject floorNoSysObj = null;
     public EnemyManager rndEnemy = null;
-    [SerializeField]
-    EnemyFloorRunSys enemyFloorRunSysObj = null;
 
     [Space(10)]
 
@@ -91,6 +92,20 @@ public class TestEncount : MonoBehaviour
 
     [Space(10)]
 
+    [Header("コマンドの画像")]
+    [SerializeField]
+    Sprite ririCommandSp = null;
+    [SerializeField]
+    Sprite dhiaCommandSp = null;
+
+    [Space(10)]
+
+    [Header("コマンドのオブジェクト")]
+    [SerializeField]
+    Image[] commnadImage = null;
+
+    [Space(10)]
+
     //休憩階のフラグ
     [NonSerialized]
     public bool restFlag = false;
@@ -103,6 +118,9 @@ public class TestEncount : MonoBehaviour
     GameObject[] enemyObj = null;
 
     public int rnd = 0;
+
+    float hpMoveTimer = 0;
+    bool hpMoveTimerFlag = false;
 
     void Start()
     {
@@ -135,13 +153,19 @@ public class TestEncount : MonoBehaviour
         ririSlider.minValue = 0;
         dhiaSlider.minValue = 0;
 
-        //MaxのHPを現在のHPに格納
-        ririSlider.value = ririSlider.maxValue;
-        dhiaSlider.value = dhiaSlider.maxValue;
-        
-        //MaxのHPを現在のHPに格納
-        ririSlider.value *= (ririScript.hp / ririScript.maxhp);
-        dhiaSlider.value *= (dhiaScript.hp / dhiaScript.maxhp);
+        //フロアが1階の時
+        if(floorNoSys.floorNo == 1)
+        {
+            //MaxのHPを現在のHPに格納
+            ririSlider.value = ririSlider.maxValue;
+            dhiaSlider.value = dhiaSlider.maxValue;
+        }
+        else
+        {
+            //Hpバーを残hpの割合で適用
+            ririSlider.value *= (ririScript.hp / ririScript.maxhp);
+            dhiaSlider.value *= (dhiaScript.hp / dhiaScript.maxhp);
+        }
     }
 
     bool fast = true;
@@ -150,12 +174,13 @@ public class TestEncount : MonoBehaviour
 
     void Update()
     {
+
         switch (mainTurn)
         {
             case MainTurn.WAIT:
                 break;
             case MainTurn.RIRIMOVE:
-                //リリー死亡時ターンをスキップ
+                //リリー死亡時ゲームオーバー
                 if(ririScript.deathFlag)
                 {
                     mainTurn = MainTurn.GAMEOVER;
@@ -165,6 +190,7 @@ public class TestEncount : MonoBehaviour
                     //コマンド部分の表示切り替え
                     dhiaCommand.SetActive(false);
                     ririCommand.SetActive(true);
+                    
 
                     //ダメージを受けた時を判別できるように格納
                     ririhpdf = ririScript.hp;
@@ -236,34 +262,73 @@ public class TestEncount : MonoBehaviour
         EnemyMove();
 
         //リリーのHPが削られた時
-        if (ririhpdf > ririScript.hp && ririSlider.value >= (ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)))
+        if (ririhpdf > ririScript.hp)
         {
             Debug.Log("リリーが攻撃を受けた");
-            ririSlider.value -= (ririSlider.maxValue * (ririScript.hp / ririScript.maxhp))* 1.5f * Time.deltaTime;
-            ririhpdf = ririScript.hp;
-            
+            ririSlider.value -= ((ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)) * Time.deltaTime);
+
+            if(ririSlider.value <= ririScript.hp)
+            {
+                ririhpdf = ririScript.hp;
+                ririSlider.value = ririScript.hp;
+            }
         }
 
         //リリーのHPが回復された時
-        if (ririhpdf < ririScript.hp && ririSlider.value >= (ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)))
+        if (ririhpdf < ririScript.hp && ririhpdf != 0)
         {
-            ririSlider.value += (ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)) * Time.deltaTime;
-            ririhpdf = ririScript.hp;
+            Debug.Log("リリーを回復した");
+            ririSlider.value += ((ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)) * Time.deltaTime);
+
+            if(ririSlider.value >= ririScript.hp)
+            {
+                ririhpdf = ririScript.hp;
+                ririSlider.value = ririScript.hp;
+            }
         }
 
         //ディアのHPが削られた時
-        if (dhiahpdf > dhiaScript.hp && dhiaSlider.value >= (dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)))
+        if (dhiahpdf > dhiaScript.hp)
         {
             Debug.Log("ディアが攻撃を受けた");
-            dhiaSlider.value -= (dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)) * 1.5f * Time.deltaTime;
-            dhiahpdf = dhiaScript.hp;
+            dhiaSlider.value -= ((dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)) * Time.deltaTime);
+
+            if(dhiaSlider.value <= dhiaScript.hp)
+            {
+                dhiahpdf = dhiaScript.hp;
+                dhiaSlider.value = dhiaScript.hp;
+            }
+        }
+        //ディアのHPが回復された時
+        if (dhiahpdf < dhiaScript.hp && dhiahpdf != 0)
+        {
+            Debug.Log("ディアを回復した");
+            dhiaSlider.value += ((dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)) * Time.deltaTime);
+
+            if(dhiaSlider.value >= dhiaScript.hp)
+            {
+                dhiahpdf = dhiaScript.hp;
+                dhiaSlider.value = dhiaScript.hp;
+            }
         }
 
-        //ディアのHPが回復された時
-        if (dhiahpdf < dhiaScript.hp && dhiaSlider.value >= (dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)))
+    }
+
+    public void HpMoveWait(String charName)
+    {
+        hpMoveTimer += Time.deltaTime;
+
+        if(hpMoveTimer >= 2f)
         {
-            dhiaSlider.value += (dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)) * Time.deltaTime;
-            dhiahpdf = dhiaScript.hp;
+            if(charName == "Riri")
+            {
+                ririhpdf = ririScript.hp;
+            }
+            if (charName == "Dhia")
+            {
+                dhiahpdf = dhiaScript.hp;
+            }
+            hpMoveTimer = 0;
         }
     }
 
@@ -304,17 +369,28 @@ public class TestEncount : MonoBehaviour
 
     void RiriMove()
     {
-        if (mainTurn == MainTurn.RIRIMOVE || mainTurn == MainTurn.RIRIANIM)
+        if (mainTurn == MainTurn.RIRIMOVE)
         {
+            //コマンド表示の処理
+            enemyFloorRunSysObj.commandMain.SetActive(true);
+            enemyFloorRunSysObj.commandWin.SetActive(true);
+
             command1Text.text = "ヒール";
             command2Text.text = "オールヒール";
             command3Text.text = "バイキルト";
 
-            Debug.Log("リリーのターン");
+            commnadImage[0].sprite = ririCommandSp;
+            commnadImage[1].sprite = ririCommandSp;
+            commnadImage[2].sprite = ririCommandSp;
+
+            //Debug.Log("リリーのターン");
             if (command1 || command2 || command3)
             {
                 //タイマー開始
-                timer += Time.deltaTime;
+                if (!command1)
+                {
+                    timer += Time.deltaTime;
+                }
 
                 //ステータスを変更
                 mainTurn = MainTurn.RIRIANIM;
@@ -340,35 +416,49 @@ public class TestEncount : MonoBehaviour
             {
                 windowsMes.text = "リリーの行動をにゅうりょくしてください";
             }
-            //待機時間を超えたら
-            if (timer >= waitTime)
+        }
+        if (mainTurn == MainTurn.RIRIANIM)
+        {
+            //コマンド非表示の処理
+            enemyFloorRunSysObj.commandMain.SetActive(false);
+            enemyFloorRunSysObj.commandWin.SetActive(false);
+
+            //タイマー開始
+            timer += Time.deltaTime;
+
+            //待機時間を超えて敵が生きている時
+            if (timer >= waitTime && !enemyDeath)
             {
                 //ステータスを変更
                 mainTurn = MainTurn.DHIAMOVE;
                 timer = 0;
                 button = false;
+                coLock = false;
                 command1 = false;
                 command2 = false;
                 command3 = false;
-                coLock = false;
-                ririScript.button = false;
             }
+
         }
     }
     void DhiaMove()
     {
-        if (mainTurn == MainTurn.DHIAMOVE || mainTurn == MainTurn.DHIAANIM)
+        if (mainTurn == MainTurn.DHIAMOVE)
         {
-            Debug.Log("ディアのターン");
+            //コマンド表示の処理
+            enemyFloorRunSysObj.commandMain.SetActive(true);
+            enemyFloorRunSysObj.commandWin.SetActive(true);
+
             command1Text.text = "殴る";
             command2Text.text = "防御体制";
             command3Text.text = "守る";
 
+            commnadImage[0].sprite = dhiaCommandSp;
+            commnadImage[1].sprite = dhiaCommandSp;
+            commnadImage[2].sprite = dhiaCommandSp;
+
             if (command1 || command2 || command3)
             {
-                //タイマー開始
-                timer += Time.deltaTime;
-
                 //ステータスを変更
                 mainTurn = MainTurn.DHIAANIM;
 
@@ -388,23 +478,33 @@ public class TestEncount : MonoBehaviour
                     }
                     coLock = true;
                 }
-            
-                //待機時間を超えて敵が生きている時
-                if (timer >= waitTime && !enemyDeath)
-                {
-                    //ステータスを変更
-                    mainTurn = MainTurn.ENEMYMOVE;
-                    timer = 0;
-                    button = false;
-                    coLock = false;
-                    command1 = false;
-                    command2 = false;
-                    command3 = false;
-                }
             }
             else
             {
                 windowsMes.text = "ディアの行動をにゅうりょくしてください";
+            }
+        }
+        //アニメーションの時間
+        if (mainTurn == MainTurn.DHIAANIM)
+        {
+            //コマンド非表示の処理
+            enemyFloorRunSysObj.commandMain.SetActive(false);
+            enemyFloorRunSysObj.commandWin.SetActive(false);
+
+            //タイマー開始
+            timer += Time.deltaTime;
+
+            //待機時間を超えて敵が生きている時
+            if (timer >= waitTime && !enemyDeath)
+            {
+                //ステータスを変更
+                mainTurn = MainTurn.ENEMYMOVE;
+                timer = 0;
+                button = false;
+                coLock = false;
+                command1 = false;
+                command2 = false;
+                command3 = false;
             }
         }
     }

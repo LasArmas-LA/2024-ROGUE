@@ -19,17 +19,31 @@ public class EnemyFloorRunSys : MonoBehaviour
     //扉に着いてその階が終了する時のフラグ
     bool floorEndFlag = false;
     //フェードアウト用
-    [SerializeField]
+    [SerializeField,Header("フェードアウト用")]
     Image fade = null;
     //最初に1回だけ呼び出したい処理
     bool fast = false;
     //ボタンの多段押し防止
     bool button = false;
 
+    [Space(10)]
+
     //どのドロップしたパーツを選択しているかの確認用
-    [SerializeField]
+    [SerializeField,Header("パーツ管理用")]
     bool[] partsSlect;
 
+    //パーツ選択時の表示切り替え用
+    [SerializeField]
+    GameObject[] partsObj = null;
+    [SerializeField]
+    Image[] partsImage = null;
+    [SerializeField]
+    Sprite slectOnSp = null;
+    [SerializeField]
+    Sprite slectOffSp = null;
+    [SerializeField]
+    GameObject[] arrowObj = null;
+ 
     //パーツの名前
     string[] partsName = { "RightHand", "LeftHand", "Head", "Body", "Feet" };
 
@@ -48,6 +62,12 @@ public class EnemyFloorRunSys : MonoBehaviour
     //パーツを選択後確定させた時の判断
     bool allPartsSlect;
 
+    //パーツを選択するウィンドウ
+    [SerializeField]
+    GameObject partsSlectWin = null;
+
+    [Space(10)]
+
     //最初に1回だけ呼び出したい処理
     bool fastMove = true;
 
@@ -55,51 +75,51 @@ public class EnemyFloorRunSys : MonoBehaviour
     [NonSerialized]
     public bool gameOverFlag = false;
 
-    //パーツを選択するウィンドウ
-    [SerializeField]
-    GameObject partsSlectWin = null;
 
     //コマンドを選択するウィンドウ
+    [SerializeField,Header("コマンド管理用")]
+    public GameObject commandWin = null;
     [SerializeField]
-    GameObject commandWin = null;
+    public GameObject commandMain = null;
 
+    [Space(10)]
     //カメラの動く速度
-    [SerializeField]
+    [SerializeField,Header("カメラ管理用")]
     Vector3 characterMoveSpeed = Vector3.zero;
 
-    //チェストのオブジェクト
-    [SerializeField]
-    GameObject chestObj = null;
+    [Space(10)]
 
     //階層データ管理システム
     FloorNoSys floorNoSys = null;
-    [SerializeField]
+    [SerializeField,Header("階層データ管理用システム")]
     GameObject floorNoSysObj = null;
 
+    [Space(10)]
+
     //エンカウントを管理するシステム
-    [SerializeField]
+    [SerializeField,Header("エンカウント管理用システム")]
     TestEncount encountSys = null;
 
+    [Space(10)]
+
     //装備をランダムで入手するロジック組みのシステム
-    [SerializeField]
+    [SerializeField,Header("ドロップ装備ランダム化システム")]
     EquipmentManager equipmentManager = null;
 
+    [Space(10)]
+
     //ディアのステータス
-    [SerializeField]
+    [SerializeField,Header("ディアのステータス管理用")]
     Status dhiaStatus = null;
 
-    [SerializeField]
+    [Space(10)]
+
+    [SerializeField,Header("オブジェクト管理用")]
     GameObject enemyObj = null;
     [SerializeField]
     GameObject restObj = null;
     [SerializeField]
     GameObject doorObj = null;
-
-    //アニメーション
-    [SerializeField]
-    Animator ririAnim = null;
-    [SerializeField]
-    Animator dhiaAnim = null;
 
     //各キャラクターのオブジェクト
     [SerializeField]
@@ -109,6 +129,16 @@ public class EnemyFloorRunSys : MonoBehaviour
     //キャラクターの親オブジェクト
     [SerializeField]
     GameObject characterMainObj = null;
+
+
+    [Space(10)]
+
+    //アニメーション
+    [SerializeField,Header("アニメーション管理用")]
+    Animator ririAnim = null;
+    [SerializeField]
+    Animator dhiaAnim = null;
+
 
 
     public TextMeshProUGUI windowMes = null;
@@ -125,16 +155,24 @@ public class EnemyFloorRunSys : MonoBehaviour
         {
             GameObject floorNoSys =  Instantiate(floorNoSysObj);
             DontDestroyOnLoad(floorNoSys);
-
+            
             floorNoSys.name = "FloorNo";
         }
         floorNoSys = floorNoSysObj.GetComponent<FloorNoSys>();
         commandWin.SetActive(false);
+        commandMain.SetActive(false);
         equipmentManager.Start();
 
         //歩きアニメーションを開始
         ririAnim.SetBool("R_Walk",true);
-        dhiaAnim.SetBool("D_Walk",true);
+        dhiaAnim.SetBool("D_Walk", true);
+
+
+        //パーツ選択時の初期化処理
+        arrowObj[0].SetActive(false);
+        arrowObj[1].SetActive(false);
+        arrowObj[2].SetActive(false);
+
     }
     void Update()
     {
@@ -186,6 +224,7 @@ public class EnemyFloorRunSys : MonoBehaviour
 
                     //コマンドを表示
                     commandWin.SetActive(true);
+                    commandMain.SetActive(true);
                     fast = true;
                     runStratFlag = false;
                 }
@@ -194,6 +233,8 @@ public class EnemyFloorRunSys : MonoBehaviour
             else
             {
                 commandWin.SetActive(false);
+                commandMain.SetActive(false);
+
                 //キャラクター親オブジェクトの移動処理
                 characterMainObj.transform.position += characterMoveSpeed * Time.deltaTime;
             }
@@ -206,6 +247,7 @@ public class EnemyFloorRunSys : MonoBehaviour
                 {
                     windowMes.text = "探索中";
                     commandWin.SetActive(false);
+                    commandMain.SetActive(false);
 
                     //歩きアニメーションを開始
                     ririAnim.SetBool("R_Walk", true);
@@ -221,11 +263,15 @@ public class EnemyFloorRunSys : MonoBehaviour
 
                     //コマンドを非表示
                     commandWin.SetActive(false);
+                    commandMain.SetActive(false);
                     StartCoroutine(RestStay());
                 }
             }
             else
             {
+                commandWin.SetActive(false);
+                commandMain.SetActive(false);
+
                 if (!allPartsSlect)
                 {
                     if (fastMove)
@@ -318,8 +364,10 @@ public class EnemyFloorRunSys : MonoBehaviour
                     {
                         windowMes.text = "探索中";
                         commandWin.SetActive(false);
+                        commandMain.SetActive(false);
                         characterMainObj.transform.position += characterMoveSpeed * Time.deltaTime;
                         //歩きアニメーションを開始
+                        dhiaAnim.SetBool("D_Shield", false);
                         ririAnim.SetBool("R_Walk", true);
                         dhiaAnim.SetBool("D_Walk", true);
                     }
@@ -330,6 +378,9 @@ public class EnemyFloorRunSys : MonoBehaviour
                         ririAnim.SetBool("R_Walk", false);
                         dhiaAnim.SetBool("D_Walk", false);
                         commandWin.SetActive(false);
+                        commandMain.SetActive(false);
+
+                        commandMain.SetActive(false);
                         StartCoroutine(FloorEnd());
                     }
                 }
@@ -347,6 +398,16 @@ public class EnemyFloorRunSys : MonoBehaviour
     {
         if(!button)
         {
+            partsImage[0].sprite = slectOnSp;
+            partsImage[1].sprite = slectOffSp;
+            partsImage[2].sprite = slectOffSp;
+            partsObj[0].transform.localScale = new Vector3(1.15f, 1.15f, 1.15f);
+            partsObj[1].transform.localScale = new Vector3(1f, 1f, 1f);
+            partsObj[2].transform.localScale = new Vector3(1f, 1f, 1f);
+            arrowObj[0].SetActive(true);
+            arrowObj[1].SetActive(false);
+            arrowObj[2].SetActive(false);
+
             partsSlect[0] = true;
             partsSlect[1] = false;
             partsSlect[2] = false;
@@ -356,6 +417,16 @@ public class EnemyFloorRunSys : MonoBehaviour
     {
         if (!button)
         {
+            partsImage[0].sprite = slectOffSp;
+            partsImage[1].sprite = slectOnSp;
+            partsImage[2].sprite = slectOffSp;
+            partsObj[0].transform.localScale = new Vector3(1f, 1f, 1f);
+            partsObj[1].transform.localScale = new Vector3(1.15f, 1.15f, 1.15f);
+            partsObj[2].transform.localScale = new Vector3(1f, 1f, 1f);
+            arrowObj[0].SetActive(false);
+            arrowObj[1].SetActive(true);
+            arrowObj[2].SetActive(false);
+
             partsSlect[0] = false;
             partsSlect[1] = true;
             partsSlect[2] = false;
@@ -365,6 +436,16 @@ public class EnemyFloorRunSys : MonoBehaviour
     {
         if (!button)
         {
+            partsImage[0].sprite = slectOffSp;
+            partsImage[1].sprite = slectOffSp;
+            partsImage[2].sprite = slectOnSp;
+            partsObj[0].transform.localScale = new Vector3(1f, 1f, 1f);
+            partsObj[1].transform.localScale = new Vector3(1f, 1f, 1f);
+            partsObj[2].transform.localScale = new Vector3(1.15f, 1.15f, 1.15f);
+            arrowObj[0].SetActive(false);
+            arrowObj[1].SetActive(false);
+            arrowObj[2].SetActive(true);
+
             partsSlect[0] = false;
             partsSlect[1] = false;
             partsSlect[2] = true;
