@@ -1,0 +1,24 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Enemy_Rabbit.moc3",
+		"Textures": [
+			"Enemy_Rabbit.4096/texture_00.png",
+			"Enemy_Rabbit.4096/texture_01.png",
+			"Enemy_Rabbit.4096/texture_02.png"
+		],
+		"DisplayInfo": "Enemy_Rabbit.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}

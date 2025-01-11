@@ -3,6 +3,15 @@ using UnityEngine.UI;
 
 public class Bird : EnemyManager
 {
+
+    public float birdMaxhp = 0;
+    public float birdMaxmp = 0;
+
+    public float birdHp = 0;
+    public float birdMp = 0;
+    public int birdPower = 0;
+    public int birdDef = 0;
+
     [SerializeField]
     Status enemyStatus = null;
 
@@ -34,10 +43,10 @@ public class Bird : EnemyManager
 
         this.gameObject.transform.localScale = new Vector3(1,1,1);
 
-        maxhp = enemyStatus.MAXHP;
-        maxmp = enemyStatus.MAXMP;
-        power = enemyStatus.ATK;
-        def = enemyStatus.DEF;
+        birdMaxhp = enemyStatus.MAXHP;
+        birdMaxmp = enemyStatus.MAXMP;
+        birdPower = enemyStatus.ATK;
+        birdDef = enemyStatus.DEF;
 
 
         hp = maxhp;
@@ -78,8 +87,8 @@ public class Bird : EnemyManager
         //ÉXÉLÉã1
         if (skilRnd <= 100)
         {
-            int ririDamage = DamageCalculation(power, riri.def);
-            float dhiaDamage = DamageCalculation(power, dhia.def);
+            int ririDamage = DamageCalculation(birdPower, riri.def);
+            float dhiaDamage = DamageCalculation(birdPower, dhia.def);
 
             //ÉäÉäÅ[ÇÃï˚Ç™HPëΩÇ¢éû
             if (riri.hp > dhia.hp)

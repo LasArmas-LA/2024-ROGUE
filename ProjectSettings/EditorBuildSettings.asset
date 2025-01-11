@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Title.unity
     guid: 34fed3e13934bbe48853578fbb37b620
   - enabled: 1
-    path: Assets/Scenes/Lobby.unity
+    path: Assets/Scenes/Map.unity
     guid: f709a067901060f42afea483ed79673d
   - enabled: 1
     path: Assets/Scenes/Story.unity
@@ -23,15 +23,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: 215a160d8034bdc4aa2d7a0e34260bac
-  - enabled: 0
-    path: Assets/Scenes/_old/RestFloorScene.unity
-    guid: c1b4b8774c65e4c4f86a594ae40f7510
-  - enabled: 0
-    path: Assets/Scenes/_old/ChestFloorScene.unity
-    guid: f0148be8fc51a7d4d90fb8688720bb2a
-  - enabled: 0
-    path: Assets/Scenes/_old/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Boss.unity
+    guid: ee64b19ea5ade9c4e9a90448c032507b
+  - enabled: 1
+    path: Assets/Scenes/Event.unity
+    guid: eaf8ea3c841746a498df13995c9727fc
+  - enabled: 1
+    path: Assets/Scenes/Stay.unity
+    guid: 56ee6e2159f8f4d4497cdaf3f45fcaaa
+  - enabled: 1
+    path: Assets/Scenes/Treasure.unity
+    guid: bc206c9035f20364b9ee188c8347de2e
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

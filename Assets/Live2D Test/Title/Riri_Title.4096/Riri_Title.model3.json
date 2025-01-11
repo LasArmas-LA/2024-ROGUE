@@ -1,0 +1,23 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Riri_Title.moc3",
+		"Textures": [
+			"Riri_Title.4096/texture_00.png",
+			"Riri_Title.4096/texture_01.png"
+		],
+		"DisplayInfo": "Riri_Title.cdi3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}

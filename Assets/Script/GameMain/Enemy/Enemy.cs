@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class EnemyManager : MonoBehaviour
 {
 
-    public float maxhp = 0;
-    public float maxmp = 0;
+    public float[] maxhp = null;
+    public float[] maxmp = null;
 
-    public float hp = 0;
-    public float mp = 0;
-    public int power = 0;
-    public int def = 0;
+    public float[] hp = null;
+    public float[] mp = null;
+    public int[] power = null;
+    public int[] def = null;
 
     public bool deathFlag = false;
 
@@ -22,20 +22,19 @@ public class EnemyManager : MonoBehaviour
     GameObject enemyMain = null;
 
     [SerializeField]
-    public EnemyManager[] enemy = null;
-    [SerializeField]
     GameObject[] enemyObj = null;
 
     [SerializeField]
     public TestEncount encountSys = null;
 
     [SerializeField, Tooltip("敵の体力ゲージ")]
-    public Slider enemySlider = null;
+    public Slider[] enemySlider = null;
 
     [SerializeField]
-    Bird birdScript = null;
+    Rabbit[] rabbitScript = null;
+
     [SerializeField]
-    Rabbit rabbitScript = null;
+    Bird[] birdScript = null;
 
 
 
@@ -47,43 +46,44 @@ public class EnemyManager : MonoBehaviour
 
 
     bool fast = true;
-    public float enemyHpDef = 0;
+    public float[] enemyHpDef = null;
     void Init()
     {
-        if (this.gameObject.name == "Enemy")
+        if (this.gameObject.name == "EnemyMain")
         {
-            enemy[0].transform.localScale = Vector3.zero;
-            enemy[1].transform.localScale = Vector3.zero;
+            enemyObj[0].transform.localScale = Vector3.zero;
+            enemyObj[1].transform.localScale = Vector3.zero;
+            enemyObj[2].transform.localScale = Vector3.zero;
+            enemyObj[3].transform.localScale = Vector3.zero;
+
             deathFlag = false;
             Debug.Log("親初期化");
             //エネミーの親オブジェクトの初期化
             enemyMain.transform.localScale = new Vector3(1, 1, 1);
 
             //出現したエネミーの判別
-            switch (encountSys.rnd)
+            switch (encountSys.typeRnd[0])
             {
                 //うさぎ
                 case 0:
-                    Debug.Log("うさぎ");
-                    enemy[0].InitRabbit();
-                    maxhp = enemy[0].maxhp;
-                    maxmp = enemy[0].maxmp;
-                    power = enemy[0].power;
-                    def = enemy[0].def;
-                    hp = maxhp;
-                    mp = maxmp;
+                    rabbitScript[0].InitRabbit();
+                    maxhp[0] = rabbitScript[0].rabbitMaxhp;
+                    maxmp[0] = rabbitScript[0].rabbitMaxmp;
+                    power[0] = rabbitScript[0].rabbitPower;
+                    def[0] = rabbitScript[0].rabbitDef;
+                    hp[0] = maxhp[0];
+                    mp[0] = maxmp[0];
 
                     enemyObj[0].transform.localScale = new Vector3(1, 1, 1);
                     enemyObj[1].transform.localScale = Vector3.zero;
                     break;
                 //ふくろう
                 case 1:
-                    Debug.Log("ふくろう");
-                    enemy[1].InitBird();
-                    maxhp = enemy[1].maxhp;
-                    maxmp = enemy[1].maxmp;
-                    power = enemy[1].power;
-                    def = enemy[1].def;
+                    birdScript[0].InitBird();
+                    maxhp = birdScript[0].maxhp;
+                    maxmp = birdScript[0].maxmp;
+                    power = birdScript[0].power;
+                    def = birdScript[0].def;
                     hp = maxhp;
                     mp = maxmp;
 
@@ -92,30 +92,57 @@ public class EnemyManager : MonoBehaviour
 
                     break;
                 //
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    break;
-                case 8:
-                    break;
-                case 9:
-                    break;
             }
-            //HPバーの初期化
-            enemySlider.maxValue = maxhp;
-            enemySlider.minValue = 0;
-            enemySlider.value = enemySlider.maxValue;
-            enemySlider.value *= (hp / maxhp);
+            if (encountSys.numberRnd == 1)
+            {
+                //出現したエネミーの判別
+                switch (encountSys.typeRnd[1])
+                {
+                    //うさぎ
+                    case 0:
+                        rabbitScript[1].InitRabbit();
+                        maxhp[1] = rabbitScript[1].rabbitMaxhp;
+                        maxmp[1] = rabbitScript[1].rabbitMaxmp;
+                        power[1] = rabbitScript[1].rabbitPower;
+                        def[1] = rabbitScript[1].rabbitDef;
+                        hp[1] = maxhp[1];
+                        mp[1] = maxmp[1];
 
-            enemyHpDef = hp;
+                        enemyObj[2].transform.localScale = new Vector3(1, 1, 1);
+                        enemyObj[3].transform.localScale = Vector3.zero;
+                        break;
+                    //ふくろう
+                    case 1:
+                        birdScript[1].InitBird();
+                        maxhp = birdScript[1].maxhp;
+                        maxmp = birdScript[1].maxmp;
+                        power = birdScript[1].power;
+                        def = birdScript[1].def;
+                        hp = maxhp;
+                        mp = maxmp;
+
+                        enemyObj[2].transform.localScale = Vector3.zero;
+                        enemyObj[3].transform.localScale = new Vector3(1, 1, 1);
+
+                        break;
+                        //
+                }
+            }
+            //Enemy1HPバーの初期化
+            enemySlider[0].maxValue = maxhp[0];
+            enemySlider[0].minValue = 0;
+            enemySlider[0].value = enemySlider[0].maxValue;
+            enemySlider[0].value *= (hp[0] / maxhp[0]);
+
+            enemyHpDef[0] = hp[0];
+
+            //Enemy2HPバーの初期化
+            enemySlider[1].maxValue = maxhp[1];
+            enemySlider[1].minValue = 0;
+            enemySlider[1].value = enemySlider[1].maxValue;
+            enemySlider[1].value *= (hp[1] / maxhp[1]);
+
+            enemyHpDef[1] = hp[1];
         }
     }
 
@@ -124,24 +151,23 @@ public class EnemyManager : MonoBehaviour
     {
 
         //敵のHPが削られた時
-        if (enemyHpDef > hp)
+        if (enemyHpDef[0] > hp[0])
         {
             Debug.Log("敵を攻撃した！");
             //一気に削って値が0以下になった時の処理
-            if (hp <= 0)
+            if (hp[0] <= 0)
             {
-                hp = 0;
-                enemySlider.value -= (maxhp * Time.deltaTime);
+                hp[0] = 0;
+                enemySlider[0].value -= (maxhp[0] * Time.deltaTime);
             }
-
             else
             {
-                enemySlider.value -= ((enemySlider.maxValue * (hp / maxhp)) * Time.deltaTime);
+                enemySlider[0].value -= ((enemySlider[0].maxValue * (hp[0] / maxhp[0])) * Time.deltaTime);
 
-                if (enemySlider.value <= hp)
+                if (enemySlider[0].value <= hp[0])
                 {
-                    enemyHpDef = hp;
-                    enemySlider.value = hp;
+                    enemyHpDef[0] = hp[0];
+                    enemySlider[0].value = hp[0];
                 }
             }
         }
@@ -149,17 +175,17 @@ public class EnemyManager : MonoBehaviour
 
 
         //エネミー死亡時の処理
-        if (hp <= 0)
-        {   
+        if (hp[0] <= 0)
+        {
             //うさぎの死亡アニメーション
-            if(encountSys.rnd == 0)
+            if (encountSys.typeRnd[0] == 0)
             {
-                rabbitScript.rabbitAnim.SetBool("Destroy", true);
+                rabbitScript[0].rabbitAnim.SetBool("Destroy", true);
             }
             //鳥の死亡アニメーション
-            if(encountSys.rnd == 1)
+            if (encountSys.typeRnd[0] == 1)
             {
-                birdScript.birdAnim.SetBool("Eb_Destroy", true);
+                birdScript[0].birdAnim.SetBool("Eb_Destroy", true);
             }
 
 
@@ -179,15 +205,15 @@ public class EnemyManager : MonoBehaviour
     public void Move()
     {
 
-        switch (encountSys.rnd)
+        switch (encountSys.typeRnd[0])
         {
             //うさぎ
             case 0:
-                enemy[0].SkilRabbit();
+                rabbitScript[0].SkilRabbit();
                 break;
             //ふくろう
             case 1:
-                enemy[1].SkilBird();
+                birdScript[1].SkilBird();
                 break;
             case 2:
                 break;

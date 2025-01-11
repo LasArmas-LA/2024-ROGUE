@@ -6,6 +6,13 @@ public class Rabbit : EnemyManager
     [SerializeField]
     Status enemyStatus = null;
 
+    public float rabbitMaxhp = 0;
+    public float rabbitMaxmp = 0;
+
+    public float rabbitHp = 0;
+    public float rabbitMp = 0;
+    public int rabbitPower = 0;
+    public int rabbitDef = 0;
 
 
     [Header("クラス参照")]
@@ -36,10 +43,10 @@ public class Rabbit : EnemyManager
         
         this.gameObject.transform.localScale =  new Vector3(1,1,1);
 
-        maxhp = enemyStatus.MAXHP;
-        maxmp = enemyStatus.MAXMP;
-        power = enemyStatus.ATK;
-        def = enemyStatus.DEF;
+        rabbitMaxhp = enemyStatus.MAXHP;
+        rabbitMaxmp = enemyStatus.MAXMP;
+        rabbitPower = enemyStatus.ATK;
+        rabbitDef = enemyStatus.DEF;
 
         hp = maxhp;
         mp = maxmp;
@@ -84,8 +91,8 @@ public class Rabbit : EnemyManager
         if(skilRnd <= 100)
         {
             
-            float ririDamage = DamageCalculation(power, riri.def);
-            float dhiaDamage = DamageCalculation(power, dhia.def);
+            float ririDamage = DamageCalculation(rabbitPower, riri.def);
+            float dhiaDamage = DamageCalculation(rabbitPower, dhia.def);
 
             //リリーの方がHP多い時
             if (riri.hp > dhia.hp)

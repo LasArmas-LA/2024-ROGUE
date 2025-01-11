@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Threading;
+using static TestEncount;
 
 public class Riri : MonoBehaviour
 {
@@ -191,6 +192,10 @@ public class Riri : MonoBehaviour
             button = true;
             ririSelectFlag = true;
             ririAnim.SetBool("R_Skill", true);
+
+            //ステータスを変更
+            encountSys.mainTurn = MainTurn.RIRIANIM;
+
             RecoveryWin();
         }
     }
@@ -202,6 +207,10 @@ public class Riri : MonoBehaviour
             button = true;
             dhiaSelectFlag = true;
             ririAnim.SetBool("R_Skill", true);
+
+            //ステータスを変更
+            encountSys.mainTurn = MainTurn.RIRIANIM;
+
             RecoveryWin();
         }
     }

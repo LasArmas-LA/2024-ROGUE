@@ -119,7 +119,7 @@ public class Dhia : MonoBehaviour
             def += dhiaStatus.lefthandPartsData.DEF;
         }
 
-        enemyDamage = DamageCalculation(power, encountSys.rndEnemy.def);
+        enemyDamage = DamageCalculation(power, encountSys.enemyScript.def[0]);
     }
 
     void Update()
@@ -160,13 +160,13 @@ public class Dhia : MonoBehaviour
     void Skill1Move()
     {
         //ウサギの時
-        if (encountSys.rnd == 0)
+        if (encountSys.typeRnd[0] == 0)
         {
             rabbitScript.rabbitAnim.SetBool("Damage2", true);
             rabbitScript.timerFlag = true;
         }
         //鳥の時
-        if(encountSys.rnd == 1)
+        if (encountSys.typeRnd[0] == 1)
         {
             birdScript.birdAnim.SetBool("Eb_Damage2", true);
             birdScript.timerFlag = true;
@@ -174,14 +174,14 @@ public class Dhia : MonoBehaviour
         if (powerUpFlag)
         {
             encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage * 1.5f + "のダメージ!";
-            encountSys.rndEnemy.hp -= (enemyDamage * 1.5f);
+            encountSys.enemyScript.hp[0] -= (enemyDamage * 1.5f);
             powerUpFlag = false;
         }
         else
         {
             Debug.Log("コマンド1ディア通常攻撃");
             encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage + "のダメージ!";
-            encountSys.rndEnemy.hp -= enemyDamage;
+            encountSys.enemyScript.hp[0] -= enemyDamage;
         }
     }
 

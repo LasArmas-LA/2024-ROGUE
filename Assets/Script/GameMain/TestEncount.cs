@@ -18,8 +18,10 @@ public class TestEncount : MonoBehaviour
         DHIAMOVE,
         DHIAANIM,
 
-        ENEMYMOVE,
-        ENEMYANIM,
+        ENEMY1MOVE,
+        ENEMY1ANIM,
+        ENEMY2MOVE,
+        ENEMY2ANIM,
         
         GAMEOVER,
 
@@ -44,7 +46,7 @@ public class TestEncount : MonoBehaviour
     [SerializeField]
     Dhia dhiaScript = null;
     [SerializeField]
-    EnemyManager enemyScript = null;
+    public EnemyManager enemyScript = null;
     [SerializeField]
     EnemyFloorRunSys enemyFloorRunSysObj = null;
     FloorNoSys floorNoSys = null;
@@ -55,7 +57,6 @@ public class TestEncount : MonoBehaviour
     public float timer = 0;
 
     GameObject floorNoSysObj = null;
-    public EnemyManager rndEnemy = null;
 
     [Space(10)]
 
@@ -117,7 +118,11 @@ public class TestEncount : MonoBehaviour
     [SerializeField]
     GameObject[] enemyObj = null;
 
-    public int rnd = 0;
+    //敵の種類の抽選用
+    public int[] typeRnd = null;
+
+    //敵の数の抽選用
+    public int numberRnd = 0;
 
     float hpMoveTimer = 0;
     bool hpMoveTimerFlag = false;
@@ -134,16 +139,32 @@ public class TestEncount : MonoBehaviour
 
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
 
-        //エネミーのランダム抽選用
-        rnd = UnityEngine.Random.Range(0, enemyObj.Length);
+        numberRnd = UnityEngine.Random.Range(0, 2);
+        numberRnd = 1;
 
-        //ランダムで選ばれたエネミーオブジェクトの表示
-        enemyObj[rnd].transform.localScale = new Vector3(1,1,1);
+        //敵の数分データを格納
+        if (numberRnd == 0)
+        {
+            //エネミーの種類抽選用
+            typeRnd[0] = UnityEngine.Random.Range(0, enemyObj.Length);
 
-        //その情報を格納
-        //rndEnemy = rndEnemy.enemy[rnd].GetComponentInParent<EnemyManager>();
+            //ランダムで選ばれたエネミーオブジェクトの表示
+            enemyObj[typeRnd[0]].transform.localScale = new Vector3(1, 1, 1);
+        }
+        if (numberRnd == 1)
+        {
+            //エネミーの種類抽選用
+            typeRnd[0] = UnityEngine.Random.Range(0, enemyObj.Length - 2);
 
-        
+            //ランダムで選ばれたエネミーオブジェクトの表示
+            enemyObj[typeRnd[0]].transform.localScale = new Vector3(1, 1, 1);
+
+            //エネミーの種類抽選用
+            typeRnd[1] = UnityEngine.Random.Range(3, enemyObj.Length);
+
+            //ランダムで選ばれたエネミーオブジェクトの表示
+            enemyObj[typeRnd[1]].transform.localScale = new Vector3(1, 1, 1);
+        }
 
         //MaxHPの格納
         ririSlider.maxValue = ririScript.maxhp;
@@ -153,8 +174,10 @@ public class TestEncount : MonoBehaviour
         ririSlider.minValue = 0;
         dhiaSlider.minValue = 0;
 
+        floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
+
         //フロアが1階の時
-        if(floorNoSys.floorNo == 1)
+        if (floorNoSys.floorNo == 1)
         {
             //MaxのHPを現在のHPに格納
             ririSlider.value = ririSlider.maxValue;
@@ -208,7 +231,7 @@ public class TestEncount : MonoBehaviour
                 //ディア死亡時ターンをスキップ
                 if (dhiaScript.deathFlag)
                 {
-                    mainTurn = MainTurn.ENEMYMOVE;
+                    mainTurn = MainTurn.ENEMY1MOVE;
                 }
                 if (fast)
                 {
@@ -222,7 +245,7 @@ public class TestEncount : MonoBehaviour
                 }
                 break;
             case MainTurn.DHIAANIM:
-                if (rndEnemy.deathFlag)
+                if (enemyScript.deathFlag)
                 {
                     //タイマー開始
                     timer += Time.deltaTime;
@@ -238,10 +261,15 @@ public class TestEncount : MonoBehaviour
                     fast = true;
                 }
                 break;
-            case MainTurn.ENEMYMOVE:
+            case MainTurn.ENEMY1MOVE:
                 enemyScript.enemyHpDef = enemyScript.hp;
                 break;
-            case MainTurn.ENEMYANIM:
+            case MainTurn.ENEMY1ANIM:
+                break;
+            case MainTurn.ENEMY2MOVE:
+                enemyScript.enemyHpDef = enemyScript.hp;
+                break;
+            case MainTurn.ENEMY2ANIM:
                 break;
             case MainTurn.GAMEOVER:
                 timer += Time.deltaTime;
@@ -371,9 +399,6 @@ public class TestEncount : MonoBehaviour
     {
         if (mainTurn == MainTurn.RIRIMOVE)
         {
-            //コマンド表示の処理
-            enemyFloorRunSysObj.commandMain.SetActive(true);
-            enemyFloorRunSysObj.commandWin.SetActive(true);
 
             command1Text.text = "ヒール";
             command2Text.text = "オールヒール";
@@ -392,8 +417,6 @@ public class TestEncount : MonoBehaviour
                     timer += Time.deltaTime;
                 }
 
-                //ステータスを変更
-                mainTurn = MainTurn.RIRIANIM;
 
                 if (!coLock)
                 {
@@ -403,10 +426,16 @@ public class TestEncount : MonoBehaviour
                     }
                     if (command2)
                     {
+                        //ステータスを変更
+                        mainTurn = MainTurn.RIRIANIM;
+
                         ririScript.Skil2();
                     }
                     if (command3)
                     {
+                        //ステータスを変更
+                        mainTurn = MainTurn.RIRIANIM;
+
                         ririScript.Skil3();
                     }
                     coLock = true;
@@ -414,7 +443,9 @@ public class TestEncount : MonoBehaviour
             }
             else
             {
-                windowsMes.text = "リリーの行動をにゅうりょくしてください";
+                //コマンド表示の処理
+                enemyFloorRunSysObj.commandMain.SetActive(true);
+                enemyFloorRunSysObj.commandWin.SetActive(true);
             }
         }
         if (mainTurn == MainTurn.RIRIANIM)
@@ -498,7 +529,7 @@ public class TestEncount : MonoBehaviour
             if (timer >= waitTime && !enemyDeath)
             {
                 //ステータスを変更
-                mainTurn = MainTurn.ENEMYMOVE;
+                mainTurn = MainTurn.ENEMY1MOVE;
                 timer = 0;
                 button = false;
                 coLock = false;
@@ -510,7 +541,7 @@ public class TestEncount : MonoBehaviour
     }
     void EnemyMove()
     {
-        if (mainTurn == MainTurn.ENEMYMOVE)
+        if (mainTurn == MainTurn.ENEMY1MOVE)
         {
             //タイマー開始
             timer += Time.deltaTime;
@@ -521,7 +552,7 @@ public class TestEncount : MonoBehaviour
             if (!coLock)
             {
                 //Init時に選択されたエネミーのスキル関数を呼び出す
-                rndEnemy.Move();
+                enemyScript.Move();
                 coLock = true;
             }
 

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 403ae2dd693bb1d4b924f6b8d206b053, type: 3}
+  m_Name: Enemy_Rabbit.fadeMotionList
+  m_EditorClassIdentifier: 
+  MotionInstanceIds: 4ef0f7ff18f0f7fff0eff7ffc8eff7ffa0eff7ff78eff7ff50eff7ff28eff7ff
+  CubismFadeMotionObjects:
+  - {fileID: 11400000, guid: 122b308997203a74bb55542332d60cff, type: 2}
+  - {fileID: 11400000, guid: d87ef57be93ef814ca17fdf9b16219e1, type: 2}
+  - {fileID: 11400000, guid: 6f3399f167687f145a39b742bfd46818, type: 2}
+  - {fileID: 11400000, guid: 3db22cfe26254eb4ca360f88881f0158, type: 2}
+  - {fileID: 11400000, guid: 25c78cfc4521ebf4e8976ea0bb97ac86, type: 2}
+  - {fileID: 11400000, guid: 09d29e9cf3bf3694abbfe9286dea330f, type: 2}
+  - {fileID: 11400000, guid: c9f407972e11084428afb5fccbb05cf7, type: 2}
+  - {fileID: 11400000, guid: 8b2bfea0a83071c4798bacdb7fc42402, type: 2}
