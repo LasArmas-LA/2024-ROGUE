@@ -79,11 +79,14 @@ public class Riri : MonoBehaviour
 
         floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
 
+
         if (floorNoSys != null)
         {
-            if (floorNoSys.floorNo == 0)
+            if (floorNoSys.floorNo == 1)
             {
                 Debug.Log("0ŠK‚Å‚·");
+                ririStatus.HP = ririStatus.MAXHP;
+
                 hp = maxhp;
                 mp = maxmp;
                 deathFlag = false;

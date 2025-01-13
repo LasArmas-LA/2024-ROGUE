@@ -146,7 +146,7 @@ public class TestEncount : MonoBehaviour
         if (numberRnd == 0)
         {
             //エネミーの種類抽選用
-            typeRnd[0] = UnityEngine.Random.Range(0, enemyObj.Length);
+            typeRnd[0] = UnityEngine.Random.Range(0, enemyObj.Length - 2);
 
             //ランダムで選ばれたエネミーオブジェクトの表示
             enemyObj[typeRnd[0]].transform.localScale = new Vector3(1, 1, 1);
@@ -186,8 +186,8 @@ public class TestEncount : MonoBehaviour
         else
         {
             //Hpバーを残hpの割合で適用
-            ririSlider.value *= (ririScript.hp / ririScript.maxhp);
-            dhiaSlider.value *= (dhiaScript.hp / dhiaScript.maxhp);
+            ririSlider.value = ririSlider.value * (ririScript.hp / ririScript.maxhp);
+            dhiaSlider.value = dhiaSlider.value * (dhiaScript.hp / dhiaScript.maxhp);
         }
     }
 
@@ -246,6 +246,7 @@ public class TestEncount : MonoBehaviour
                     //ダメージを受けた時を判別できるように格納
                     dhiahpdf = dhiaScript.hp;
                     fast = false;
+                    ririScript.button = false;
                 }
                 break;
             case MainTurn.DHIAANIM:
@@ -465,13 +466,14 @@ public class TestEncount : MonoBehaviour
             {
                 timer = 0;
 
-                //ステータスを変更
-                mainTurn = MainTurn.DHIAMOVE;
                 button = false;
                 coLock = false;
                 command1 = false;
                 command2 = false;
                 command3 = false;
+
+                //ステータスを変更
+                mainTurn = MainTurn.DHIAMOVE;
             }
 
         }
@@ -538,14 +540,15 @@ public class TestEncount : MonoBehaviour
             //待機時間を超えて敵が生きている時
             if (timer >= waitTime && !enemyDeath)
             {
-                //ステータスを変更
-                mainTurn = MainTurn.ENEMY1MOVE;
                 timer = 0;
                 button = false;
                 coLock = false;
                 command1 = false;
                 command2 = false;
                 command3 = false;
+
+                //ステータスを変更
+                mainTurn = MainTurn.ENEMY1MOVE;
             }
         }
     }
@@ -553,6 +556,12 @@ public class TestEncount : MonoBehaviour
     {
         if (mainTurn == MainTurn.ENEMY1MOVE)
         {
+            if (enemyScript.deathLook[0])
+            {
+                mainTurn = MainTurn.ENEMY2MOVE;
+                return;
+            }
+
             //タイマー開始
             timer += Time.deltaTime;
 
@@ -569,9 +578,12 @@ public class TestEncount : MonoBehaviour
             //待機時間を超えたら
             if (timer >= waitTime)
             {
+                coLock = false;
+                timer = 0;
+
                 //ステータスを変更
                 //敵が2体の時
-                if(numberRnd == 1)
+                if (numberRnd == 1)
                 {
                     mainTurn = MainTurn.ENEMY2MOVE;
                 }
@@ -579,8 +591,6 @@ public class TestEncount : MonoBehaviour
                 {
                     mainTurn = MainTurn.RIRIMOVE;
                 }
-                coLock = false;
-                timer = 0;
             }
         }
     }
@@ -588,11 +598,15 @@ public class TestEncount : MonoBehaviour
     {
         if (mainTurn == MainTurn.ENEMY2MOVE)
         {
+
+            if (numberRnd == 0 || enemyScript.deathLook[1])
+            {
+                mainTurn = MainTurn.RIRIMOVE;
+                return;
+            }
+
             //タイマー開始
             timer += Time.deltaTime;
-
-            //ステータスを変更
-            //mainTurn = MainTurn.ENEMYANIM;
 
             if (!coLock)
             {
@@ -604,10 +618,11 @@ public class TestEncount : MonoBehaviour
             //待機時間を超えたら
             if (timer >= waitTime)
             {
-                //ステータスを変更
-                mainTurn = MainTurn.RIRIMOVE;
                 coLock = false;
                 timer = 0;
+
+                //ステータスを変更
+                mainTurn = MainTurn.RIRIMOVE;
             }
         }
     }

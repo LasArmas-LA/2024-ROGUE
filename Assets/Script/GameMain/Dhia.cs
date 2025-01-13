@@ -85,8 +85,10 @@ public class Dhia : MonoBehaviour
 
         if (floorNoSys != null)
         {
-            if (floorNoSys.floorNo == 0)
+            if (floorNoSys.floorNo == 1)
             {
+                dhiaStatus.HP = dhiaStatus.MAXHP;
+
                 hp = maxhp;
                 mp = maxmp;
                 deathFlag = false;
@@ -208,13 +210,13 @@ public class Dhia : MonoBehaviour
         if (enemyNumber == 2)
         {
             //ƒEƒTƒM‚ÌŽž
-            if (encountSys.typeRnd[1] == 0)
+            if (encountSys.typeRnd[1] == 3)
             {
                 rabbitScript[1].rabbitAnim.SetBool("Damage2", true);
                 rabbitScript[1].timerFlag = true;
             }
             //’¹‚ÌŽž
-            if (encountSys.typeRnd[1] == 1)
+            if (encountSys.typeRnd[1] == 4)
             {
                 birdScript[1].birdAnim.SetBool("Eb_Damage2", true);
                 birdScript[1].timerFlag = true;
