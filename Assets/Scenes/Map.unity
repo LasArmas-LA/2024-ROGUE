@@ -8644,7 +8644,7 @@ MonoBehaviour:
   - {fileID: 181612232}
   - {fileID: 1562586783}
   buttonImage: []
-  scrollSpeed: 1
+  scrollSpeed: 50
   mainCamera: {fileID: 379587944}
 --- !u!1 &2051051176
 GameObject:
