@@ -216,7 +216,7 @@ public class EnemyFloorRunSys : MonoBehaviour
                 if (!fast)
                 {
                     //ステータスの変更
-                    encountSys.mainTurn = TestEncount.MainTurn.RIRIMOVE;
+                    encountSys.mainTurn = MainTurn.RIRIMOVE;
 
                     //歩きアニメーションを停止
                     ririAnim.SetBool("R_Walk", false);

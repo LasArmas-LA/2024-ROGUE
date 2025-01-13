@@ -6,35 +6,35 @@ using UnityEngine.UI;
 public class EnemyManager : MonoBehaviour
 {
 
-    public float[] maxhp = null;
-    public float[] maxmp = null;
+    public float[] maxhp = new float [2];
+    public float[] maxmp = new float[2];
 
-    public float[] hp = null;
-    public float[] mp = null;
-    public int[] power = null;
-    public int[] def = null;
+    public float[] hp = new float[2];
+    public float[] mp = new float[2];
+    public int[] power = new int[2];
+    public int[] def = new int[2];
 
     public bool deathFlag = false;
 
     float timer = 0f;
 
     [SerializeField]
-    GameObject enemyMain = null;
+    GameObject enemyMain;
 
     [SerializeField]
-    GameObject[] enemyObj = null;
+    GameObject[] enemyObj;
 
     [SerializeField]
     public TestEncount encountSys = null;
 
     [SerializeField, Tooltip("敵の体力ゲージ")]
-    public Slider[] enemySlider = null;
+    public Slider[] enemySlider;
 
     [SerializeField]
-    Rabbit[] rabbitScript = null;
+    Rabbit[] rabbitScript;
 
     [SerializeField]
-    Bird[] birdScript = null;
+    Bird[] birdScript;
 
 
 
@@ -80,12 +80,12 @@ public class EnemyManager : MonoBehaviour
                 //ふくろう
                 case 1:
                     birdScript[0].InitBird();
-                    maxhp = birdScript[0].maxhp;
-                    maxmp = birdScript[0].maxmp;
-                    power = birdScript[0].power;
-                    def = birdScript[0].def;
-                    hp = maxhp;
-                    mp = maxmp;
+                    maxhp[0] = birdScript[0].birdMaxhp;
+                    maxmp[0] = birdScript[0].birdMaxmp;
+                    power[0] = birdScript[0].birdPower;
+                    def[0] = birdScript[0].birdDef;
+                    hp[0] = maxhp[0];
+                    mp[0] = maxmp[0];
 
                     enemyObj[0].transform.localScale = Vector3.zero;
                     enemyObj[1].transform.localScale = new Vector3(1, 1, 1);
@@ -95,11 +95,13 @@ public class EnemyManager : MonoBehaviour
             }
             if (encountSys.numberRnd == 1)
             {
+                Debug.Log("2体目出現");
                 //出現したエネミーの判別
                 switch (encountSys.typeRnd[1])
                 {
                     //うさぎ
-                    case 0:
+                    case 3:
+                        Debug.Log("2体目うさぎ");
                         rabbitScript[1].InitRabbit();
                         maxhp[1] = rabbitScript[1].rabbitMaxhp;
                         maxmp[1] = rabbitScript[1].rabbitMaxmp;
@@ -112,14 +114,15 @@ public class EnemyManager : MonoBehaviour
                         enemyObj[3].transform.localScale = Vector3.zero;
                         break;
                     //ふくろう
-                    case 1:
+                    case 4:
+                        Debug.Log("2体目ふくろう");
                         birdScript[1].InitBird();
-                        maxhp = birdScript[1].maxhp;
-                        maxmp = birdScript[1].maxmp;
-                        power = birdScript[1].power;
-                        def = birdScript[1].def;
-                        hp = maxhp;
-                        mp = maxmp;
+                        maxhp[1] = birdScript[1].birdMaxhp;
+                        maxmp[1] = birdScript[1].birdMaxmp;
+                        power[1] = birdScript[1].birdPower;
+                        def[1] = birdScript[1].birdDef;
+                        hp[1] = maxhp[1];
+                        mp[1] = maxmp[1];
 
                         enemyObj[2].transform.localScale = Vector3.zero;
                         enemyObj[3].transform.localScale = new Vector3(1, 1, 1);
@@ -149,11 +152,10 @@ public class EnemyManager : MonoBehaviour
     public bool death = false;
     void Update()
     {
-
         //敵のHPが削られた時
         if (enemyHpDef[0] > hp[0])
         {
-            Debug.Log("敵を攻撃した！");
+            Debug.Log("敵1を攻撃した！");
             //一気に削って値が0以下になった時の処理
             if (hp[0] <= 0)
             {
@@ -170,68 +172,114 @@ public class EnemyManager : MonoBehaviour
                     enemySlider[0].value = hp[0];
                 }
             }
-        }
-
-
-
-        //エネミー死亡時の処理
-        if (hp[0] <= 0)
-        {
-            //うさぎの死亡アニメーション
-            if (encountSys.typeRnd[0] == 0)
+            //敵のHPが削られた時
+            if (enemyHpDef[1] > hp[1])
             {
-                rabbitScript[0].rabbitAnim.SetBool("Destroy", true);
-            }
-            //鳥の死亡アニメーション
-            if (encountSys.typeRnd[0] == 1)
-            {
-                birdScript[0].birdAnim.SetBool("Eb_Destroy", true);
-            }
-
-
-            timer += Time.deltaTime;
-            if(timer >= 1f)
-            {
-                if (enemyMain.transform.localScale.x >= 0)
+                Debug.Log("敵2を攻撃した！");
+                //一気に削って値が0以下になった時の処理
+                if (hp[1] <= 1)
                 {
-                    enemyMain.transform.localScale -= new Vector3(1, 1, 1) * Time.deltaTime;
+                    hp[1] = 0;
+                    enemySlider[1].value -= (maxhp[1] * Time.deltaTime);
+                }
+                else
+                {
+                    enemySlider[1].value -= ((enemySlider[1].maxValue * (hp[1] / maxhp[1])) * Time.deltaTime);
+
+                    if (enemySlider[1].value <= hp[1])
+                    {
+                        enemyHpDef[1] = hp[1];
+                        enemySlider[1].value = hp[1];
+                    }
+                }
+            }
+
+
+
+            //エネミー死亡時の処理
+            if (hp[0] <= 0)
+            {
+                //うさぎの死亡アニメーション
+                if (encountSys.typeRnd[0] == 0)
+                {
+                    rabbitScript[0].rabbitAnim.SetBool("Destroy", true);
+                }
+                //鳥の死亡アニメーション
+                if (encountSys.typeRnd[0] == 1)
+                {
+                    birdScript[0].birdAnim.SetBool("Eb_Destroy", true);
                 }
 
-                deathFlag = true;
+
+                timer += Time.deltaTime;
+                if (timer >= 1f)
+                {
+                    if (enemyMain.transform.localScale.x >= 0)
+                    {
+                        enemyMain.transform.localScale -= new Vector3(1, 1, 1) * Time.deltaTime;
+                    }
+
+                    deathFlag = true;
+                }
+            }
+            //エネミー死亡時の処理
+            if (hp[1] <= 0)
+            {
+                //うさぎの死亡アニメーション
+                if (encountSys.typeRnd[1] == 0)
+                {
+                    rabbitScript[1].rabbitAnim.SetBool("Destroy", true);
+                }
+                //鳥の死亡アニメーション
+                if (encountSys.typeRnd[1] == 1)
+                {
+                    birdScript[1].birdAnim.SetBool("Eb_Destroy", true);
+                }
+
+
+                timer += Time.deltaTime;
+                if (timer >= 1f)
+                {
+                    if (enemyMain.transform.localScale.x >= 0)
+                    {
+                        enemyMain.transform.localScale -= new Vector3(1, 1, 1) * Time.deltaTime;
+                    }
+
+                    deathFlag = true;
+                }
             }
         }
     }
 
     public void Move()
     {
-
-        switch (encountSys.typeRnd[0])
+        if (encountSys.mainTurn == TestEncount.MainTurn.ENEMY1MOVE)
         {
-            //うさぎ
-            case 0:
-                rabbitScript[0].SkilRabbit();
-                break;
-            //ふくろう
-            case 1:
-                birdScript[1].SkilBird();
-                break;
-            case 2:
-                break;
-            //
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            case 7:
-                break;
-            case 8:
-                break;
-            case 9:
-                break;
+            switch (encountSys.typeRnd[0])
+            {
+                //うさぎ
+                case 0:
+                    rabbitScript[0].SkilRabbit();
+                    break;
+                //ふくろう
+                case 1:
+                    birdScript[0].SkilBird();
+                    break;
+            }
+        }
+        if (encountSys.mainTurn == TestEncount.MainTurn.ENEMY2MOVE)
+        {
+            switch (encountSys.typeRnd[1])
+            {
+                //うさぎ
+                case 3:
+                    rabbitScript[1].SkilRabbit();
+                    break;
+                //ふくろう
+                case 4:
+                    birdScript[1].SkilBird();
+                    break;
+            }
         }
     }
 

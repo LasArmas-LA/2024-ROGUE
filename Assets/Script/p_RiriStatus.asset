@@ -19,6 +19,9 @@ MonoBehaviour:
   MP: 10
   ATK: 0
   DEF: 10
+  DEFATK: 0
+  DEFDEF: 0
+  obj: {fileID: 0}
   headPartsData: {fileID: 0}
   bodyPartsData: {fileID: 0}
   legPartsData: {fileID: 0}

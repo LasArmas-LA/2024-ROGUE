@@ -213,7 +213,8 @@ public class TestEncount : MonoBehaviour
                     //コマンド部分の表示切り替え
                     dhiaCommand.SetActive(false);
                     ririCommand.SetActive(true);
-                    
+
+                    dhiaScript.button = false;
 
                     //ダメージを受けた時を判別できるように格納
                     ririhpdf = ririScript.hp;
@@ -239,6 +240,9 @@ public class TestEncount : MonoBehaviour
                     ririCommand.SetActive(false);
                     dhiaCommand.SetActive(true);
 
+                    enemyScript.enemyHpDef[0] = enemyScript.hp[0];
+                    enemyScript.enemyHpDef[1] = enemyScript.hp[1];
+
                     //ダメージを受けた時を判別できるように格納
                     dhiahpdf = dhiaScript.hp;
                     fast = false;
@@ -262,12 +266,10 @@ public class TestEncount : MonoBehaviour
                 }
                 break;
             case MainTurn.ENEMY1MOVE:
-                enemyScript.enemyHpDef = enemyScript.hp;
                 break;
             case MainTurn.ENEMY1ANIM:
                 break;
             case MainTurn.ENEMY2MOVE:
-                enemyScript.enemyHpDef = enemyScript.hp;
                 break;
             case MainTurn.ENEMY2ANIM:
                 break;
@@ -287,7 +289,8 @@ public class TestEncount : MonoBehaviour
         
         RiriMove();
         DhiaMove();
-        EnemyMove();
+        Enemy1Move();
+        Enemy2Move();
 
         //リリーのHPが削られた時
         if (ririhpdf > ririScript.hp)
@@ -460,9 +463,10 @@ public class TestEncount : MonoBehaviour
             //待機時間を超えて敵が生きている時
             if (timer >= waitTime && !enemyDeath)
             {
+                timer = 0;
+
                 //ステータスを変更
                 mainTurn = MainTurn.DHIAMOVE;
-                timer = 0;
                 button = false;
                 coLock = false;
                 command1 = false;
@@ -476,10 +480,6 @@ public class TestEncount : MonoBehaviour
     {
         if (mainTurn == MainTurn.DHIAMOVE)
         {
-            //コマンド表示の処理
-            enemyFloorRunSysObj.commandMain.SetActive(true);
-            enemyFloorRunSysObj.commandWin.SetActive(true);
-
             command1Text.text = "殴る";
             command2Text.text = "防御体制";
             command3Text.text = "守る";
@@ -490,28 +490,38 @@ public class TestEncount : MonoBehaviour
 
             if (command1 || command2 || command3)
             {
-                //ステータスを変更
-                mainTurn = MainTurn.DHIAANIM;
-
                 if (!coLock)
                 {
                     if (command1)
                     {
                         dhiaScript.Skil1();
+                        if(numberRnd != 1)
+                        {
+                            //ステータスを変更
+                            mainTurn = MainTurn.DHIAANIM;
+                        }
                     }
                     if (command2)
                     {
                         dhiaScript.Skil2();
+                        //ステータスを変更
+                        mainTurn = MainTurn.DHIAANIM;
                     }
                     if (command3)
                     {
                         dhiaScript.Skil3();
+                        //ステータスを変更
+                        mainTurn = MainTurn.DHIAANIM;
                     }
                     coLock = true;
                 }
             }
             else
             {
+                //コマンド表示の処理
+                enemyFloorRunSysObj.commandMain.SetActive(true);
+                enemyFloorRunSysObj.commandWin.SetActive(true);
+
                 windowsMes.text = "ディアの行動をにゅうりょくしてください";
             }
         }
@@ -539,9 +549,44 @@ public class TestEncount : MonoBehaviour
             }
         }
     }
-    void EnemyMove()
+    void Enemy1Move()
     {
         if (mainTurn == MainTurn.ENEMY1MOVE)
+        {
+            //タイマー開始
+            timer += Time.deltaTime;
+
+            //ステータスを変更
+            //mainTurn = MainTurn.ENEMYANIM;
+
+            if (!coLock)
+            {
+                //Init時に選択されたエネミーのスキル関数を呼び出す
+                enemyScript.Move();
+                coLock = true;
+            }
+
+            //待機時間を超えたら
+            if (timer >= waitTime)
+            {
+                //ステータスを変更
+                //敵が2体の時
+                if(numberRnd == 1)
+                {
+                    mainTurn = MainTurn.ENEMY2MOVE;
+                }
+                else
+                {
+                    mainTurn = MainTurn.RIRIMOVE;
+                }
+                coLock = false;
+                timer = 0;
+            }
+        }
+    }
+    void Enemy2Move()
+    {
+        if (mainTurn == MainTurn.ENEMY2MOVE)
         {
             //タイマー開始
             timer += Time.deltaTime;

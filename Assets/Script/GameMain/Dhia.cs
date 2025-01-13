@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static TestEncount;
 using static UnityEngine.EventSystems.EventTrigger;
 
 public class Dhia : MonoBehaviour
@@ -49,10 +50,15 @@ public class Dhia : MonoBehaviour
     GameObject dhiaMain = null;
 
     [SerializeField]
-    Rabbit rabbitScript = null;
+    Rabbit[] rabbitScript = null;
     [SerializeField]
-    Bird birdScript = null;
+    Bird[] birdScript = null;
 
+    [SerializeField]
+    GameObject enemySelectWin = null;
+
+    [SerializeField]
+    GameObject commandButton = null;
 
     //アニメーション管理用
     [SerializeField]
@@ -149,55 +155,106 @@ public class Dhia : MonoBehaviour
         }
     }
 
+    public bool button = false;
     public void Skil1()
+    {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
+    }
+
+    public void Skill1Move(int enemyNumber)
     {
         timerFlag = true;
         dhiaAnim.SetBool("D_Attack", true);
+        enemySelectWin.SetActive(false);
+        encountSys.mainTurn = MainTurn.DHIAANIM;
 
-        Invoke("Skill1Move", 3f);
-    }
-
-    void Skill1Move()
-    {
-        //ウサギの時
-        if (encountSys.typeRnd[0] == 0)
+        //敵1を選ばれた時
+        if (enemyNumber == 1)
         {
-            rabbitScript.rabbitAnim.SetBool("Damage2", true);
-            rabbitScript.timerFlag = true;
+            //ウサギの時
+            if (encountSys.typeRnd[0] == 0)
+            {
+                Debug.Log("うさぎが選ばれました");
+                rabbitScript[0].rabbitAnim.SetBool("Damage2", true);
+                rabbitScript[0].timerFlag = true;
+            }
+            //鳥の時
+            if (encountSys.typeRnd[0] == 1)
+            {
+                Debug.Log("とりが選ばれました");
+                birdScript[0].birdAnim.SetBool("Eb_Damage2", true);
+                birdScript[0].timerFlag = true;
+            }
+            if (powerUpFlag)
+            {
+                encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage * 1.5f + "のダメージ!";
+                encountSys.enemyScript.hp[0] -= (enemyDamage * 1.5f);
+                powerUpFlag = false;
+            }
+            else
+            {
+                Debug.Log("コマンド1ディア通常攻撃");
+                encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage + "のダメージ!";
+                encountSys.enemyScript.hp[0] -= enemyDamage;
+            }
         }
-        //鳥の時
-        if (encountSys.typeRnd[0] == 1)
+        //敵2を選択された時
+        if (enemyNumber == 2)
         {
-            birdScript.birdAnim.SetBool("Eb_Damage2", true);
-            birdScript.timerFlag = true;
-        }
-        if (powerUpFlag)
-        {
-            encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage * 1.5f + "のダメージ!";
-            encountSys.enemyScript.hp[0] -= (enemyDamage * 1.5f);
-            powerUpFlag = false;
-        }
-        else
-        {
-            Debug.Log("コマンド1ディア通常攻撃");
-            encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage + "のダメージ!";
-            encountSys.enemyScript.hp[0] -= enemyDamage;
+            //ウサギの時
+            if (encountSys.typeRnd[1] == 0)
+            {
+                rabbitScript[1].rabbitAnim.SetBool("Damage2", true);
+                rabbitScript[1].timerFlag = true;
+            }
+            //鳥の時
+            if (encountSys.typeRnd[1] == 1)
+            {
+                birdScript[1].birdAnim.SetBool("Eb_Damage2", true);
+                birdScript[1].timerFlag = true;
+            }
+            if (powerUpFlag)
+            {
+                encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage * 1.5f + "のダメージ!";
+                encountSys.enemyScript.hp[1] -= (enemyDamage * 1.5f);
+                powerUpFlag = false;
+            }
+            else
+            {
+                Debug.Log("コマンド1ディア通常攻撃");
+                encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage + "のダメージ!";
+                encountSys.enemyScript.hp[1] -= enemyDamage;
+            }
         }
     }
 
 
     public void Skil2()
     {
-        dhiaAnim.SetBool("D_Shield", true);
-        encountSys.windowsMes.text = "ディアは身を守っている。";
-        defenseFlag = true;
+        if (!button)
+        {
+            dhiaAnim.SetBool("D_Shield", true);
+            encountSys.windowsMes.text = "ディアは身を守っている。";
+            defenseFlag = true;
+            button = true;
+        }
     }
     public void Skil3()
     {
-        dhiaAnim.SetBool("D_Shield", true);
-        Debug.Log("コマンド3ディア");
-        encountSys.windowsMes.text = "ディアはリリーを守っている。";
-        ririDefenseFlag = true;
+        if (!button)
+        {
+            dhiaAnim.SetBool("D_Shield", true);
+            Debug.Log("コマンド3ディア");
+            encountSys.windowsMes.text = "ディアはリリーを守っている。";
+            ririDefenseFlag = true;
+            button = true;
+        }
     }
 
     int DamageCalculation(int attack, int defense)
