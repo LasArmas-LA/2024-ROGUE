@@ -719,24 +719,36 @@ MonoBehaviour:
   battleEndFlag: 0
   fade: {fileID: 0}
   partsSlect: 000000
+  partsObj: []
+  partsImage: []
+  slectOnSp: {fileID: 0}
+  slectOffSp: {fileID: 0}
+  arrowObj: []
   slectText:
   - {fileID: 2034224500}
   - {fileID: 1132964766}
   - {fileID: 1620335248}
+  dropPartsSp: []
   slectNowText:
   - {fileID: 1348488247}
   - {fileID: 1553087904}
   - {fileID: 1920455922}
   partsSlectWin: {fileID: 94053879}
   commandWin: {fileID: 1510563395}
-  cameraMoveSpeed: {x: 50, y: 0, z: 0}
-  chestObj: {fileID: 0}
+  commandMain: {fileID: 0}
+  characterMoveSpeed: {x: 0, y: 0, z: 0}
+  floorNoSysObj: {fileID: 0}
   encountSys: {fileID: 180505726}
   equipmentManager: {fileID: 1372105963}
   dhiaStatus: {fileID: 11400000, guid: ff9529fcff4a1bd4d81150027e4d3b9b, type: 2}
   enemyObj: {fileID: 0}
   restObj: {fileID: 0}
   doorObj: {fileID: 1901998080}
+  ririObj: {fileID: 0}
+  dhiaObj: {fileID: 0}
+  characterMainObj: {fileID: 0}
+  ririAnim: {fileID: 0}
+  dhiaAnim: {fileID: 0}
   windowMes: {fileID: 1213364531}
 --- !u!4 &165805358
 Transform:
@@ -817,17 +829,24 @@ MonoBehaviour:
   command3Text: {fileID: 1355190683}
   ririScript: {fileID: 0}
   dhiaScript: {fileID: 0}
-  waitTime: 5
-  rndEnemy: {fileID: 1557075842}
+  enemyScript: {fileID: 0}
   enemyFloorRunSysObj: {fileID: 165805357}
+  waitTime: 5
+  timer: 0
   ririSlider: {fileID: 1106386393}
   dhiaSlider: {fileID: 128803057}
   ririObj: {fileID: 0}
   dhiaObj: {fileID: 0}
+  ririCommand: {fileID: 0}
+  dhiaCommand: {fileID: 0}
+  ririCommandSp: {fileID: 0}
+  dhiaCommandSp: {fileID: 0}
+  commnadImage: []
   enemyObj:
   - {fileID: 0}
   - {fileID: 0}
-  rnd: 0
+  typeRnd: 
+  numberRnd: 0
   command1: 0
   command2: 0
   command3: 0
@@ -1013,8 +1032,8 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 100
-  field of view: 60
-  orthographic: 1
+  field of view: 163.4
+  orthographic: 0
   orthographic size: 60
   m_Depth: -1
   m_CullingMask:
@@ -4843,19 +4862,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e191cdd330327204db7f2ab94feb6528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxhp: 0
-  maxmp: 0
-  hp: 0
-  mp: 0
-  power: 0
-  def: 0
+  hp: []
   deathFlag: 0
+  deathLook: 0000
   enemyMain: {fileID: 1557075840}
-  enemy:
-  - {fileID: 0}
-  - {fileID: 0}
+  enemyObj: []
   encountSys: {fileID: 180505726}
-  enemySlider: {fileID: 1853348663}
+  enemySlider:
+  - {fileID: 0}
+  rabbitScript: []
+  birdScript: []
+  enemyHpDef: []
   death: 0
 --- !u!1 &1570391693
 GameObject:
