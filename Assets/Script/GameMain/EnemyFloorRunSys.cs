@@ -177,7 +177,7 @@ public class EnemyFloorRunSys : MonoBehaviour
     void Update()
     {
         CharMove();
-        CameraMove();
+        //CameraMove();
 
         //フェードアウト処理
         if (floorEndFlag)
@@ -210,8 +210,6 @@ public class EnemyFloorRunSys : MonoBehaviour
     {
         if (encountSys.mainTurn == MainTurn.WAIT)
         {
-            if (characterMainObj.transform.position.x >= enemyObj.transform.position.x - 100)
-            {
                 //1回だけ呼び出す
                 if (!fast)
                 {
@@ -229,15 +227,6 @@ public class EnemyFloorRunSys : MonoBehaviour
                     runStratFlag = false;
                 }
                 //StartCoroutine(ChestWait());
-            }
-            else
-            {
-                commandWin.SetActive(false);
-                commandMain.SetActive(false);
-
-                //キャラクター親オブジェクトの移動処理
-                characterMainObj.transform.position += characterMoveSpeed * Time.deltaTime;
-            }
         }
         if (encountSys.mainTurn == MainTurn.END)
         {

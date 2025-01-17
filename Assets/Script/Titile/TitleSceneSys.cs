@@ -11,6 +11,7 @@ public class TitleSceneSys : MonoBehaviour
     //階層データ保存用
     [SerializeField]
     GameObject floorNoSys = null;
+    FloorNoSys floorNoSysScript = null;
 
     //BGMとSEの音量調節用のスライダー
     [SerializeField]
@@ -45,6 +46,8 @@ public class TitleSceneSys : MonoBehaviour
             DontDestroyOnLoad(floorNoSysClone);
         }
 
+        floorNoSysScript = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
+
         //Audioの初期化
         bgmVolObj.maxValue = 1;
         bgmVolObj.minValue = 0;
@@ -54,12 +57,15 @@ public class TitleSceneSys : MonoBehaviour
         seVolObj.value = 0.5f;
     }
 
+
     void Update()
     {
-        //audioSources[0].volume = bgmVolObj.value;
-       //audioSources[1].volume = seVolObj.value;
+        KeyIn();
+    }
 
-        if(Input.anyKeyDown && fast)
+    void KeyIn()
+    {
+        if (Input.anyKeyDown && fast && !Input.GetKey(KeyCode.Escape))
         {
             fast = false;
             OnStratButton();

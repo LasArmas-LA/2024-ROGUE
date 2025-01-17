@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/LoadScene.unity
     guid: 24d6810ffb0486f4a8ed108467f41b48
   - enabled: 1
-    path: Assets/Scenes/R_EncountFloorScene Old.unity
+    path: Assets/Scenes/EncountScene.unity
     guid: e11194fe9cfa8ad4ca0eef79b3e8b3d5
   - enabled: 1
     path: Assets/Scenes/GameOver.unity

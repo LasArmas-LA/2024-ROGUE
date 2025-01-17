@@ -1,10 +1,54 @@
 using System;
 using UnityEngine;
+using static Dhia;
 using static TestEncount;
 using static UnityEngine.EventSystems.EventTrigger;
 
 public class Dhia : MonoBehaviour
 {
+    //技の管理用
+    public enum DhiaSkill1
+    {
+        HitSkill,
+        KickSkill,
+        ProtectYou,
+        DefensivePosture,
+        Protect,
+        CutSkil,
+        Destroy,
+        CutUp,
+        FiringBlindly
+    }
+    public enum DhiaSkill2
+    {
+        HitSkill,
+        KickSkill,
+        ProtectYou,
+        DefensivePosture,
+        Protect,
+        CutSkil,
+        Destroy,
+        CutUp,
+        FiringBlindly
+    }
+    public enum DhiaSkill3
+    {
+        HitSkill,
+        KickSkill,
+        ProtectYou,
+        DefensivePosture,
+        Protect,
+        CutSkil,
+        Destroy,
+        CutUp,
+        FiringBlindly
+    }
+
+    //技のenumの実体化
+    public DhiaSkill1 dhiaSkill1;    
+    public DhiaSkill2 dhiaSkill2;    
+    public DhiaSkill3 dhiaSkill3;    
+    
     //ディアのステータス
     [SerializeField]
     Status dhiaStatus = null;
@@ -67,7 +111,6 @@ public class Dhia : MonoBehaviour
     bool timerFlag = false;
 
 
-
     void Awake()
     {
         Init();
@@ -75,7 +118,13 @@ public class Dhia : MonoBehaviour
 
     void Init()
     {
-        floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
+        //エラー回避
+        try
+        {
+            floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
+        }
+        catch { }
+
         maxhp = dhiaStatus.MAXHP;
         maxmp = dhiaStatus.MAXMP;
         power = dhiaStatus.ATK;
@@ -160,13 +209,36 @@ public class Dhia : MonoBehaviour
     public bool button = false;
     public void Skil1()
     {
-        //敵の選択ウィンドウ表示
-        if (!button)
+        switch (dhiaSkill1)
         {
-            enemySelectWin.SetActive(true);
-            commandButton.SetActive(false);
-            button = true;
-        }
+            case DhiaSkill1.HitSkill:
+                HitSkill();
+                break;
+            case DhiaSkill1.KickSkill:
+                KickSkill();
+                break;
+            case DhiaSkill1.ProtectYou:
+                ProtectYou();
+                break;
+            case DhiaSkill1.DefensivePosture:
+                DefensivePosture();
+                break;
+            case DhiaSkill1.Protect:
+                Protect();
+                break;
+            case DhiaSkill1.CutSkil:
+                CutSkil();
+                break;
+            case DhiaSkill1.Destroy:
+                Destroy();
+                break;
+            case DhiaSkill1.CutUp:
+                CutUp();
+                break;
+            case DhiaSkill1.FiringBlindly:
+                FiringBlindly();
+                break;
+        }            
     }
 
     public void Skill1Move(int enemyNumber)
@@ -239,23 +311,69 @@ public class Dhia : MonoBehaviour
 
     public void Skil2()
     {
-        if (!button)
+
+        switch (dhiaSkill2)
         {
-            dhiaAnim.SetBool("D_Shield", true);
-            encountSys.windowsMes.text = "ディアは身を守っている。";
-            defenseFlag = true;
-            button = true;
+            case DhiaSkill2.HitSkill:
+                HitSkill();
+                break;
+            case DhiaSkill2.KickSkill:
+                KickSkill();
+                break;
+            case DhiaSkill2.ProtectYou:
+                ProtectYou();
+                break;
+            case DhiaSkill2.DefensivePosture:
+                DefensivePosture();
+                break;
+            case DhiaSkill2.Protect:
+                Protect();
+                break;
+            case DhiaSkill2.CutSkil:
+                CutSkil();
+                break;
+            case DhiaSkill2.Destroy:
+                Destroy();
+                break;
+            case DhiaSkill2.CutUp:
+                CutUp();
+                break;
+            case DhiaSkill2.FiringBlindly:
+                FiringBlindly();
+                break;
         }
     }
     public void Skil3()
     {
-        if (!button)
+        switch (dhiaSkill3)
         {
-            dhiaAnim.SetBool("D_Shield", true);
-            Debug.Log("コマンド3ディア");
-            encountSys.windowsMes.text = "ディアはリリーを守っている。";
-            ririDefenseFlag = true;
-            button = true;
+            case DhiaSkill3.HitSkill:
+                HitSkill();
+                break;
+            case DhiaSkill3.KickSkill:
+                KickSkill();
+                break;
+            case DhiaSkill3.ProtectYou:
+                ProtectYou();
+                break;
+            case DhiaSkill3.DefensivePosture:
+                DefensivePosture();
+                break;
+            case DhiaSkill3.Protect:
+                Protect();
+                break;
+            case DhiaSkill3.CutSkil:
+                CutSkil();
+                break;
+            case DhiaSkill3.Destroy:
+                Destroy();
+                break;
+            case DhiaSkill3.CutUp:
+                CutUp();
+                break;
+            case DhiaSkill3.FiringBlindly:
+                FiringBlindly();
+                break;
         }
     }
 
@@ -276,4 +394,88 @@ public class Dhia : MonoBehaviour
         return damage;
     }
 
+
+    //スキル関数
+
+
+    //殴る
+    void HitSkill()
+    {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
+    }
+
+    //蹴る
+    void KickSkill()
+    {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
+    }
+
+    //お守りします！
+    void ProtectYou()
+    {
+        if(!button)
+        {
+
+        }
+    }
+
+    //防御体制
+    void DefensivePosture()
+    {
+        if (!button)
+        {
+            dhiaAnim.SetBool("D_Shield", true);
+            encountSys.windowsMes.text = "ディアは身を守っている。";
+            defenseFlag = true;
+            button = true;
+        }
+    }
+
+    //守る
+    void Protect()
+    {
+        if (!button)
+        {
+            dhiaAnim.SetBool("D_Shield", true);
+            encountSys.windowsMes.text = "ディアはリリーを守っている。";
+            ririDefenseFlag = true;
+            button = true;
+        }
+    }
+
+    //切る
+    void CutSkil()
+    {
+
+    }
+
+    //撃つ
+    void Destroy()
+    {
+        
+    }
+
+    //切り裂く
+    void CutUp()
+    {
+
+    }
+
+    //乱射
+    void FiringBlindly()
+    {
+
+    }
 }

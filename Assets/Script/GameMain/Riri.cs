@@ -77,7 +77,13 @@ public class Riri : MonoBehaviour
         def = ririStatus.DEFDEF;
         this.gameObject.transform.localScale = new Vector3(1, 1, 1);
 
-        floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
+        //ÉGÉâÅ[âÒî
+        try
+        {
+            floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
+        }
+        catch { }
+
 
 
         if (floorNoSys != null)
