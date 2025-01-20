@@ -7,48 +7,74 @@ using static UnityEngine.EventSystems.EventTrigger;
 public class Dhia : MonoBehaviour
 {
     //ãZÇÃä«óùóp
-    public enum DhiaSkill1
+    public enum DhiaAtkSkill1
     {
         HitSkill,
         KickSkill,
-        ProtectYou,
-        DefensivePosture,
-        Protect,
         CutSkil,
         Destroy,
         CutUp,
         FiringBlindly
     }
-    public enum DhiaSkill2
+    public enum DhiaAtkSkill2
     {
         HitSkill,
         KickSkill,
-        ProtectYou,
-        DefensivePosture,
-        Protect,
         CutSkil,
         Destroy,
         CutUp,
         FiringBlindly
     }
-    public enum DhiaSkill3
+    public enum DhiaAtkSkill3
     {
         HitSkill,
         KickSkill,
-        ProtectYou,
-        DefensivePosture,
-        Protect,
         CutSkil,
         Destroy,
         CutUp,
         FiringBlindly
+    }
+    public enum DhiaDefSkill1
+    {
+        ProtectYou,
+        DefensivePosture,
+        Protect,
+    }
+    public enum DhiaDefSkill2
+    {
+        ProtectYou,
+        DefensivePosture,
+        Protect,
+    }
+    public enum DhiaDefSkill3
+    {
+        ProtectYou,
+        DefensivePosture,
+        Protect,
+    }
+
+    public enum AtkDefSlect
+    {
+        ATK,
+        DEF
     }
 
     //ãZÇÃenumÇÃé¿ëÃâª
-    public DhiaSkill1 dhiaSkill1;    
-    public DhiaSkill2 dhiaSkill2;    
-    public DhiaSkill3 dhiaSkill3;    
-    
+    public DhiaAtkSkill1 dhiaAtkSkill1;    
+    public DhiaAtkSkill2 dhiaAtkSkill2;    
+    public DhiaAtkSkill3 dhiaAtkSkill3;
+    public DhiaDefSkill1 dhiaDefSkill1;    
+    public DhiaDefSkill2 dhiaDefSkill2;    
+    public DhiaDefSkill3 dhiaDefSkill3;
+
+    //çUåÇÇ∆ñhå‰enumÇÃé¿ëÃâª
+    public AtkDefSlect atkDefSlect;
+
+    [SerializeField]
+    public String[] atkSkillName = null;
+    [SerializeField]
+    public String[] defSkillName = null;
+
     //ÉfÉBÉAÇÃÉXÉeÅ[É^ÉX
     [SerializeField]
     Status dhiaStatus = null;
@@ -176,8 +202,120 @@ public class Dhia : MonoBehaviour
             def += dhiaStatus.lefthandPartsData.DEF;
         }
 
-        enemyDamage = DamageCalculation(power, encountSys.enemyScript.def[0]);
+        if (encountSys != null)
+        {
+            enemyDamage = DamageCalculation(power, encountSys.enemyScript.def[0]);
+        }
+
+        
+        switch (dhiaAtkSkill1)
+        {
+            case DhiaAtkSkill1.HitSkill:
+                atkSkillName[0] = "â£ÇÈ";
+                break;
+            case DhiaAtkSkill1.KickSkill:
+                atkSkillName[0] = "èRÇÈ";
+                break;
+            case DhiaAtkSkill1.CutSkil:
+                atkSkillName[0] = "êÿÇÈ";
+                break;
+            case DhiaAtkSkill1.Destroy:
+                atkSkillName[0] = "åÇÇ¬";
+                break;
+            case DhiaAtkSkill1.CutUp:
+                atkSkillName[0] = "êÿÇËóÙÇ≠";
+                break;
+            case DhiaAtkSkill1.FiringBlindly:
+                atkSkillName[0] = "óêéÀ";
+                break;
+        }
+
+        switch (dhiaAtkSkill2)
+        {
+            case DhiaAtkSkill2.HitSkill:
+                atkSkillName[1] = "â£ÇÈ";
+                break;
+            case DhiaAtkSkill2.KickSkill:
+                atkSkillName[1] = "èRÇÈ";
+                break;
+            case DhiaAtkSkill2.CutSkil:
+                atkSkillName[1] = "êÿÇÈ";
+                break;
+            case DhiaAtkSkill2.Destroy:
+                atkSkillName[1] = "åÇÇ¬";
+                break;
+            case DhiaAtkSkill2.CutUp:
+                atkSkillName[1] = "êÿÇËóÙÇ≠";
+                break;
+            case DhiaAtkSkill2.FiringBlindly:
+                atkSkillName[1] = "óêéÀ";
+                break;
+        }
+
+        switch (dhiaAtkSkill3)
+        {
+            case DhiaAtkSkill3.HitSkill:
+                atkSkillName[2] = "â£ÇÈ";
+                break;
+            case DhiaAtkSkill3.KickSkill:
+                atkSkillName[2] = "èRÇÈ";
+                break;
+            case DhiaAtkSkill3.CutSkil:
+                atkSkillName[2] = "êÿÇÈ";
+                break;
+            case DhiaAtkSkill3.Destroy:
+                atkSkillName[2] = "åÇÇ¬";
+                break;
+            case DhiaAtkSkill3.CutUp:
+                atkSkillName[2] = "êÿÇËóÙÇ≠";
+                break;
+            case DhiaAtkSkill3.FiringBlindly:
+                atkSkillName[2] = "óêéÀ";
+                break;
+        }
+
+        switch (dhiaDefSkill1)
+        {
+            case DhiaDefSkill1.ProtectYou:
+                defSkillName[0] = "Ç®éÁÇËÇµÇ‹Ç∑ÅI";
+                break;
+            case DhiaDefSkill1.DefensivePosture:
+                defSkillName[0] = "ñhå‰ë‘ê®";
+                break;
+            case DhiaDefSkill1.Protect:
+                defSkillName[0] = "éÁÇÈ";
+                break;
+        }
+
+        switch (dhiaDefSkill2)
+        {
+            case DhiaDefSkill2.ProtectYou:
+                defSkillName[1] = "Ç®éÁÇËÇµÇ‹Ç∑ÅI";
+                break;
+            case DhiaDefSkill2.DefensivePosture:
+                defSkillName[1] = "ñhå‰ë‘ê®";
+                break;
+            case DhiaDefSkill2.Protect:
+                defSkillName[1] = "éÁÇÈ";
+                break;
+        }
+
+        switch (dhiaDefSkill3)
+        {
+            case DhiaDefSkill3.ProtectYou:
+                defSkillName[2] = "Ç®éÁÇËÇµÇ‹Ç∑ÅI";
+                break;
+            case DhiaDefSkill3.DefensivePosture:
+                defSkillName[2] = "ñhå‰ë‘ê®";
+                break;
+            case DhiaDefSkill3.Protect:
+                defSkillName[2] = "éÁÇÈ";
+                break;
+        }
+
     }
+
+
 
     void Update()
     {
@@ -209,36 +347,49 @@ public class Dhia : MonoBehaviour
     public bool button = false;
     public void Skil1()
     {
-        switch (dhiaSkill1)
+        switch (atkDefSlect)
         {
-            case DhiaSkill1.HitSkill:
-                HitSkill();
+            //çUåÇ
+            case AtkDefSlect.ATK:
+                switch (dhiaAtkSkill1)
+                {
+                    case DhiaAtkSkill1.HitSkill:
+                        HitSkill();
+                        break;
+                    case DhiaAtkSkill1.KickSkill:
+                        KickSkill();
+                        break;
+                    case DhiaAtkSkill1.CutSkil:
+                        CutSkil();
+                        break;
+                    case DhiaAtkSkill1.Destroy:
+                        Destroy();
+                        break;
+                    case DhiaAtkSkill1.CutUp:
+                        CutUp();
+                        break;
+                    case DhiaAtkSkill1.FiringBlindly:
+                        FiringBlindly();
+                        break;
+                }
                 break;
-            case DhiaSkill1.KickSkill:
-                KickSkill();
+
+                //ñhå‰
+            case AtkDefSlect.DEF:
+                switch (dhiaDefSkill1)
+                {
+                    case DhiaDefSkill1.ProtectYou:
+                        ProtectYou();
+                        break;
+                    case DhiaDefSkill1.DefensivePosture:
+                        DefensivePosture();
+                        break;
+                    case DhiaDefSkill1.Protect:
+                        Protect();
+                        break;
+                }
                 break;
-            case DhiaSkill1.ProtectYou:
-                ProtectYou();
-                break;
-            case DhiaSkill1.DefensivePosture:
-                DefensivePosture();
-                break;
-            case DhiaSkill1.Protect:
-                Protect();
-                break;
-            case DhiaSkill1.CutSkil:
-                CutSkil();
-                break;
-            case DhiaSkill1.Destroy:
-                Destroy();
-                break;
-            case DhiaSkill1.CutUp:
-                CutUp();
-                break;
-            case DhiaSkill1.FiringBlindly:
-                FiringBlindly();
-                break;
-        }            
+        }
     }
 
     public void Skill1Move(int enemyNumber)
@@ -311,68 +462,96 @@ public class Dhia : MonoBehaviour
 
     public void Skil2()
     {
-
-        switch (dhiaSkill2)
+        switch (atkDefSlect)
         {
-            case DhiaSkill2.HitSkill:
-                HitSkill();
+            //çUåÇ
+            case AtkDefSlect.ATK:
+
+                switch (dhiaAtkSkill2)
+                {
+                    case DhiaAtkSkill2.HitSkill:
+                        HitSkill();
+                        break;
+                    case DhiaAtkSkill2.KickSkill:
+                        KickSkill();
+                        break;
+                    case DhiaAtkSkill2.CutSkil:
+                        CutSkil();
+                        break;
+                    case DhiaAtkSkill2.Destroy:
+                        Destroy();
+                        break;
+                    case DhiaAtkSkill2.CutUp:
+                        CutUp();
+                        break;
+                    case DhiaAtkSkill2.FiringBlindly:
+                        FiringBlindly();
+                        break;
+                }
+
                 break;
-            case DhiaSkill2.KickSkill:
-                KickSkill();
-                break;
-            case DhiaSkill2.ProtectYou:
-                ProtectYou();
-                break;
-            case DhiaSkill2.DefensivePosture:
-                DefensivePosture();
-                break;
-            case DhiaSkill2.Protect:
-                Protect();
-                break;
-            case DhiaSkill2.CutSkil:
-                CutSkil();
-                break;
-            case DhiaSkill2.Destroy:
-                Destroy();
-                break;
-            case DhiaSkill2.CutUp:
-                CutUp();
-                break;
-            case DhiaSkill2.FiringBlindly:
-                FiringBlindly();
+
+            case AtkDefSlect.DEF:
+                switch (dhiaDefSkill2)
+                {
+                    case DhiaDefSkill2.ProtectYou:
+                        ProtectYou();
+                        break;
+                    case DhiaDefSkill2.DefensivePosture:
+                        DefensivePosture();
+                        break;
+                    case DhiaDefSkill2.Protect:
+                        Protect();
+                        break;
+                }
                 break;
         }
+
     }
     public void Skil3()
     {
-        switch (dhiaSkill3)
+        switch (atkDefSlect)
         {
-            case DhiaSkill3.HitSkill:
-                HitSkill();
+            //çUåÇ
+            case AtkDefSlect.ATK:
+
+                switch (dhiaAtkSkill3)
+                {
+                    case DhiaAtkSkill3.HitSkill:
+                        HitSkill();
+                        break;
+                    case DhiaAtkSkill3.KickSkill:
+                        KickSkill();
+                        break;
+                    case DhiaAtkSkill3.CutSkil:
+                        CutSkil();
+                        break;
+                    case DhiaAtkSkill3.Destroy:
+                        Destroy();
+                        break;
+                    case DhiaAtkSkill3.CutUp:
+                        CutUp();
+                        break;
+                    case DhiaAtkSkill3.FiringBlindly:
+                        FiringBlindly();
+                        break;
+                }
+
                 break;
-            case DhiaSkill3.KickSkill:
-                KickSkill();
-                break;
-            case DhiaSkill3.ProtectYou:
-                ProtectYou();
-                break;
-            case DhiaSkill3.DefensivePosture:
-                DefensivePosture();
-                break;
-            case DhiaSkill3.Protect:
-                Protect();
-                break;
-            case DhiaSkill3.CutSkil:
-                CutSkil();
-                break;
-            case DhiaSkill3.Destroy:
-                Destroy();
-                break;
-            case DhiaSkill3.CutUp:
-                CutUp();
-                break;
-            case DhiaSkill3.FiringBlindly:
-                FiringBlindly();
+            case AtkDefSlect.DEF:
+
+                switch (dhiaDefSkill3)
+                {
+                    case DhiaDefSkill3.ProtectYou:
+                        ProtectYou();
+                        break;
+                    case DhiaDefSkill3.DefensivePosture:
+                        DefensivePosture();
+                        break;
+                    case DhiaDefSkill3.Protect:
+                        Protect();
+                        break;
+                }
                 break;
         }
     }
@@ -427,7 +606,8 @@ public class Dhia : MonoBehaviour
     {
         if(!button)
         {
-
+            Debug.Log("Ç®éÁÇËÇµÇ‹Ç∑");
+            button = true;
         }
     }
 

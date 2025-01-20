@@ -12,6 +12,8 @@ public class TestEncount : MonoBehaviour
     {
         WAIT,
 
+        DHIAATKDEFSLECT,
+
         RIRIMOVE,
         RIRIANIM,
 
@@ -104,6 +106,8 @@ public class TestEncount : MonoBehaviour
     [Header("コマンドのオブジェクト")]
     [SerializeField]
     Image[] commnadImage = null;
+    [SerializeField]
+    GameObject atkDefSlectWin = null;
 
     [Space(10)]
 
@@ -226,6 +230,13 @@ public class TestEncount : MonoBehaviour
                 {
                     fast = true;
                 }
+
+                break;
+            case MainTurn.DHIAATKDEFSLECT:
+
+                //コマンド部分の表示切り替え
+                dhiaCommand.SetActive(true);
+                ririCommand.SetActive(false);
 
                 break;
             case MainTurn.DHIAMOVE:
@@ -399,14 +410,24 @@ public class TestEncount : MonoBehaviour
         }
     }
 
+    int dhiaSlectNomber = 0;
+    public void DhiaAtkDefSlect(int number)
+    {
+        if (!button)
+        {
+            button = true;
+            dhiaSlectNomber = number;
+        }
+    }
+
     void RiriMove()
     {
         if (mainTurn == MainTurn.RIRIMOVE)
         {
 
             command1Text.text = "ヒール";
-            command2Text.text = "オールヒール";
-            command3Text.text = "バイキルト";
+            command2Text.text = "押さないで";
+            command3Text.text = "攻撃アップ";
 
             commnadImage[0].sprite = ririCommandSp;
             commnadImage[1].sprite = ririCommandSp;
@@ -473,18 +494,46 @@ public class TestEncount : MonoBehaviour
                 command3 = false;
 
                 //ステータスを変更
-                mainTurn = MainTurn.DHIAMOVE;
+                mainTurn = MainTurn.DHIAATKDEFSLECT;
             }
 
         }
     }
     void DhiaMove()
     {
+        if (mainTurn == MainTurn.DHIAATKDEFSLECT)
+        {
+            atkDefSlectWin.SetActive(true);
+            enemyFloorRunSysObj.commandWin.SetActive(true);
+
+            if (button)
+            {
+                //アタックスキルを選択
+                if (dhiaSlectNomber == 0)
+                {
+                    command1Text.text = dhiaScript.atkSkillName[0];
+                    command2Text.text = dhiaScript.atkSkillName[1];
+                    command3Text.text = dhiaScript.atkSkillName[2];
+
+                    dhiaScript.atkDefSlect = Dhia.AtkDefSlect.ATK;
+                }
+                //ディフェンススキルを選択
+                if (dhiaSlectNomber == 1)
+                {
+                    command1Text.text = dhiaScript.defSkillName[0];
+                    command2Text.text = dhiaScript.defSkillName[1];
+                    command3Text.text = dhiaScript.defSkillName[2];
+                    dhiaScript.atkDefSlect = Dhia.AtkDefSlect.DEF;
+                }
+
+                button = false;
+                atkDefSlectWin.SetActive(false);
+                mainTurn = MainTurn.DHIAMOVE;   
+            }
+        }
+
         if (mainTurn == MainTurn.DHIAMOVE)
         {
-            command1Text.text = "殴る";
-            command2Text.text = "防御体制";
-            command3Text.text = "守る";
 
             commnadImage[0].sprite = dhiaCommandSp;
             commnadImage[1].sprite = dhiaCommandSp;
@@ -497,11 +546,22 @@ public class TestEncount : MonoBehaviour
                     if (command1)
                     {
                         dhiaScript.Skil1();
-                        if(numberRnd != 1)
+                        //攻撃選択時は対象を選ばせる
+                        if (dhiaSlectNomber == 0)
+                        {
+                            if (numberRnd != 1)
+                            {
+                                //ステータスを変更
+                                mainTurn = MainTurn.DHIAANIM;
+                            }
+                        }
+                        //防御時は対象を選ばせない
+                        if(dhiaSlectNomber == 1)
                         {
                             //ステータスを変更
-                            mainTurn = MainTurn.DHIAANIM;
+                            mainTurn = MainTurn.DHIAANIM;   
                         }
+
                     }
                     if (command2)
                     {
