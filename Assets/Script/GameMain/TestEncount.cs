@@ -181,7 +181,7 @@ public class TestEncount : MonoBehaviour
         floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
 
         //フロアが1階の時
-        if (floorNoSys.floorNo == 1)
+        if (floorNoSys.floorCo == 1)
         {
             //MaxのHPを現在のHPに格納
             ririSlider.value = ririSlider.maxValue;
@@ -190,8 +190,16 @@ public class TestEncount : MonoBehaviour
         else
         {
             //Hpバーを残hpの割合で適用
-            ririSlider.value = ririSlider.value * (ririScript.hp / ririScript.maxhp);
-            dhiaSlider.value = dhiaSlider.value * (dhiaScript.hp / dhiaScript.maxhp);
+            ririSlider.value = ririSlider.maxValue * (ririScript.hp / ririScript.maxhp);
+            dhiaSlider.value = dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp);
+        }
+        if(floorNoSys.floorCo % 5 == 0)
+        {
+            restFlag = true;
+        }
+        if(floorNoSys.floorCo % 10 == 0)
+        {
+            bossFlag = true;
         }
     }
 
@@ -566,14 +574,40 @@ public class TestEncount : MonoBehaviour
                     if (command2)
                     {
                         dhiaScript.Skil2();
-                        //ステータスを変更
-                        mainTurn = MainTurn.DHIAANIM;
+                        //攻撃選択時は対象を選ばせる
+                        if (dhiaSlectNomber == 0)
+                        {
+                            if (numberRnd != 1)
+                            {
+                                //ステータスを変更
+                                mainTurn = MainTurn.DHIAANIM;
+                            }
+                        }
+                        //防御時は対象を選ばせない
+                        if (dhiaSlectNomber == 1)
+                        {
+                            //ステータスを変更
+                            mainTurn = MainTurn.DHIAANIM;
+                        }
                     }
                     if (command3)
                     {
                         dhiaScript.Skil3();
-                        //ステータスを変更
-                        mainTurn = MainTurn.DHIAANIM;
+                        //攻撃選択時は対象を選ばせる
+                        if (dhiaSlectNomber == 0)
+                        {
+                            if (numberRnd != 1)
+                            {
+                                //ステータスを変更
+                                mainTurn = MainTurn.DHIAANIM;
+                            }
+                        }
+                        //防御時は対象を選ばせない
+                        if (dhiaSlectNomber == 1)
+                        {
+                            //ステータスを変更
+                            mainTurn = MainTurn.DHIAANIM;
+                        }
                     }
                     coLock = true;
                 }

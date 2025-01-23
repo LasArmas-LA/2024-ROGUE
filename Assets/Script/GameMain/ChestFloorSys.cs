@@ -44,7 +44,7 @@ public class ChestFloorSys : MonoBehaviour
         floorNoSys = floorNoSysObj.GetComponent<FloorNoSys>();
 
         //休憩フロアフラグオン
-        if (floorNoSys.floorNo % 5 == 0 && floorNoSys.floorNo != 0)
+        if (floorNoSys.floorCo % 5 == 0 && floorNoSys.floorCo != 0)
         {
             restFlag = true;
         }
@@ -131,7 +131,7 @@ public class ChestFloorSys : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         if(chestEndFlag)
         {
-            floorNoSys.floorNo += 1;
+            floorNoSys.floorCo += 1;
         }
         chestEndFlag = false;
         floorEndFlag = true;

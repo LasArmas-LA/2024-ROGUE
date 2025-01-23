@@ -132,6 +132,12 @@ public class EnemyFloorRunSys : MonoBehaviour
 
 
     [Space(10)]
+    [SerializeField, Header("スクリプト参照")]
+    Riri ririScript = null;
+    [SerializeField]
+    Dhia dhiaScript = null;
+
+    [Space(10)]
 
     //アニメーション
     [SerializeField,Header("アニメーション管理用")]
@@ -188,9 +194,16 @@ public class EnemyFloorRunSys : MonoBehaviour
 
                 floorEndFlag = false;
             }
+
+            if (battleEndFlag)
+            {
+                floorNoSys.floorCo += 1;
+                Debug.Log("階層アップ");
+                battleEndFlag = false;
+            }
         }
 
-        if(gameOverFlag)
+        if (gameOverFlag)
         {
             GameOver();
         }
@@ -206,6 +219,7 @@ public class EnemyFloorRunSys : MonoBehaviour
         }
     }
 
+    bool fastFloorNo = true;
     void CharMove()
     {
         if (encountSys.mainTurn == MainTurn.WAIT)
@@ -232,7 +246,7 @@ public class EnemyFloorRunSys : MonoBehaviour
         {
             if (encountSys.restFlag)
             {
-                if (characterMainObj.transform.position.x <= restObj.transform.position.x - 50)
+                if (characterMainObj.transform.position.x <= restObj.transform.position.x + 20)
                 {
                     windowMes.text = "探索中";
                     commandWin.SetActive(false);
@@ -249,6 +263,10 @@ public class EnemyFloorRunSys : MonoBehaviour
                     //歩きアニメーションを停止
                     ririAnim.SetBool("R_Walk", false);
                     dhiaAnim.SetBool("D_Walk", false);
+
+                    //HPを回復
+                    ririScript.hp = ririScript.maxhp;
+                    dhiaScript.hp = dhiaScript.maxhp;
 
                     //コマンドを非表示
                     commandWin.SetActive(false);
@@ -349,7 +367,7 @@ public class EnemyFloorRunSys : MonoBehaviour
                 //装備が選ばれたらドアまで移動する処理
                 else
                 {
-                    if (characterMainObj.transform.position.x <= doorObj.transform.position.x - 10)
+                    if (characterMainObj.transform.position.x <= doorObj.transform.position.x + 70)
                     {
                         windowMes.text = "探索中";
                         commandWin.SetActive(false);
@@ -368,6 +386,11 @@ public class EnemyFloorRunSys : MonoBehaviour
                         dhiaAnim.SetBool("D_Walk", false);
                         commandWin.SetActive(false);
                         commandMain.SetActive(false);
+                        if (fastFloorNo)
+                        {
+                            floorNoSys.floorCo += 1;
+                            fastFloorNo = false;
+                        }
 
                         commandMain.SetActive(false);
                         StartCoroutine(FloorEnd());
@@ -543,11 +566,6 @@ public class EnemyFloorRunSys : MonoBehaviour
     IEnumerator FloorEnd()
     {
         yield return new WaitForSeconds(1.0f);
-        if (battleEndFlag)
-        {
-            floorNoSys.floorNo += 1;
-        }
-        battleEndFlag = false;
         floorEndFlag = true;
     }
     IEnumerator RestStay()

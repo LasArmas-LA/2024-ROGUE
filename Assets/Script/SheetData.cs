@@ -18,7 +18,6 @@ using UnityEditor;
 public class SheetData : ScriptableObject
 {
     public CharacterParamDataRecord[] characterParamDataRecord;    // シートデータのリスト
-    public ArmorParamRecord[] armorParamRecord;    // シートデータのリスト
 
     [SerializeField] string url;    // スプレットシートのURL
 
@@ -28,33 +27,15 @@ public class SheetData : ScriptableObject
         /////////////////////////////////////////////
         // スプレットシートの列に対応する変数を定義
         // 好きに変更してください
-        public string C_NAME;
-        public float C_MAXHP;
-        public float C_MAXMP;
-        public float C_ATK;
-        public float C_DEF;
-                          /////////////////////////////////////////////
-    }
-    [System.Serializable]
-    public class ArmorParamRecord
-    {
+        public int[] stageKinds1;
         /////////////////////////////////////////////
-        // スプレットシートの列に対応する変数を定義
-        // 好きに変更してください
-        public string A_NAME;//名前
-        public float A_MAXHP;//HP
-        public float A_MAXMP;//MP
-        public float A_ATK;//攻撃力
-        public float A_DEF;//防御力
-        public float A_AVOIDANCE;//回避率
-                          /////////////////////////////////////////////
     }
 
 
 
 #if UNITY_EDITOR
-        //スプレットシートの情報をsheetDataRecordに反映させるメソッド
-        public void LoadSheetData()
+    //スプレットシートの情報をsheetDataRecordに反映させるメソッド
+    public void LoadSheetData()
     {
         // urlからCSV形式の文字列をダウンロードする
         using UnityWebRequest request = UnityWebRequest.Get(url);
@@ -68,9 +49,8 @@ public class SheetData : ScriptableObject
         }
 
         // ダウンロードしたCSVをデシリアライズ(SerializeFieldに入力)する
-        characterParamDataRecord = CSVSerializer.Deserialize<CharacterParamDataRecord>(request.downloadHandler.text);
-        armorParamRecord = CSVSerializer.Deserialize<ArmorParamRecord>(request.downloadHandler.text);
-         
+        characterParamDataRecord = CSVSerializer.Deserialize<CharacterParamDataRecord> (request.downloadHandler.text);
+
         // データの更新が完了したら、ScriptableObjectを保存する
         EditorUtility.SetDirty(this);
         AssetDatabase.SaveAssets();

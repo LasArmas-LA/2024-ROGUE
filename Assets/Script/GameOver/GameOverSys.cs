@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameOverSys : MonoBehaviour
@@ -12,5 +13,10 @@ public class GameOverSys : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void TitleButtonSlect()
+    {
+        SceneManager.LoadScene("Title");
     }
 }

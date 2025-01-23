@@ -160,7 +160,7 @@ public class Dhia : MonoBehaviour
 
         if (floorNoSys != null)
         {
-            if (floorNoSys.floorNo == 1)
+            if (floorNoSys.floorCo == 1)
             {
                 dhiaStatus.HP = dhiaStatus.MAXHP;
 
@@ -207,7 +207,7 @@ public class Dhia : MonoBehaviour
             enemyDamage = DamageCalculation(power, encountSys.enemyScript.def[0]);
         }
 
-        
+        //攻撃スキル1の名前を変更
         switch (dhiaAtkSkill1)
         {
             case DhiaAtkSkill1.HitSkill:
@@ -230,6 +230,7 @@ public class Dhia : MonoBehaviour
                 break;
         }
 
+        //攻撃スキル2の名前を変更
         switch (dhiaAtkSkill2)
         {
             case DhiaAtkSkill2.HitSkill:
@@ -252,6 +253,7 @@ public class Dhia : MonoBehaviour
                 break;
         }
 
+        //攻撃スキル3の名前を変更
         switch (dhiaAtkSkill3)
         {
             case DhiaAtkSkill3.HitSkill:
@@ -274,6 +276,7 @@ public class Dhia : MonoBehaviour
                 break;
         }
 
+        //防御スキル1の名前を変更
         switch (dhiaDefSkill1)
         {
             case DhiaDefSkill1.ProtectYou:
@@ -287,6 +290,7 @@ public class Dhia : MonoBehaviour
                 break;
         }
 
+        //防御スキル2の名前を変更
         switch (dhiaDefSkill2)
         {
             case DhiaDefSkill2.ProtectYou:
@@ -300,6 +304,7 @@ public class Dhia : MonoBehaviour
                 break;
         }
 
+        //防御スキル3の名前を変更
         switch (dhiaDefSkill3)
         {
             case DhiaDefSkill3.ProtectYou:

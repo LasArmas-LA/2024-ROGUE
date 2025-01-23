@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NAME: "\u30C7\u30A3\u30A2"
   MAXHP: 150
-  HP: 150
+  HP: 37
   MAXMP: 100
   MP: 100
-  ATK: 100
+  ATK: 300
   DEF: 10
   DEFATK: 0
   DEFDEF: 0
@@ -25,5 +25,5 @@ MonoBehaviour:
   headPartsData: {fileID: 0}
   bodyPartsData: {fileID: 0}
   legPartsData: {fileID: 0}
-  righthandPartsData: {fileID: 0}
+  righthandPartsData: {fileID: 11400000, guid: fa4ac5ec386d35c4dbb66586312e44ca, type: 2}
   lefthandPartsData: {fileID: 0}

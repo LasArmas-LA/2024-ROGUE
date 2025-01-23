@@ -88,7 +88,7 @@ public class Riri : MonoBehaviour
 
         if (floorNoSys != null)
         {
-            if (floorNoSys.floorNo == 1)
+            if (floorNoSys.floorCo == 1)
             {
                 Debug.Log("0ŠK‚Å‚·");
                 ririStatus.HP = ririStatus.MAXHP;

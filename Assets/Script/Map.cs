@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,25 +15,49 @@ public class Map : MonoBehaviour
     [SerializeField]
     GameObject mainCamera;
 
+    [SerializeField]
+    FloorNoSys floorNoSys = null;
+
+    //ボタンの位置を保存
+    [SerializeField]
+    Vector3[] buttonPos = null;
+
+    
+    [SerializeField]
+    GameObject[] buttonObj = null;
+
+    [SerializeField]
+    GameObject[] buttonKinds = null;
+
+    //ボタンを生成するキャンバス
+    [SerializeField]
+    Transform backCanvas = null;
+
     void Start()
     {
-
+        for(int i = 0; i < buttonPos.Length; i++)
+        {
+            GameObject cloneButton = Instantiate(buttonObj[i], buttonPos[i],Quaternion.identity, backCanvas);
+            cloneButton.name = (i + 1).ToString();
+        }
     }
 
     void Update()
     {
-        if (mainCamera.transform.position.y >= 100 && mainCamera.transform.position.y <= 1000)
+
+        //マウススクロール
+        if (mainCamera.transform.position.y >= -500 && mainCamera.transform.position.y <= 500)
         {
             var scroll = Input.mouseScrollDelta.y;
             mainCamera.transform.position -= -mainCamera.transform.up * scroll * scrollSpeed;
         }
-        if (mainCamera.transform.position.y <= 100)
+        if (mainCamera.transform.position.y <= -500)
         {
-            mainCamera.transform.position = new Vector3(960,100,-10);
+            mainCamera.transform.position = new Vector3(0,-500,-10);
         }
-        if(mainCamera.transform.position.y >= 1000)
+        if(mainCamera.transform.position.y >= 500)
         {
-            mainCamera.transform.position = new Vector3(960, 1000, -10);
+            mainCamera.transform.position = new Vector3(0, 500, -10);
         }
     }
 
