@@ -574,6 +574,7 @@ public class Dhia : MonoBehaviour
 
         //ダメージ振幅値を加味した計算
         damage = UnityEngine.Random.Range(damage - width, damage + width);
+
         //呼び出し側にダメージ数を返す
         return damage;
     }

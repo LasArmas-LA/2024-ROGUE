@@ -364,7 +364,7 @@ public class EnemyFloorRunSys : MonoBehaviour
 
                     partsSlectWin.SetActive(true);
                 }
-                //装備が選ばれたらドアまで移動する処理
+                //装備が選ばれたら画面外まで移動する処理
                 else
                 {
                     if (characterMainObj.transform.position.x <= doorObj.transform.position.x + 70)
@@ -559,7 +559,7 @@ public class EnemyFloorRunSys : MonoBehaviour
 
     void LoadScene()
     {
-        SceneManager.LoadScene("LoadScene");
+        SceneManager.LoadScene("Map");
     }
 
     //ドアまで到着した時の処理

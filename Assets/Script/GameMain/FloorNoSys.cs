@@ -11,6 +11,9 @@ public class FloorNoSys : MonoBehaviour
     //現状のフロアカウント用
     public int floorNo = 0;
 
+    //選択中のボタンの番号
+    public int slectButtonNo = 0;
+
     void Start()
     {
 

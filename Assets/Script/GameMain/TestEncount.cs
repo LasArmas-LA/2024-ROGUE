@@ -164,7 +164,7 @@ public class TestEncount : MonoBehaviour
             enemyObj[typeRnd[0]].transform.localScale = new Vector3(1, 1, 1);
 
             //エネミーの種類抽選用
-            typeRnd[1] = UnityEngine.Random.Range(3, enemyObj.Length);
+            typeRnd[1] = UnityEngine.Random.Range(3, enemyObj.Length + 1);
 
             //ランダムで選ばれたエネミーオブジェクトの表示
             enemyObj[typeRnd[1]].transform.localScale = new Vector3(1, 1, 1);
@@ -243,8 +243,8 @@ public class TestEncount : MonoBehaviour
             case MainTurn.DHIAATKDEFSLECT:
 
                 //コマンド部分の表示切り替え
-                dhiaCommand.SetActive(true);
                 ririCommand.SetActive(false);
+                dhiaCommand.SetActive(true);
 
                 break;
             case MainTurn.DHIAMOVE:
@@ -441,7 +441,7 @@ public class TestEncount : MonoBehaviour
             commnadImage[1].sprite = ririCommandSp;
             commnadImage[2].sprite = ririCommandSp;
 
-            //Debug.Log("リリーのターン");
+            //ボタンが押されるで待機
             if (command1 || command2 || command3)
             {
                 //タイマー開始
@@ -450,7 +450,7 @@ public class TestEncount : MonoBehaviour
                     timer += Time.deltaTime;
                 }
 
-
+                //ボタンの多段押し防止
                 if (!coLock)
                 {
                     if (command1)
@@ -650,6 +650,7 @@ public class TestEncount : MonoBehaviour
     {
         if (mainTurn == MainTurn.ENEMY1MOVE)
         {
+            //死んでる時はターンをスキップして戻る
             if (enemyScript.deathLook[0])
             {
                 mainTurn = MainTurn.ENEMY2MOVE;
@@ -658,9 +659,6 @@ public class TestEncount : MonoBehaviour
 
             //タイマー開始
             timer += Time.deltaTime;
-
-            //ステータスを変更
-            //mainTurn = MainTurn.ENEMYANIM;
 
             if (!coLock)
             {

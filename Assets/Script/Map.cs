@@ -16,6 +16,8 @@ public class Map : MonoBehaviour
     GameObject mainCamera;
 
     [SerializeField]
+    GameObject floorNoSysObj = null;
+    [SerializeField]
     FloorNoSys floorNoSys = null;
 
     //ボタンの位置を保存
@@ -33,18 +35,59 @@ public class Map : MonoBehaviour
     [SerializeField]
     Transform backCanvas = null;
 
+    //クローンしたボタンを格納
+    [SerializeField]
+    GameObject[] cloneButtonObj = null;
+
+    [SerializeField]
+    Button[] cloneButton = null;
+
+    [SerializeField]
+    GameObject floorNoSysObjClone = null;
+
     void Start()
     {
-        for(int i = 0; i < buttonPos.Length; i++)
+        //オブジェクトの重複チェック
+        if (GameObject.Find("FloorNo") == null)
         {
-            GameObject cloneButton = Instantiate(buttonObj[i], buttonPos[i],Quaternion.identity, backCanvas);
-            cloneButton.name = (i + 1).ToString();
+            //存在しなければ生成してDontDestroyOnLoadで保存
+            floorNoSysObjClone = Instantiate(floorNoSysObj);
+            DontDestroyOnLoad(floorNoSysObjClone);
+
+            //クローンしたオブジェクトの名前を変更
+            floorNoSysObjClone.name = "FloorNo";
+        }
+        floorNoSys = floorNoSysObjClone.GetComponent<FloorNoSys>();
+
+        //ボタンを生成する処理
+        for (int i = 0; i < buttonPos.Length; i++)
+        {
+            //指定のキャンバス内にボタンをクローンさせ配列に格納
+            cloneButtonObj[i] = Instantiate(buttonObj[i], buttonPos[i],Quaternion.identity, backCanvas);
+            //わかりやすいように名前を1,2,3,4…のように変更
+            cloneButtonObj[i].name = (i + 1).ToString();
+
+            cloneButton[i] = cloneButtonObj[i].GetComponent<Button>();
+
+            int ii = i + 0;
+
+            //ボタンクリック時のイベントを関数と戻り値の設定
+            cloneButton[i].onClick.AddListener(() => ButtonChecker((ii)));
+
+            //アウトラインで現在位置の情報を表示するので取得
+            button[i] = cloneButtonObj[i].GetComponent<Outline>();
+            
         }
     }
 
     void Update()
     {
+        MouseScroll();
+        ButtonColorChenge();
+    }
 
+    void MouseScroll()
+    {
         //マウススクロール
         if (mainCamera.transform.position.y >= -500 && mainCamera.transform.position.y <= 500)
         {
@@ -53,38 +96,52 @@ public class Map : MonoBehaviour
         }
         if (mainCamera.transform.position.y <= -500)
         {
-            mainCamera.transform.position = new Vector3(0,-500,-10);
+            mainCamera.transform.position = new Vector3(0, -500, -10);
         }
-        if(mainCamera.transform.position.y >= 500)
+        if (mainCamera.transform.position.y >= 500)
         {
             mainCamera.transform.position = new Vector3(0, 500, -10);
         }
     }
 
-    public void SceneChenge (int sceneNo)
+    void ButtonColorChenge()
+    {
+        button[floorNoSys.slectButtonNo].effectColor = Color.yellow;
+        button[floorNoSys.slectButtonNo].effectDistance = new Vector2(10, 10);
+    }
+
+    //どのボタンが押されたかの判別
+    public void ButtonChecker(int buttonNo)
+    {
+        //選ばれたボタンの番号をDontDestroyOnLoadオブジェクトの変数に格納
+        floorNoSys.slectButtonNo = buttonNo;
+    }
+
+    //シーンの切り替え
+    public void SceneChenge (int sceneKindsNo)
     {
         //敵
-        if(sceneNo == 0)
+        if (sceneKindsNo == 0)
         {
             //SceneManager.LoadScene("R_EncountFloorScene Old");
         }
         //イベント
-        if(sceneNo == 1)
+        if(sceneKindsNo == 1)
         {
             //SceneManager.LoadScene("Event");
         }
         //休憩
-        if (sceneNo == 2)
+        if (sceneKindsNo == 2)
         {
            // SceneManager.LoadScene("Stay");
         }
         //宝
-        if (sceneNo == 3)
+        if (sceneKindsNo == 3)
         {
             //SceneManager.LoadScene("Treasure");
         }
         //ボス
-        if (sceneNo == 4)
+        if (sceneKindsNo == 4)
         {
            // SceneManager.LoadScene("Boss");
         }
@@ -96,8 +153,6 @@ public class Map : MonoBehaviour
         {
             button[i].effectColor = Color.white;
             button[i].effectDistance = new Vector2(0, 0);
-
-            Debug.Log(i);
         }
 
         if (buttonNo == 0)
@@ -293,39 +348,6 @@ public class Map : MonoBehaviour
 
             button[19].effectColor = Color.yellow;
             button[19].effectDistance = new Vector2(10, 10);
-        }
-        if (buttonNo == 20)
-        {
-            button[17].effectColor = Color.red;
-            button[18].effectColor = Color.red;
-            button[17].effectDistance = new Vector2(10, 10);
-            button[18].effectDistance = new Vector2(10, 10);
-
-
-            button[20].effectColor = Color.yellow;
-            button[20].effectDistance = new Vector2(10, 10);
-        }
-        if (buttonNo == 21)
-        {
-            button[18].effectColor = Color.red;
-            button[19].effectColor = Color.red;
-            button[18].effectDistance = new Vector2(10, 10);
-            button[19].effectDistance = new Vector2(10, 10);
-
-
-            button[21].effectColor = Color.yellow;
-            button[21].effectDistance = new Vector2(10, 10);
-        }
-        if (buttonNo == 22)
-        {
-            button[20].effectColor = Color.red;
-            button[21].effectColor = Color.red;
-            button[20].effectDistance = new Vector2(10, 10);
-            button[21].effectDistance = new Vector2(10, 10);
-
-
-            button[22].effectColor = Color.yellow;
-            button[22].effectDistance = new Vector2(10, 10);
         }
     }
 }

@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2020760724549229622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4675359182891157335}
+  - component: {fileID: 1738848531138051672}
+  m_Layer: 0
+  m_Name: MapSys
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4675359182891157335
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020760724549229622}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 867.124, y: 517.84155, z: -6.5926485}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1738848531138051672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020760724549229622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f409a5adb40814459b01e247ff82f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  buttonImage: []
+  scrollSpeed: 50
+  mainCamera: {fileID: 0}
+  floorNoSysObj: {fileID: 6171527524165419376, guid: decc38fd1c5d7b244a57952fa6e6f72d, type: 3}
+  buttonPos:
+  - {x: -200, y: -700, z: 0}
+  - {x: 200, y: -700, z: 0}
+  - {x: -350, y: -500, z: 0}
+  - {x: 0, y: -500, z: 0}
+  - {x: 300, y: -500, z: 0}
+  - {x: -200, y: -300, z: 0}
+  - {x: 200, y: -300, z: 0}
+  - {x: -100, y: -90, z: 0}
+  - {x: 130, y: -90, z: 0}
+  - {x: -250, y: 100, z: 0}
+  - {x: 0, y: 100, z: 0}
+  - {x: 250, y: 100, z: 0}
+  - {x: -350, y: 320, z: 0}
+  - {x: -130, y: 320, z: 0}
+  - {x: 130, y: 320, z: 0}
+  - {x: 330, y: 320, z: 0}
+  - {x: -200, y: 500, z: 0}
+  - {x: 200, y: 500, z: 0}
+  - {x: 0, y: 700, z: 0}
+  buttonObj:
+  - {fileID: 2337422328866770862, guid: 72f9b969c6f758145a9fdde5b93a9cb4, type: 3}
+  - {fileID: 3202213158414638462, guid: ebd7e3d87d205024e9fb4810888f2e30, type: 3}
+  - {fileID: 2337422328866770862, guid: 72f9b969c6f758145a9fdde5b93a9cb4, type: 3}
+  - {fileID: 3202213158414638462, guid: ebd7e3d87d205024e9fb4810888f2e30, type: 3}
+  - {fileID: 3202213158414638462, guid: ebd7e3d87d205024e9fb4810888f2e30, type: 3}
+  - {fileID: 3202213158414638462, guid: ebd7e3d87d205024e9fb4810888f2e30, type: 3}
+  - {fileID: 2337422328866770862, guid: 72f9b969c6f758145a9fdde5b93a9cb4, type: 3}
+  - {fileID: 4563469675437847716, guid: 174df6106bdbf844392ba87451fd9494, type: 3}
+  - {fileID: 4563469675437847716, guid: 174df6106bdbf844392ba87451fd9494, type: 3}
+  - {fileID: 3202213158414638462, guid: ebd7e3d87d205024e9fb4810888f2e30, type: 3}
+  - {fileID: 2337422328866770862, guid: 72f9b969c6f758145a9fdde5b93a9cb4, type: 3}
+  - {fileID: 6893028226602756013, guid: f4f459804eee82141a0d409821b85ab6, type: 3}
+  - {fileID: 3202213158414638462, guid: ebd7e3d87d205024e9fb4810888f2e30, type: 3}
+  - {fileID: 3202213158414638462, guid: ebd7e3d87d205024e9fb4810888f2e30, type: 3}
+  - {fileID: 3202213158414638462, guid: ebd7e3d87d205024e9fb4810888f2e30, type: 3}
+  - {fileID: 3202213158414638462, guid: ebd7e3d87d205024e9fb4810888f2e30, type: 3}
+  - {fileID: 6893028226602756013, guid: f4f459804eee82141a0d409821b85ab6, type: 3}
+  - {fileID: 2337422328866770862, guid: 72f9b969c6f758145a9fdde5b93a9cb4, type: 3}
+  - {fileID: 4563469675437847716, guid: 174df6106bdbf844392ba87451fd9494, type: 3}
+  buttonKinds:
+  - {fileID: 3202213158414638462, guid: ebd7e3d87d205024e9fb4810888f2e30, type: 3}
+  - {fileID: 4563469675437847716, guid: 174df6106bdbf844392ba87451fd9494, type: 3}
+  - {fileID: 6893028226602756013, guid: f4f459804eee82141a0d409821b85ab6, type: 3}
+  - {fileID: 2337422328866770862, guid: 72f9b969c6f758145a9fdde5b93a9cb4, type: 3}
+  backCanvas: {fileID: 0}
+  cloneButtonObj:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
