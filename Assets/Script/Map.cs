@@ -62,7 +62,9 @@ public class Map : MonoBehaviour
             //クローンしたオブジェクトの名前を変更
             floorNoSysObjClone.name = "FloorNo";
         }
-        floorNoSys = floorNoSysObjClone.GetComponent<FloorNoSys>();
+        
+        floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
+        
 
         //ボタンを生成する処理
         for (int i = 0; i < buttonPos.Length; i++)
@@ -130,31 +132,27 @@ public class Map : MonoBehaviour
         //敵
         if (sceneKindsNo == 0)
         {
-            //SceneManager.LoadScene("R_EncountFloorScene Old");
+            SceneManager.LoadScene("EncountScene");
         }
         //イベント
         if(sceneKindsNo == 1)
         {
-            //SceneManager.LoadScene("Event");
+            SceneManager.LoadScene("Event");
         }
         //休憩
         if (sceneKindsNo == 2)
         {
-           // SceneManager.LoadScene("Stay");
+            SceneManager.LoadScene("Stay");
         }
         //宝
         if (sceneKindsNo == 3)
         {
-            //SceneManager.LoadScene("Treasure");
+            SceneManager.LoadScene("Treasure");
         }
         //ボス
         if (sceneKindsNo == 4)
         {
-           // SceneManager.LoadScene("Boss");
+           SceneManager.LoadScene("Boss");
         }
-    }
-
-    public void ButtonControl(int buttonNo)
-    {
     }
 }

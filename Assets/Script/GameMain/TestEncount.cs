@@ -433,9 +433,9 @@ public class TestEncount : MonoBehaviour
         if (mainTurn == MainTurn.RIRIMOVE)
         {
 
-            command1Text.text = "ヒール";
-            command2Text.text = "押さないで";
-            command3Text.text = "攻撃アップ";
+            command1Text.text = ririScript.atkSkillName[0];
+            command2Text.text = ririScript.atkSkillName[1];
+            command3Text.text = ririScript.atkSkillName[2];
 
             commnadImage[0].sprite = ririCommandSp;
             commnadImage[1].sprite = ririCommandSp;

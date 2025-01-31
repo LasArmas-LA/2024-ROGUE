@@ -188,7 +188,8 @@ public class EnemyFloorRunSys : MonoBehaviour
         //フェードアウト処理
         if (floorEndFlag)
         {
-            Invoke("LoadScene", 1.0f);
+            //Invoke("LoadScene", 1.0f);
+            LoadScene();
             if (fade != null)
             {
 
