@@ -5,9 +5,42 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Threading;
 using static TestEncount;
+using static Dhia;
 
 public class Riri : MonoBehaviour
 {
+
+    //技の管理用
+    public enum RiriAtkSkill1
+    {
+        KeepItUp,
+        BecomeWeak,
+        Protect,
+        DoNotMove
+    }
+    public enum RiriAtkSkill2
+    {
+        KeepItUp,
+        BecomeWeak,
+        Protect,
+        DoNotMove
+    }
+    public enum RiriAtkSkill3
+    {
+        KeepItUp,
+        BecomeWeak,
+        Protect,
+        DoNotMove
+    }
+
+    //技のenumの実体化
+    public RiriAtkSkill1 ririAtkSkill1;
+    public RiriAtkSkill2 ririAtkSkill2;
+    public RiriAtkSkill3 ririAtkSkill3;
+
+    [SerializeField]
+    public String[] atkSkillName = null;
+
     [SerializeField]
     Status ririStatus = null;
     [SerializeField]
@@ -103,6 +136,58 @@ public class Riri : MonoBehaviour
                 mp = ririStatus.MP;
             }
         }
+
+        //攻撃スキル1の名前を変更
+        switch (ririAtkSkill1)
+        {
+            case RiriAtkSkill1.KeepItUp:
+                atkSkillName[0] = "頑張って！";
+                break;
+            case RiriAtkSkill1.BecomeWeak:
+                atkSkillName[0] = "弱くなれ！";
+                break;
+            case RiriAtkSkill1.Protect:
+                atkSkillName[0] = "守る";
+                break;
+            case RiriAtkSkill1.DoNotMove:
+                atkSkillName[0] = "動かないで！";
+                break;
+        }
+
+        //攻撃スキル2の名前を変更
+        switch (ririAtkSkill2)
+        {
+            case RiriAtkSkill2.KeepItUp:
+                atkSkillName[1] = "頑張って！";
+                break;
+            case RiriAtkSkill2.BecomeWeak:
+                atkSkillName[1] = "弱くなれ！";
+                break;
+            case RiriAtkSkill2.Protect:
+                atkSkillName[1] = "守る";
+                break;
+            case RiriAtkSkill2.DoNotMove:
+                atkSkillName[1] = "動かないで！";
+                break;
+        }
+
+        //攻撃スキル3の名前を変更
+        switch (ririAtkSkill3)
+        {
+            case RiriAtkSkill3.KeepItUp:
+                atkSkillName[2] = "頑張って！";
+                break;
+            case RiriAtkSkill3.BecomeWeak:
+                atkSkillName[2] = "弱くなれ！";
+                break;
+            case RiriAtkSkill3.Protect:
+                atkSkillName[2] = "守る";
+                break;
+            case RiriAtkSkill3.DoNotMove:
+                atkSkillName[2] = "動かないで！";
+                break;
+        }
+
     }
 
     void Update()
@@ -116,11 +201,11 @@ public class Riri : MonoBehaviour
             }
         }
 
-        if(ririSelectFlag || dhiaSelectFlag)
+        if (ririSelectFlag || dhiaSelectFlag)
         {
             encountSys.timer += Time.deltaTime;
 
-            if(encountSys.timer >= 3.5f)
+            if (encountSys.timer >= 3.5f)
             {
                 ririAnim.SetBool("R_Skill", false);
             }
@@ -131,11 +216,11 @@ public class Riri : MonoBehaviour
             }
         }
 
-        if(timerFlag)
+        if (timerFlag)
         {
             timer += Time.deltaTime;
 
-            if(timer >= 3.5f)
+            if (timer >= 3.5f)
             {
                 ririAnim.SetBool("R_Skill", false);
 
@@ -154,36 +239,64 @@ public class Riri : MonoBehaviour
             recoveryWin.SetActive(true);
             commandWin.SetActive(false);
         }
+
+        switch (ririAtkSkill1)
+        {
+            case RiriAtkSkill1.KeepItUp:
+                KeepItUp();
+                break;
+            case RiriAtkSkill1.BecomeWeak:
+                BecomeWeak();
+                break;
+            case RiriAtkSkill1.Protect:
+                Protect();
+                break;
+            case RiriAtkSkill1.DoNotMove:
+                DoNotMove();
+                break;
+        }
+
     }
     public void Skil2()
     {
-        //アニメーションのカウントダウンとアニメーションスタート
-        timerFlag = true;
-        ririAnim.SetBool("R_Skill", true);
-
-        if (maxhp > hp + 20 && dhia.maxhp > dhia.hp + 20)
+        switch (ririAtkSkill2)
         {
-            hp += 20;
-            dhia.hp += 20;
-            encountSys.windowsMes.text = "リリーはオールヒールを唱えた！\nリリーとディアのHPを20ずつ回復した!";
+            case RiriAtkSkill2.KeepItUp:
+                KeepItUp();
+                break;
+            case RiriAtkSkill2.BecomeWeak:
+                BecomeWeak();
+                break;
+            case RiriAtkSkill2.Protect:
+                Protect();
+                break;
+            case RiriAtkSkill2.DoNotMove:
+                DoNotMove();
+                break;
         }
-        else
-        {
-            if (maxhp < hp + 20)
-            {
-                hp = maxhp;
-            }
-            if (dhia.maxhp < dhia.hp + 20)
-            {
-                dhia.hp = dhia.maxhp;
-            }
-            encountSys.windowsMes.text = "リリーはオールヒールを唱えた！\nリリーのHPを" + (maxhp - hp) + "ディアのHPを" + (dhia.maxhp - dhia.hp) + "回復した!";
-        }
-
     }
     public void Skil3()
     {
+        switch (ririAtkSkill3)
+        {
+            case RiriAtkSkill3.KeepItUp:
+                KeepItUp();
+                break;
+            case RiriAtkSkill3.BecomeWeak:
+                BecomeWeak();
+                break;
+            case RiriAtkSkill3.Protect:
+                Protect();
+                break;
+            case RiriAtkSkill3.DoNotMove:
+                DoNotMove();
+                break;
+        }
 
+    }
+
+    void KeepItUp()
+    {
         //アニメーションのカウントダウンとアニメーションスタート
         timerFlag = true;
         ririAnim.SetBool("R_Skill", true);
@@ -191,6 +304,21 @@ public class Riri : MonoBehaviour
         Debug.Log("コマンド3リリー");
         encountSys.windowsMes.text = "リリーはバイキルトを唱えた！\nディアの攻撃力が上昇した!";
         dhia.powerUpFlag = true;
+    }
+
+    void BecomeWeak()
+    {
+
+    }
+
+    void Protect()
+    {
+
+    }
+
+    void DoNotMove()
+    {
+
     }
 
     //リリーのヒール使用時にキャラクターを選択する関数。OnClickで呼ばれる
@@ -260,3 +388,32 @@ public class Riri : MonoBehaviour
         commandWin.SetActive(true);
     }
 }
+
+
+
+
+/*        //アニメーションのカウントダウンとアニメーションスタート
+timerFlag = true;
+ririAnim.SetBool("R_Skill", true);
+
+if (maxhp > hp + 20 && dhia.maxhp > dhia.hp + 20)
+{
+    hp += 20;
+    dhia.hp += 20;
+    encountSys.windowsMes.text = "リリーはオールヒールを唱えた！\nリリーとディアのHPを20ずつ回復した!";
+}
+else
+{
+    if (maxhp < hp + 20)
+    {
+        hp = maxhp;
+    }
+    if (dhia.maxhp < dhia.hp + 20)
+    {
+        dhia.hp = dhia.maxhp;
+    }
+    encountSys.windowsMes.text = "リリーはオールヒールを唱えた！\nリリーのHPを" + (maxhp - hp) + "ディアのHPを" + (dhia.maxhp - dhia.hp) + "回復した!";
+}
+*/
+
+

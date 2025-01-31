@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   equipmentName: "\u6708\u4E0B\u306E\u5FA1\u5FA1\u8DB3"
   equipmentType: 4
-  HP: 0
+  HP: 10
   ATK: 0
   DEF: 0
   ROT: 0

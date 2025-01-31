@@ -11,6 +11,7 @@ public class Dhia : MonoBehaviour
     {
         HitSkill,
         KickSkill,
+        DefensiveAttack,
         CutSkil,
         Destroy,
         CutUp,
@@ -20,6 +21,7 @@ public class Dhia : MonoBehaviour
     {
         HitSkill,
         KickSkill,
+        DefensiveAttack,
         CutSkil,
         Destroy,
         CutUp,
@@ -29,6 +31,7 @@ public class Dhia : MonoBehaviour
     {
         HitSkill,
         KickSkill,
+        DefensiveAttack,
         CutSkil,
         Destroy,
         CutUp,
@@ -216,6 +219,9 @@ public class Dhia : MonoBehaviour
             case DhiaAtkSkill1.KickSkill:
                 atkSkillName[0] = "蹴る";
                 break;
+            case DhiaAtkSkill1.DefensiveAttack:
+                atkSkillName[0] = "シールドバッシュ";
+                break;
             case DhiaAtkSkill1.CutSkil:
                 atkSkillName[0] = "切る";
                 break;
@@ -239,6 +245,9 @@ public class Dhia : MonoBehaviour
             case DhiaAtkSkill2.KickSkill:
                 atkSkillName[1] = "蹴る";
                 break;
+            case DhiaAtkSkill2.DefensiveAttack:
+                atkSkillName[1] = "シールドバッシュ";
+                break;
             case DhiaAtkSkill2.CutSkil:
                 atkSkillName[1] = "切る";
                 break;
@@ -261,6 +270,9 @@ public class Dhia : MonoBehaviour
                 break;
             case DhiaAtkSkill3.KickSkill:
                 atkSkillName[2] = "蹴る";
+                break;
+            case DhiaAtkSkill3.DefensiveAttack:
+                atkSkillName[2] = "シールドバッシュ";
                 break;
             case DhiaAtkSkill3.CutSkil:
                 atkSkillName[2] = "切る";
@@ -363,6 +375,9 @@ public class Dhia : MonoBehaviour
                         break;
                     case DhiaAtkSkill1.KickSkill:
                         KickSkill();
+                        break;
+                    case DhiaAtkSkill1.DefensiveAttack:
+                        DefensiveAttack();
                         break;
                     case DhiaAtkSkill1.CutSkil:
                         CutSkil();
@@ -480,6 +495,9 @@ public class Dhia : MonoBehaviour
                     case DhiaAtkSkill2.KickSkill:
                         KickSkill();
                         break;
+                    case DhiaAtkSkill2.DefensiveAttack:
+                        DefensiveAttack();
+                        break;
                     case DhiaAtkSkill2.CutSkil:
                         CutSkil();
                         break;
@@ -527,6 +545,9 @@ public class Dhia : MonoBehaviour
                         break;
                     case DhiaAtkSkill3.KickSkill:
                         KickSkill();
+                        break;
+                    case DhiaAtkSkill3.DefensiveAttack:
+                        DefensiveAttack();
                         break;
                     case DhiaAtkSkill3.CutSkil:
                         CutSkil();
@@ -597,6 +618,18 @@ public class Dhia : MonoBehaviour
 
     //蹴る
     void KickSkill()
+    {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
+    }
+
+    //シールドバッシュ
+    void DefensiveAttack()
     {
         //敵の選択ウィンドウ表示
         if (!button)

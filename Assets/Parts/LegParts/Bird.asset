@@ -15,7 +15,7 @@ MonoBehaviour:
   equipmentName: "\u7D33\u58EB\u306A\u9264\u722A"
   equipmentType: 4
   HP: 0
-  ATK: 0
-  DEF: 0
+  ATK: 10
+  DEF: 20
   ROT: 0
   sprite: {fileID: 8689598036516060815, guid: 74661fafbc2c6a2419eec67adef0a08b, type: 3}

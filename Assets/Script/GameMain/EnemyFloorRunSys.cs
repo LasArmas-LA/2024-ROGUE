@@ -167,7 +167,7 @@ public class EnemyFloorRunSys : MonoBehaviour
         floorNoSys = floorNoSysObj.GetComponent<FloorNoSys>();
         commandWin.SetActive(false);
         commandMain.SetActive(false);
-        equipmentManager.Start();
+        equipmentManager.LoopInit();
 
         //歩きアニメーションを開始
         ririAnim.SetBool("R_Walk",true);
