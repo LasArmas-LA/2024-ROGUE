@@ -28,6 +28,13 @@ public class TitleSceneSys : MonoBehaviour
     AudioClip[] audioClip = null;
     bool fast = true;
 
+    //オプション画面
+    [SerializeField]
+    GameObject optionMenu = null;
+    //ディア画面
+    [SerializeField]
+    GameObject dhiaMenu = null;
+
     void Start()
     {
         Init();
@@ -65,12 +72,36 @@ public class TitleSceneSys : MonoBehaviour
 
     void KeyIn()
     {
-        if (Input.anyKeyDown && fast && !Input.GetKey(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.S) && fast)
         {
             fast = false;
             OnStratButton();
         }
     }
+
+    //オプション画面用
+    public void MenuBackButton()
+    {
+        optionMenu.SetActive(false);
+    }
+
+    public void OptionButton()
+    {
+        optionMenu.SetActive(true);
+    }
+
+
+    //ディアメニュー表示用
+    public void DhiaMenu()
+    {
+        dhiaMenu.SetActive(true);
+    }
+    public void BackDhiaMenu()
+    {
+        dhiaMenu.SetActive(false);
+    }
+
+
 
     public void OnStratButton()
     {
