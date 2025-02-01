@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class TitleSceneSys : MonoBehaviour
 {
@@ -13,19 +14,27 @@ public class TitleSceneSys : MonoBehaviour
     GameObject floorNoSys = null;
     FloorNoSys floorNoSysScript = null;
 
-    //BGMとSEの音量調節用のスライダー
+    //MasterとBGMとSEの音量調節用のスライダー
+    [SerializeField]
+    Slider masterVolObj = null;
     [SerializeField]
     Slider bgmVolObj = null;
     [SerializeField]
     Slider seVolObj = null;
 
     //オーディオソース
+    //MASTER、BGM、SE
     [SerializeField]
     AudioSource[] audioSources = null;
 
     //オーディオクリップ
     [SerializeField]
     AudioClip[] audioClip = null;
+
+    //オーディオボリュームの表示テキスト用
+    [SerializeField]
+    TextMeshProUGUI[] audioVolText = null;
+
     bool fast = true;
 
     //オプション画面
@@ -56,18 +65,24 @@ public class TitleSceneSys : MonoBehaviour
         floorNoSysScript = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
 
         //Audioの初期化
+        masterVolObj.maxValue = 1;
+        masterVolObj.minValue = 0;
         bgmVolObj.maxValue = 1;
         bgmVolObj.minValue = 0;
-        bgmVolObj.value = 0.5f;
         seVolObj.maxValue = 1;
         seVolObj.minValue = 0;
-        seVolObj.value = 0.5f;
+
+        //保存されているボリュームを代入
+        masterVolObj.value = floorNoSysScript.masterVol;
+        bgmVolObj.value = floorNoSysScript.bgmVol;
+        seVolObj.value = floorNoSysScript.seVol;
     }
 
 
     void Update()
     {
         KeyIn();
+        VolChenge();
     }
 
     void KeyIn()
@@ -77,7 +92,33 @@ public class TitleSceneSys : MonoBehaviour
             fast = false;
             OnStratButton();
         }
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            //オプション
+            optionMenu.SetActive(false);
+            //ディア
+            dhiaMenu.SetActive(false);
+
+        }
     }
+
+    void VolChenge() 
+    {
+        audioSources[0].volume = masterVolObj.value;
+        audioSources[1].volume = bgmVolObj.value;
+        audioSources[2].volume = seVolObj.value;
+
+        audioVolText[0].text = "" + (masterVolObj.value * 100).ToString("F0") + "%";
+        audioVolText[1].text = "" + (bgmVolObj.value * 100).ToString("F0") + "%";
+        audioVolText[2].text = "" + (seVolObj.value * 100).ToString("F0") + "%";
+
+        floorNoSysScript.masterVol = audioSources[0].volume;
+        floorNoSysScript.bgmVol = audioSources[1].volume;
+        floorNoSysScript.seVol = audioSources[2].volume;
+
+    }
+
 
     //オプション画面用
     public void MenuBackButton()

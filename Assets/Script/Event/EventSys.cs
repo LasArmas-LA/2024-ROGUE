@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using static BaseEquipment;
 
 public class EventSys : MonoBehaviour
 {
@@ -18,9 +19,67 @@ public class EventSys : MonoBehaviour
         //荒らされた階
         DIRTY,
         //リリー疲れた
-        TIRED
+        TIRED,
+        //イベント終了処理
+        END
 
     }
+
+    //↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓パーツ用
+
+    //どのドロップしたパーツを選択しているかの確認用
+    [SerializeField, Header("パーツ管理用")]
+    bool[] partsSlect;
+
+    //パーツ選択時の表示切り替え用
+    [SerializeField]
+    GameObject[] partsObj = null;
+    [SerializeField]
+    Image[] partsImage = null;
+    [SerializeField]
+    Sprite slectOnSp = null;
+    [SerializeField]
+    Sprite slectOffSp = null;
+    [SerializeField]
+    GameObject[] arrowObj = null;
+
+    //パーツの名前
+    string[] partsName = { "RightHand", "LeftHand", "Head", "Body", "Feet" };
+
+    //ドロップしたパーツの情報表示用
+    [SerializeField]
+    TextMeshProUGUI[] slectText;
+
+    //ドロップしたパーツの画像表示用
+    [SerializeField]
+    Image[] dropPartsSp = null;
+
+    //現在装備しているパーツの情報表示用
+    [SerializeField]
+    TextMeshProUGUI[] slectNowText;
+
+    //パーツを選択後確定させた時の判断
+    bool allPartsSlect;
+
+    //パーツを選択するウィンドウ
+    [SerializeField]
+    GameObject partsSlectWin = null;
+
+    //装備をランダムで入手するロジック組みのシステム
+    [SerializeField, Header("ドロップ装備ランダム化システム")]
+    EquipmentManager equipmentManager = null;
+
+    //ディアのステータス
+    [SerializeField, Header("ディアのステータス管理用")]
+    Status dhiaStatus = null;
+    //リリーのステータス
+    [SerializeField, Header("リリーのステータス管理用")]
+    Status ririStatus = null;
+
+    bool partsButton = false;
+
+    //↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑パーツ用
+
 
     public EventKinds eventKinds;
 
@@ -53,8 +112,11 @@ public class EventSys : MonoBehaviour
 
     void Start()
     {
+        equipmentManager.LoopInit();
+
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
         int rnd = UnityEngine.Random.Range(1, 4);
+        rnd = 1;
 
         switch (rnd)
         {
@@ -107,8 +169,197 @@ public class EventSys : MonoBehaviour
             case EventKinds.TIRED:
                 Tired();
                 break;
+            case EventKinds.END:
+                SceneManager.LoadScene("Map");
+                break;
         }
     }
+
+    void Drop()
+    {
+        //初期化処理
+        partsImage[0].sprite = slectOffSp;
+        partsImage[1].sprite = slectOffSp;
+        partsImage[2].sprite = slectOffSp;
+        partsObj[0].transform.localScale = new Vector3(1f, 1f, 1f);
+        partsObj[1].transform.localScale = new Vector3(1f, 1f, 1f);
+        partsObj[2].transform.localScale = new Vector3(1f, 1f, 1f);
+
+        arrowObj[0].SetActive(false);
+        arrowObj[1].SetActive(false);
+        arrowObj[2].SetActive(false);
+
+        partsSlect[0] = false;
+        partsSlect[1] = false;
+        partsSlect[2] = false;
+        partsButton = false;
+
+        //パーツセレクトのウィンドウ表示
+        partsSlectWin.SetActive(true);
+
+        //ドロップ装備の表示処理
+        slectText[0].text = equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentName;
+        slectText[1].text = equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentName;
+        slectText[2].text = equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentName;
+
+        //ドロップ装備の画像表示処理
+        dropPartsSp[0].sprite = equipmentManager.randomEquip[equipmentManager.rnd[0]].sprite;
+        dropPartsSp[1].sprite = equipmentManager.randomEquip[equipmentManager.rnd[1]].sprite;
+        dropPartsSp[2].sprite = equipmentManager.randomEquip[equipmentManager.rnd[2]].sprite;
+    }
+
+
+    public void PartsSlect1()
+    {
+        if (!partsButton)
+        {
+            partsImage[0].sprite = slectOnSp;
+            partsImage[1].sprite = slectOffSp;
+            partsImage[2].sprite = slectOffSp;
+            partsObj[0].transform.localScale = new Vector3(1.15f, 1.15f, 1.15f);
+            partsObj[1].transform.localScale = new Vector3(1f, 1f, 1f);
+            partsObj[2].transform.localScale = new Vector3(1f, 1f, 1f);
+            arrowObj[0].SetActive(true);
+            arrowObj[1].SetActive(false);
+            arrowObj[2].SetActive(false);
+
+            partsSlect[0] = true;
+            partsSlect[1] = false;
+            partsSlect[2] = false;
+        }
+    }
+    public void PartsSlect2()
+    {
+        if (!partsButton)
+        {
+            partsImage[0].sprite = slectOffSp;
+            partsImage[1].sprite = slectOnSp;
+            partsImage[2].sprite = slectOffSp;
+            partsObj[0].transform.localScale = new Vector3(1f, 1f, 1f);
+            partsObj[1].transform.localScale = new Vector3(1.15f, 1.15f, 1.15f);
+            partsObj[2].transform.localScale = new Vector3(1f, 1f, 1f);
+            arrowObj[0].SetActive(false);
+            arrowObj[1].SetActive(true);
+            arrowObj[2].SetActive(false);
+
+            partsSlect[0] = false;
+            partsSlect[1] = true;
+            partsSlect[2] = false;
+        }
+    }
+    public void PartsSlect3()
+    {
+        if (!partsButton)
+        {
+            partsImage[0].sprite = slectOffSp;
+            partsImage[1].sprite = slectOffSp;
+            partsImage[2].sprite = slectOnSp;
+            partsObj[0].transform.localScale = new Vector3(1f, 1f, 1f);
+            partsObj[1].transform.localScale = new Vector3(1f, 1f, 1f);
+            partsObj[2].transform.localScale = new Vector3(1.15f, 1.15f, 1.15f);
+            arrowObj[0].SetActive(false);
+            arrowObj[1].SetActive(false);
+            arrowObj[2].SetActive(true);
+
+            partsSlect[0] = false;
+            partsSlect[1] = false;
+            partsSlect[2] = true;
+        }
+    }
+
+    public void PartsSlecteEnd()
+    {
+        partsButton = true;
+        allPartsSlect = true;
+        partsSlectWin.SetActive(false);
+
+        //該当する部位にパーツデータを格納する処理
+        if (partsSlect[0])
+        {
+            //右手
+            if (equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.RightHand)
+            {
+                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
+            }
+            //左手
+            if (equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.LeftHand)
+            {
+                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
+            }
+            //足
+            if (equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.Feet)
+            {
+                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
+            }
+            //体
+            if (equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.Body)
+            {
+                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
+            }
+            //頭
+            if (equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.Head)
+            {
+                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
+            }
+        }
+        if (partsSlect[1])
+        {
+            //右手
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.RightHand)
+            {
+                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
+            }
+            //左手
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.LeftHand)
+            {
+                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
+            }
+            //足
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.Feet)
+            {
+                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
+            }
+            //体
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.Body)
+            {
+                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
+            }
+            //頭
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.Head)
+            {
+                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
+            }
+        }
+        if (partsSlect[2])
+        {
+            //右手
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.RightHand)
+            {
+                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
+            }
+            //左手
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.LeftHand)
+            {
+                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
+            }
+            //足
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.Feet)
+            {
+                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
+            }
+            //体
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.Body)
+            {
+                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
+            }
+            //頭
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.Head)
+            {
+                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
+            }
+        }
+    }
+
 
     float timer = 0f;
     int battleNo = 30;
@@ -140,6 +391,8 @@ public class EventSys : MonoBehaviour
                     //装備獲得
                     if (rnd > partsNo)
                     {
+                        Invoke("Drop", 1.0f);
+
                         buttonText[0].text = "使えそうな装備があった！まだ探す？";
 
                         buttonText[1].text = "はい";
@@ -148,6 +401,7 @@ public class EventSys : MonoBehaviour
                         battleNo += 10;
                         partsNo -= 10;
 
+                        //そのまま流れないように初期化
                         slectNo = 100;
 
                         timer = 0f;
@@ -160,7 +414,7 @@ public class EventSys : MonoBehaviour
                 {
                     buttonText[0].text = "何もしないことにした！";
                     button = false;
-                    eventKinds = EventKinds.WAIT;
+                    eventKinds = EventKinds.END;
                 }
             }
         }
@@ -194,6 +448,9 @@ public class EventSys : MonoBehaviour
                     //装備獲得
                     if (rnd > partsNo)
                     {
+                        equipmentManager.LoopInit();
+                        Invoke("Drop", 1.0f);
+
                         buttonText[0].text = "使えそうな装備があった！まだ探す？";
 
                         battleNo += 10;
@@ -211,11 +468,12 @@ public class EventSys : MonoBehaviour
                     buttonText[0].text = "そろそろやめておこうかな…";
                     button = false;
                     timer = 0f;
-                    eventKinds = EventKinds.WAIT;
+                    eventKinds = EventKinds.END;
                 }
             }
         }
     }
+
 
     //荒らされた階
     void Dirty()
@@ -228,13 +486,20 @@ public class EventSys : MonoBehaviour
             {
                 if(slectNo == 0)
                 {
+                    //3割減
+                    ririStatus.HP -= (ririStatus.MAXHP * 0.3f);
+                    dhiaStatus.HP -= (dhiaStatus.MAXHP * 0.3f);
+
+                    equipmentManager.LoopInit();
+                    Invoke("Drop", 1.0f);
+
                     buttonText[0].text = "いたっ！物にぶつかってケガしてしまった！\nしかし装備を見つけた！";
                 }
                 if (slectNo == 1)
                 {
                     buttonText[0].text = "物をよけて先に進んだ";
-                    eventKinds = EventKinds.WAIT;
                 }
+                eventKinds = EventKinds.END;
             }
         }
     }
@@ -253,14 +518,36 @@ public class EventSys : MonoBehaviour
                 if (slectNo == 0)
                 {
                     //HPを50%回復
+                    //リリーの回復量がマックスHPを超えてしまう時
+                    if(ririStatus.HP + ririStatus.MAXHP * 0.5f >= ririStatus.MAXHP)
+                    {
+                        ririStatus.HP = ririStatus.MAXHP;
+                    }
+                    //リリーのMaxHPを超えない時
+                    else
+                    {
+                        ririStatus.HP += (ririStatus.MAXHP * 0.5f);
+                    }
+
+                    //ディアの回復量がマックスHPを超えてしまう時
+                    if (ririStatus.HP + ririStatus.MAXHP * 0.5f >= ririStatus.MAXHP)
+                    {
+                        dhiaStatus.HP = dhiaStatus.MAXHP;
+                    }
+                    //ディアのMaxHPを超えない時
+                    else
+                    {
+                        dhiaStatus.HP += (dhiaStatus.MAXHP * 0.5f);
+                    }
+
 
                 }
-                if(slectNo == 1)
+                if (slectNo == 1)
                 {
                     //装備を1つ選んでレベルアップ
 
                 }
-                eventKinds = EventKinds.WAIT;
+                eventKinds = EventKinds.END;
             }
         }
     }

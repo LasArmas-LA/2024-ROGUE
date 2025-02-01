@@ -44,6 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a11eddee4d8809546a82f49b8a00958f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  floorCo: 1
+  masterVol: 0.5
+  bgmVol: 0.5
+  seVol: 0.5
   floorNo: 1
-  bgmVol: 0
-  seVol: 0
+  hiFloorNo: 0
+  slectButtonNo: 0
+  dhiaStatus: {fileID: 11400000, guid: ff9529fcff4a1bd4d81150027e4d3b9b, type: 2}

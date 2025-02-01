@@ -81,10 +81,6 @@ public class TreasureSys : MonoBehaviour
         dropPartsSp[2].sprite = equipmentManager.randomEquip[equipmentManager.rnd[2]].sprite;
     }
 
-    void Treasure()
-    {
-
-    }
 
     public void PartsSlect1()
     {
