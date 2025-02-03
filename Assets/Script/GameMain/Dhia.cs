@@ -94,9 +94,15 @@ public class Dhia : MonoBehaviour
     [NonSerialized]
     public float mp = 0;
     [NonSerialized]
-    public int power = 0;
+    public int attack = 0;
     [NonSerialized]
     public int def = 0;
+    [NonSerialized]
+    public int power = 0;
+
+    //防御の補正値用
+    [NonSerialized]
+    public int defCorrectionValue = 100;
 
     float enemyDamage = 0;
 
@@ -154,12 +160,24 @@ public class Dhia : MonoBehaviour
         }
         catch { }
 
+        //HPと攻撃力と防御力の初期化処理
+        dhiaStatus.MAXHP = 150;
+
+        //武器のHP補正値分下げる事で受けてる受けているダメージは保存する事ができる
+        dhiaStatus.HP -= floorNoSys.dhiaHp;
+        dhiaStatus.ATK = 100;
+        dhiaStatus.DEF = 10;
+
+
+        //ステータスのパラメーターを取り込む処理
         maxhp = dhiaStatus.MAXHP;
         maxmp = dhiaStatus.MAXMP;
-        power = dhiaStatus.ATK;
+        attack = dhiaStatus.ATK;
         def = dhiaStatus.DEF;
 
+        //スケールの初期化処理
         this.gameObject.transform.localScale = new Vector3(1, 1, 1);
+
 
         if (floorNoSys != null)
         {
@@ -177,38 +195,136 @@ public class Dhia : MonoBehaviour
                 mp = dhiaStatus.MP;
             }
         }
+        floorNoSys.dhiaHp = 0;
+        floorNoSys.dhiaAtk = 0;
+        floorNoSys.dhiaDef = 0;
 
-        //パーツのステータスを反映する処理
+        //セット効果処理用
+        int rabbitSetCou = 0;
+        int birdSetCou = 0;
+
+        //パーツのメインステータスを格納処理
+        //頭パーツの処理
         if (dhiaStatus.headPartsData != null)
         {
-            power += dhiaStatus.headPartsData.ATK;
-            def += dhiaStatus.headPartsData.DEF;
+            floorNoSys.dhiaHp += dhiaStatus.headPartsData.HP;
+
+            if (dhiaStatus.headPartsData.name == "Bird")
+            {
+                birdSetCou++;
+            }
+            if (dhiaStatus.headPartsData.name == "Rabbit")
+            {
+                rabbitSetCou++;
+            }
         }
+        //体パーツの処理
         if (dhiaStatus.bodyPartsData != null)
         {
-            power += dhiaStatus.bodyPartsData.ATK;
-            def += dhiaStatus.bodyPartsData.DEF;
+            floorNoSys.dhiaHp += dhiaStatus.bodyPartsData.HP;
+
+            if (dhiaStatus.bodyPartsData.name == "Bird")
+            {
+                birdSetCou++;
+            }
+            if (dhiaStatus.bodyPartsData.name == "Rabbit")
+            {
+                rabbitSetCou++;
+            }
         }
+        //足パーツの処理
         if (dhiaStatus.legPartsData != null)
         {
-            power += dhiaStatus.legPartsData.ATK;
-            def += dhiaStatus.legPartsData.DEF;
+            floorNoSys.dhiaAtk += dhiaStatus.legPartsData.ATK;
+
+            if (dhiaStatus.legPartsData.name == "Bird")
+            {
+                birdSetCou++;
+            }
+            if (dhiaStatus.legPartsData.name == "Rabbit")
+            {
+                rabbitSetCou++;
+            }
         }
+        //右手パーツの処理
         if (dhiaStatus.righthandPartsData != null)
         {
-            power += dhiaStatus.righthandPartsData.ATK;
-            def += dhiaStatus.righthandPartsData.DEF;
+            floorNoSys.dhiaDef += dhiaStatus.righthandPartsData.DEF;
+
+            if (dhiaStatus.righthandPartsData.name == "Bird")
+            {
+                birdSetCou++;
+            }
+            if (dhiaStatus.righthandPartsData.name == "Rabbit")
+            {
+                rabbitSetCou++;
+            }
         }
+        //左手パーツの処理
         if (dhiaStatus.lefthandPartsData != null)
         {
-            power += dhiaStatus.lefthandPartsData.ATK;
-            def += dhiaStatus.lefthandPartsData.DEF;
+            floorNoSys.dhiaAtk += dhiaStatus.lefthandPartsData.ATK;
+
+            if (dhiaStatus.lefthandPartsData.name == "Bird")
+            {
+                birdSetCou++;
+            }
+            if (dhiaStatus.lefthandPartsData.name == "Rabbit")
+            {
+                rabbitSetCou++;
+            }
+        }
+        //うさぎのセット効果
+        if(rabbitSetCou >= 2)
+        {
+            //4セット効果
+            if(rabbitSetCou >= 4)
+            {
+                //リリーのHPを10%アップ
+                riri.maxhp = (riri.maxhp * 1.1f);
+                
+                //自身のHPを10%アップ
+                maxhp = (maxhp * 1.1f);
+                Debug.Log("うさぎ4セット");
+            }
+            //2セット効果
+            else 
+            {
+                //自身のHPを10%アップ
+                maxhp = (maxhp * 1.1f);
+                Debug.Log("うさぎ2セット");
+            }
+        }
+        //フクロウのセット効果
+        if(birdSetCou >= 2)
+        {
+            //4セット効果
+            if(birdSetCou >= 4)
+            {
+                //HPを10%減らす
+                maxhp = (maxhp * 0.9f);
+                hp = (hp * 0.9f);
+                //キャスト変換して格納
+                attack = (int)(attack * 1.2f);
+                Debug.Log("フクロウ4セット");
+            }
+            //2セット効果
+            else 
+            {
+                //キャスト変換して格納
+                attack = (int)(attack * 1.1f);
+                Debug.Log("フクロウ2セット");
+            }
         }
 
-        if (encountSys != null)
-        {
-            enemyDamage = DamageCalculation(power, encountSys.enemyScript.def[0]);
-        }
+
+        //実際にパーツのステータスを反映
+        dhiaStatus.MAXHP += floorNoSys.dhiaHp;
+
+        dhiaStatus.ATK += floorNoSys.dhiaAtk;
+        dhiaStatus.DEF = floorNoSys.dhiaDef;
+
+        Debug.Log(dhiaStatus.righthandPartsData.name);
 
         //攻撃スキル1の名前を変更
         switch (dhiaAtkSkill1)
@@ -414,6 +530,9 @@ public class Dhia : MonoBehaviour
 
     public void Skill1Move(int enemyNumber)
     {
+        //ダメージの計算
+        enemyDamage = DamageCalculation(attack, encountSys.enemyScript.def[0], power);
+
         timerFlag = true;
         dhiaAnim.SetBool("D_Attack", true);
         enemySelectWin.SetActive(false);
@@ -422,20 +541,21 @@ public class Dhia : MonoBehaviour
         //敵1を選ばれた時
         if (enemyNumber == 1)
         {
+            //アニメーション用
             //ウサギの時
             if (encountSys.typeRnd[0] == 0)
             {
-                Debug.Log("うさぎが選ばれました");
                 rabbitScript[0].rabbitAnim.SetBool("Damage2", true);
                 rabbitScript[0].timerFlag = true;
             }
             //鳥の時
             if (encountSys.typeRnd[0] == 1)
             {
-                Debug.Log("とりが選ばれました");
                 birdScript[0].birdAnim.SetBool("Eb_Damage2", true);
                 birdScript[0].timerFlag = true;
             }
+
+            //攻撃の処理
             if (powerUpFlag)
             {
                 encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage * 1.5f + "のダメージ!";
@@ -444,7 +564,6 @@ public class Dhia : MonoBehaviour
             }
             else
             {
-                Debug.Log("コマンド1ディア通常攻撃");
                 encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage + "のダメージ!";
                 encountSys.enemyScript.hp[0] -= enemyDamage;
             }
@@ -472,7 +591,6 @@ public class Dhia : MonoBehaviour
             }
             else
             {
-                Debug.Log("コマンド1ディア通常攻撃");
                 encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage + "のダメージ!";
                 encountSys.enemyScript.hp[1] -= enemyDamage;
             }
@@ -582,13 +700,13 @@ public class Dhia : MonoBehaviour
         }
     }
 
-    int DamageCalculation(int attack, int defense)
+    int DamageCalculation(int attack, int defense, int power) //攻撃力、守備力、威力
     {
         //シード値の変更
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
 
         //素のダメージ計算
-        int damage = (attack / 2) - (defense / 4);
+        int damage = ((attack + power) / 2) - (defense / 4);
 
         //ダメージ振幅の計算
         int width = damage / 16 + 1;
@@ -602,59 +720,96 @@ public class Dhia : MonoBehaviour
 
 
     //スキル関数
+    [Space (10)]
+    [Header("技の威力")]
 
-
+    [SerializeField]
+    [CustomLabel("殴りの威力")]
+    int hitPower = 0; 
     //殴る
     void HitSkill()
     {
         //敵の選択ウィンドウ表示
         if (!button)
         {
+            //威力
+            power = hitPower;
+
             enemySelectWin.SetActive(true);
             commandButton.SetActive(false);
             button = true;
         }
     }
 
+    [SerializeField]
+    [CustomLabel("蹴りの威力")]
+    int kickPower = 0;
     //蹴る
     void KickSkill()
     {
         //敵の選択ウィンドウ表示
         if (!button)
         {
+            //威力
+            power = kickPower;
+
             enemySelectWin.SetActive(true);
             commandButton.SetActive(false);
             button = true;
         }
     }
 
+    [SerializeField]
+    [CustomLabel("シールドバッシュの威力")]
+    int defatkPower = 0;
     //シールドバッシュ
     void DefensiveAttack()
     {
         //敵の選択ウィンドウ表示
         if (!button)
         {
+            //威力
+            power = defatkPower;
+
             enemySelectWin.SetActive(true);
             commandButton.SetActive(false);
             button = true;
         }
     }
 
+    [Space(5)]
+
+    [CustomLabel("お守りします！の防御補正(%)")]
+    public int protectDef = 0;
+    [CustomLabel("お守りします！の効果継続ターン数")]
+    public int protectTurn = 0;
+    //お守りします！の管理フラグ
+    public bool protectFlag = false;
     //お守りします！
     void ProtectYou()
     {
         if(!button)
         {
-            Debug.Log("お守りします");
+            defCorrectionValue += protectDef;
+
             button = true;
         }
     }
+
+    [Space(5)]
+    [CustomLabel("防御体制の防御補正(%)")]
+    public int postureDef = 0;
+    [CustomLabel("防御体制の効果継続ターン数")]
+    public int postureTurn = 0;
+    //防御体制の管理フラグ
+    public bool postureFlag = false;
 
     //防御体制
     void DefensivePosture()
     {
         if (!button)
         {
+            defCorrectionValue += postureDef;
             dhiaAnim.SetBool("D_Shield", true);
             encountSys.windowsMes.text = "ディアは身を守っている。";
             defenseFlag = true;
@@ -662,11 +817,20 @@ public class Dhia : MonoBehaviour
         }
     }
 
+    [Space(5)]
+    [CustomLabel("守るの防御補正(%)")]
+    public int ririProtectDef = 0;
+    [CustomLabel("守るの効果継続ターン数")]
+    public int ririProtectTurn = 0;
+    //守るの管理フラグ
+    public bool ririProtectFlag = false;
+
     //守る
     void Protect()
     {
         if (!button)
         {
+            defCorrectionValue += ririProtectDef;
             dhiaAnim.SetBool("D_Shield", true);
             encountSys.windowsMes.text = "ディアはリリーを守っている。";
             ririDefenseFlag = true;
@@ -674,27 +838,76 @@ public class Dhia : MonoBehaviour
         }
     }
 
+    [Space(5)]
+    [SerializeField]
+    [CustomLabel("切るの威力")]
+    int cutPower = 0;
     //切る
     void CutSkil()
     {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            //威力
+            power = cutPower;
 
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
     }
 
+    [SerializeField]
+    [CustomLabel("撃つの威力")]
+    int destroyPower = 0;
     //撃つ
     void Destroy()
     {
-        
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            //威力
+            power = destroyPower;
+
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
     }
 
+    [SerializeField]
+    [CustomLabel("切り裂くの威力")]
+    int cutUpPower = 0;
     //切り裂く
     void CutUp()
     {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            //威力
+            power = cutUpPower;
 
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
     }
 
+    [SerializeField]
+    [CustomLabel("乱射の威力")]
+    int blindlyPower = 0;
     //乱射
     void FiringBlindly()
     {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            //威力
+            power = blindlyPower;
 
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
     }
 }

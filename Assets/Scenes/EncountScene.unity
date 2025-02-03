@@ -66833,6 +66833,22 @@ MonoBehaviour:
   commandButton: {fileID: 384290421}
   dhiaAnim: {fileID: 353873697}
   button: 0
+  hitPower: 40
+  kickPower: 60
+  defatkPower: 15
+  protectDef: 15
+  protectTurn: 2
+  protectFlag: 0
+  postureDef: 40
+  postureTurn: 1
+  postureFlag: 0
+  ririProtectDef: 30
+  ririProtectTurn: 1
+  ririProtectFlag: 0
+  cutPower: 60
+  destroyPower: 80
+  cutUpPower: 70
+  blindlyPower: 80
 --- !u!43 &2115940147
 Mesh:
   m_ObjectHideFlags: 0

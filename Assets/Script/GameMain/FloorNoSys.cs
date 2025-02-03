@@ -10,6 +10,11 @@ public class FloorNoSys : MonoBehaviour
     public float bgmVol = 0.5f;
     public float seVol = 0.5f;
 
+    //ディアのステータス補正値
+    public float dhiaHp = 0;
+    public int dhiaAtk = 0;
+    public int dhiaDef = 0;
+
     //現状のフロアカウント用
     public int floorNo = 0;
     public int hiFloorNo = 0;

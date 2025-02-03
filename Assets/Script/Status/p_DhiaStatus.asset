@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc3b00f8a806bf14497f374c9396b341, type: 3}
+  m_Name: p_DhiaStatus
+  m_EditorClassIdentifier: 
+  NAME: "\u30C7\u30A3\u30A2"
+  MAXHP: 185
+  HP: 135
+  MAXMP: 0
+  MP: 0
+  ATK: 125
+  DEF: 10
+  DEFATK: 0
+  DEFDEF: 0
+  obj: {fileID: 0}
+  headPartsData: {fileID: 11400000, guid: 927b0ef1e785f9942ab97cee86076198, type: 2}
+  bodyPartsData: {fileID: 11400000, guid: 851010d523766aa4fa98b6505327d7fc, type: 2}
+  legPartsData: {fileID: 11400000, guid: 3362e86afc346f84f98b859d0ade2f2d, type: 2}
+  righthandPartsData: {fileID: 11400000, guid: 339bfaf73dd265649a475226b6f39f6d, type: 2}
+  lefthandPartsData: {fileID: 11400000, guid: 97bffd5319989d240990ac7a2c69c126, type: 2}

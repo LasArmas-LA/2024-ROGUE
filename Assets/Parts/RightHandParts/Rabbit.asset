@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   equipmentName: "\u6708\u4E0B\u306E\u934B\u84CB"
   equipmentType: 0
-  HP: 10
+  HP: 0
   ATK: 0
-  DEF: 0
+  DEF: 10
   ROT: 0
   sprite: {fileID: -2320525827398126021, guid: 53d99c818022d564cad3bf8a48fb6642, type: 3}
