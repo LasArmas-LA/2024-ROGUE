@@ -48,6 +48,9 @@ MonoBehaviour:
   masterVol: 0.5
   bgmVol: 0.5
   seVol: 0.5
+  dhiaHp: 0
+  dhiaAtk: 0
+  dhiaDef: 0
   floorNo: 1
   hiFloorNo: 0
   slectButtonNo: 0

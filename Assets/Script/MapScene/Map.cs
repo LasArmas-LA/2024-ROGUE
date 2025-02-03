@@ -45,6 +45,10 @@ public class Map : MonoBehaviour
     [SerializeField]
     GameObject floorNoSysObjClone = null;
 
+    //選べるマス、選べないマスを制御する処理
+    int[] limitlessNo = null;
+
+
     void Start()
     {
         Init();
@@ -86,23 +90,33 @@ public class Map : MonoBehaviour
             button[i] = cloneButtonObj[i].GetComponent<Outline>();
         }
 
-        int[] limitlessNo = null;
-
         //進める場所を格納
         {
+            if (floorNoSys.slectButtonNo == -1)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 0;
+            }
+            if (floorNoSys.slectButtonNo == 0)
+            {
+                limitlessNo = new int[2];
+
+                limitlessNo[0] = 1;
+                limitlessNo[1] = 2;
+            }
             if (floorNoSys.slectButtonNo == 1)
             {
                 limitlessNo = new int[2];
 
-                limitlessNo[0] = 2;
-                limitlessNo[1] = 3;
+                limitlessNo[0] = 3;
+                limitlessNo[1] = 4;
             }
             if (floorNoSys.slectButtonNo == 2)
             {
-                limitlessNo = new int[2];
+                limitlessNo = new int[1];
 
-                limitlessNo[0] = 4;
-                limitlessNo[1] = 5;
+                limitlessNo[0] = 5;
             }
             if (floorNoSys.slectButtonNo == 3)
             {
@@ -114,7 +128,7 @@ public class Map : MonoBehaviour
             {
                 limitlessNo = new int[1];
 
-                limitlessNo[0] = 7;
+                limitlessNo[0] = 6;
             }
             if (floorNoSys.slectButtonNo == 5)
             {
@@ -136,9 +150,10 @@ public class Map : MonoBehaviour
             }
             if (floorNoSys.slectButtonNo == 8)
             {
-                limitlessNo = new int[1];
+                limitlessNo = new int[2];
 
                 limitlessNo[0] = 10;
+                limitlessNo[1] = 11;
             }
             if (floorNoSys.slectButtonNo == 9)
             {
@@ -151,8 +166,8 @@ public class Map : MonoBehaviour
             {
                 limitlessNo = new int[2];
 
-                limitlessNo[0] = 12;
-                limitlessNo[1] = 13;
+                limitlessNo[0] = 13;
+                limitlessNo[1] = 14;
             }
             if (floorNoSys.slectButtonNo == 11)
             {
@@ -170,16 +185,15 @@ public class Map : MonoBehaviour
             }
             if (floorNoSys.slectButtonNo == 13)
             {
-                limitlessNo = new int[2];
+                limitlessNo = new int[1];
 
-                limitlessNo[0] = 16;
-                limitlessNo[1] = 17;
+                limitlessNo[0] = 17;
             }
             if (floorNoSys.slectButtonNo == 14)
             {
                 limitlessNo = new int[1];
 
-                limitlessNo[0] = 18;
+                limitlessNo[0] = 17;
             }
             if (floorNoSys.slectButtonNo == 15)
             {
@@ -191,7 +205,7 @@ public class Map : MonoBehaviour
             {
                 limitlessNo = new int[1];
 
-                limitlessNo[0] = 19;
+                limitlessNo[0] = 18;
             }
             if (floorNoSys.slectButtonNo == 17)
             {
@@ -203,7 +217,7 @@ public class Map : MonoBehaviour
             {
                 limitlessNo = new int[1];
 
-                limitlessNo[0] = 20;
+                limitlessNo[0] = 19;
             }
             if (floorNoSys.slectButtonNo == 19)
             {
@@ -211,24 +225,17 @@ public class Map : MonoBehaviour
 
                 limitlessNo[0] = 20;
             }
-            if (floorNoSys.slectButtonNo == 20)
-            {
-                limitlessNo = new int[1];
-
-                limitlessNo[0] = 21;
-            }
         }
 
-        //次に進めるボタン以外すべてを押せないように処理
+        //一旦ボタンを全て押せなくする処理
         for (int i = 0; i < buttonPos.Length; i++)
         {
-            if (i != 0)
-            {
-                for(int k = 0; k < limitlessNo.Length; k++)
-                {
-                    cloneButton[limitlessNo[k]].interactable = false;
-                }
-            }
+            cloneButton[i].interactable = false;
+        }
+        //次に進めるボタンを押せるようにする処理
+        for (int k = 0; k < limitlessNo.Length; k++)
+        {
+            cloneButton[limitlessNo[k]].interactable = true;
         }
     }
 
@@ -268,6 +275,155 @@ public class Map : MonoBehaviour
         //選ばれたボタンの番号をDontDestroyOnLoadオブジェクトの変数に格納
         Debug.Log(buttonNo);
         floorNoSys.slectButtonNo = buttonNo;
+
+        //進める場所を格納
+        {
+            if (floorNoSys.slectButtonNo == -1)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 0;
+            }
+            if (floorNoSys.slectButtonNo == 0)
+            {
+                limitlessNo = new int[2];
+
+                limitlessNo[0] = 1;
+                limitlessNo[1] = 2;
+            }
+            if (floorNoSys.slectButtonNo == 1)
+            {
+                limitlessNo = new int[2];
+
+                limitlessNo[0] = 3;
+                limitlessNo[1] = 4;
+            }
+            if (floorNoSys.slectButtonNo == 2)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 5;
+            }
+            if (floorNoSys.slectButtonNo == 3)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 6;
+            }
+            if (floorNoSys.slectButtonNo == 4)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 6;
+            }
+            if (floorNoSys.slectButtonNo == 5)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 7;
+            }
+            if (floorNoSys.slectButtonNo == 6)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 8;
+            }
+            if (floorNoSys.slectButtonNo == 7)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 9;
+            }
+            if (floorNoSys.slectButtonNo == 8)
+            {
+                limitlessNo = new int[2];
+
+                limitlessNo[0] = 10;
+                limitlessNo[1] = 11;
+            }
+            if (floorNoSys.slectButtonNo == 9)
+            {
+                limitlessNo = new int[2];
+
+                limitlessNo[0] = 11;
+                limitlessNo[1] = 12;
+            }
+            if (floorNoSys.slectButtonNo == 10)
+            {
+                limitlessNo = new int[2];
+
+                limitlessNo[0] = 13;
+                limitlessNo[1] = 14;
+            }
+            if (floorNoSys.slectButtonNo == 11)
+            {
+                limitlessNo = new int[2];
+
+                limitlessNo[0] = 14;
+                limitlessNo[1] = 15;
+            }
+            if (floorNoSys.slectButtonNo == 12)
+            {
+                limitlessNo = new int[2];
+
+                limitlessNo[0] = 15;
+                limitlessNo[1] = 16;
+            }
+            if (floorNoSys.slectButtonNo == 13)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 17;
+            }
+            if (floorNoSys.slectButtonNo == 14)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 17;
+            }
+            if (floorNoSys.slectButtonNo == 15)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 18;
+            }
+            if (floorNoSys.slectButtonNo == 16)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 18;
+            }
+            if (floorNoSys.slectButtonNo == 17)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 19;
+            }
+            if (floorNoSys.slectButtonNo == 18)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 19;
+            }
+            if (floorNoSys.slectButtonNo == 19)
+            {
+                limitlessNo = new int[1];
+
+                limitlessNo[0] = 20;
+            }
+        }
+
+        //一旦ボタンを全て押せなくする処理
+        for (int i = 0; i < buttonPos.Length; i++)
+        {
+            cloneButton[i].interactable = false;
+        }
+        //次に進めるボタンを押せるようにする処理
+        for (int k = 0; k < limitlessNo.Length; k++)
+        {
+            cloneButton[limitlessNo[k]].interactable = true;
+        }
+
     }
 
     //シーンの切り替え
