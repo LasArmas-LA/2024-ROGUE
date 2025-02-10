@@ -262,6 +262,42 @@ public class TestEncount : MonoBehaviour
                     enemyScript.enemyHpDef[0] = enemyScript.hp[0];
                     enemyScript.enemyHpDef[1] = enemyScript.hp[1];
 
+                    //ñhå‰ÉXÉLÉãÇÃèâä˙âªèàóù
+                    //Ç®éÁÇËÇµÇ‹Ç∑ÅI
+                    if (dhiaScript.protectFlag)
+                    {
+                        dhiaScript.protectTurn--;
+                        if (dhiaScript.protectTurn == 0)
+                        {
+                            dhiaScript.protectFlag = false;
+                            dhiaScript.defCorrectionValue -= dhiaScript.postureDef;
+                        }
+                    }
+                    //ñhå‰ëÃêß
+                    if (dhiaScript.postureFlag)
+                    {
+                        dhiaScript.postureTurn--;
+                        if(dhiaScript.postureTurn == 0)
+                        {
+                            dhiaScript.postureFlag = false;
+                            //ñhå‰ï‚ê≥ílÇå∏éZ
+                            dhiaScript.defCorrectionValue -= dhiaScript.postureDef;
+                        }
+                    }
+
+                    //éÁÇÈ
+                    if(dhiaScript.ririDefenseFlag)
+                    {
+                        dhiaScript.ririProtectTurn--;
+                        if(dhiaScript.ririProtectTurn == 0)
+                        {
+                            dhiaScript.ririDefenseFlag = false;
+                            //ñhå‰ï‚ê≥ílÇå∏éZ
+                            dhiaScript.defCorrectionValue -= dhiaScript.ririProtectDef;
+                        }
+                    }
+
+
                     //É_ÉÅÅ[ÉWÇéÛÇØÇΩéûÇîªï Ç≈Ç´ÇÈÇÊÇ§Ç…äiî[
                     dhiahpdf = dhiaScript.hp;
                     fast = false;
@@ -283,6 +319,7 @@ public class TestEncount : MonoBehaviour
                 if(!fast)
                 {
                     fast = true;
+                    dhiaScript.def = dhiaScript.def + (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
                 }
                 break;
             case MainTurn.ENEMY1MOVE:

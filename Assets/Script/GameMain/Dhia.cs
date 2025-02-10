@@ -128,13 +128,10 @@ public class Dhia : MonoBehaviour
     [SerializeField]
     GameObject dhiaMain = null;
 
-    [SerializeField]
-    Rabbit[] rabbitScript = null;
-    [SerializeField]
-    Bird[] birdScript = null;
+    public Rabbit[] rabbitScript = null;
+    public Bird[] birdScript = null;
 
-    [SerializeField]
-    GameObject enemySelectWin = null;
+    public GameObject enemySelectWin = null;
 
     [SerializeField]
     GameObject commandButton = null;
@@ -722,7 +719,6 @@ public class Dhia : MonoBehaviour
     //スキル関数
     [Space (10)]
     [Header("技の威力")]
-
     [SerializeField]
     [CustomLabel("殴りの威力")]
     int hitPower = 0; 
@@ -782,6 +778,8 @@ public class Dhia : MonoBehaviour
     [CustomLabel("お守りします！の防御補正(%)")]
     public int protectDef = 0;
     [CustomLabel("お守りします！の効果継続ターン数")]
+    public int protectTurnInitial = 0;
+    [NonSerialized]
     public int protectTurn = 0;
     //お守りします！の管理フラグ
     public bool protectFlag = false;
@@ -790,8 +788,14 @@ public class Dhia : MonoBehaviour
     {
         if(!button)
         {
+            //ターン数の初期化
+            protectTurn = protectTurnInitial;
+            //フラグをtrueに
+            protectFlag = true;
+            //防御補正値を加算
             defCorrectionValue += protectDef;
 
+            //多重押し防止
             button = true;
         }
     }
@@ -800,6 +804,8 @@ public class Dhia : MonoBehaviour
     [CustomLabel("防御体制の防御補正(%)")]
     public int postureDef = 0;
     [CustomLabel("防御体制の効果継続ターン数")]
+    public int postureTurnInitial = 0;
+    [NonSerialized]
     public int postureTurn = 0;
     //防御体制の管理フラグ
     public bool postureFlag = false;
@@ -809,18 +815,26 @@ public class Dhia : MonoBehaviour
     {
         if (!button)
         {
+            //ターン数の初期化
+            postureTurn = postureTurnInitial;
+            //防御補正値を加算
             defCorrectionValue += postureDef;
+            //防御アニメーションの再生
             dhiaAnim.SetBool("D_Shield", true);
-            encountSys.windowsMes.text = "ディアは身を守っている。";
+            //防御体制フラグをtrueに
             defenseFlag = true;
+            //多重押し防止
             button = true;
         }
     }
 
     [Space(5)]
-    [CustomLabel("守るの防御補正(%)")]
+    //防御補正値の初期値
+    [NonSerialized]
     public int ririProtectDef = 0;
     [CustomLabel("守るの効果継続ターン数")]
+    public int ririProtectTurnInitial = 0;
+    [NonSerialized]
     public int ririProtectTurn = 0;
     //守るの管理フラグ
     public bool ririProtectFlag = false;
@@ -830,10 +844,15 @@ public class Dhia : MonoBehaviour
     {
         if (!button)
         {
+            //ターン数の初期化
+            ririProtectTurn = ririProtectTurnInitial;
+            //防御補正値の加算
             defCorrectionValue += ririProtectDef;
+            //防御アニメーションの再生
             dhiaAnim.SetBool("D_Shield", true);
-            encountSys.windowsMes.text = "ディアはリリーを守っている。";
+            //守るのフラグをtrueに
             ririDefenseFlag = true;
+            //多重押し防止
             button = true;
         }
     }

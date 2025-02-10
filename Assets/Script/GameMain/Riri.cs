@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using System.Threading;
 using static TestEncount;
 using static Dhia;
+using System.Data;
 
 public class Riri : MonoBehaviour
 {
@@ -292,9 +293,50 @@ public class Riri : MonoBehaviour
                 DoNotMove();
                 break;
         }
-
     }
 
+    //エネミーの対象用システム
+    public void EnemySlectSys(int enemyNo)
+    {
+        if(encountSys.command1)
+        {
+            switch (ririAtkSkill1)
+            {
+                case RiriAtkSkill1.BecomeWeak:
+                    BecomeWeakSlect(enemyNo);
+                    break;
+                case RiriAtkSkill1.DoNotMove:
+                    DoNotMoveSlect(enemyNo);
+                    break;
+            }
+        }
+        if (encountSys.command2)
+        {
+            switch (ririAtkSkill2)
+            {
+                case RiriAtkSkill2.BecomeWeak:
+                    BecomeWeakSlect(enemyNo);
+                    break;
+                case RiriAtkSkill2.DoNotMove:
+                    DoNotMoveSlect(enemyNo);
+                    break;
+            }
+        }
+        if (encountSys.command3)
+        {
+            switch (ririAtkSkill3)
+            {
+                case RiriAtkSkill3.BecomeWeak:
+                    BecomeWeakSlect(enemyNo);
+                    break;
+                case RiriAtkSkill3.DoNotMove:
+                    DoNotMoveSlect(enemyNo);
+                    break;
+            }
+        }
+    }
+
+    //頑張って！
     void KeepItUp()
     {
         //アニメーションのカウントダウンとアニメーションスタート
@@ -306,20 +348,58 @@ public class Riri : MonoBehaviour
         dhia.powerUpFlag = true;
     }
 
+    //弱くなれ！
     void BecomeWeak()
     {
 
     }
+    //弱くなれ！の対象選択
+    void BecomeWeakSlect(int enemyNo)
+    {
+        if(enemyNo == 0)
+        {
 
+        }
+        if(enemyNo == 1)
+        {
+
+        }
+    }
+
+    //守ってあげる！
     void Protect()
     {
 
     }
 
+    //動かないで！
     void DoNotMove()
     {
-
+        
     }
+    //動かないで！の対処選択
+    void DoNotMoveSlect(int enemyNo)
+    {
+        if (enemyNo == 0)
+        {
+
+        }
+        if (enemyNo == 1)
+        {
+
+        }
+    }
+
+    bool enemySlect = false;
+    public void EnemySlect(int enemyNumber)
+    {
+        timerFlag = true;
+        dhia.enemySelectWin.SetActive(false);
+
+
+        enemySlect = true;
+    }
+
 
     //リリーのヒール使用時にキャラクターを選択する関数。OnClickで呼ばれる
     public void RiriSlect()
@@ -354,36 +434,6 @@ public class Riri : MonoBehaviour
 
     public void RecoveryWin()
     {
-        if (ririSelectFlag)
-        {
-            if (maxhp < hp + 50)
-            {
-                Debug.Log("コマンド1リリーHPマックス回復");
-                encountSys.windowsMes.text = "リリーはヒールを唱えた！\n" + "リリー" + "のHPを" + (maxhp - hp) + "回復した!";
-                hp = maxhp;
-            }
-            else
-            {
-                Debug.Log("コマンド1リリーHP差分回復");
-                encountSys.windowsMes.text = "リリーはヒールを唱えた！\n" + "リリー" + "のHPを50回復した!";
-                hp += 50;
-            }
-        }
-        if (dhiaSelectFlag)
-        {
-            if (dhia.maxhp < dhia.hp + 50)
-            {
-                Debug.Log("コマンド1リリーHPマックス回復");
-                encountSys.windowsMes.text = "リリーはヒールを唱えた！\n" + "ディア" + "のHPを" + (dhia.maxhp - dhia.hp) + "回復した!";
-                dhia.hp = dhia.maxhp;
-            }
-            else
-            {
-                Debug.Log("コマンド1リリーHP差分回復");
-                encountSys.windowsMes.text = "リリーはヒールを唱えた！\n" + "ディア" + "のHPを50回復した!";
-                dhia.hp += 50;
-            }
-        }
         recoveryWin.SetActive(false);
         commandWin.SetActive(true);
     }

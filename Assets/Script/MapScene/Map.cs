@@ -90,6 +90,12 @@ public class Map : MonoBehaviour
             button[i] = cloneButtonObj[i].GetComponent<Outline>();
         }
 
+        //一旦ボタンを全て押せなくする処理
+        for (int i = 0; i < buttonPos.Length; i++)
+        {
+            cloneButton[i].interactable = false;
+        }
+
         //進める場所を格納
         {
             if (floorNoSys.slectButtonNo == -1)
@@ -226,16 +232,17 @@ public class Map : MonoBehaviour
                 limitlessNo[0] = 20;
             }
         }
-
-        //一旦ボタンを全て押せなくする処理
-        for (int i = 0; i < buttonPos.Length; i++)
+        if (floorNoSys.floorNo == 1 || floorNoSys.floorNo % 11 == 0)
         {
-            cloneButton[i].interactable = false;
+            cloneButton[0].interactable = true;
         }
-        //次に進めるボタンを押せるようにする処理
-        for (int k = 0; k < limitlessNo.Length; k++)
+        else
         {
-            cloneButton[limitlessNo[k]].interactable = true;
+            //次に進めるボタンを押せるようにする処理
+            for (int k = 0; k < limitlessNo.Length; k++)
+            {
+                cloneButton[limitlessNo[k]].interactable = true;
+            }
         }
     }
 
@@ -276,6 +283,12 @@ public class Map : MonoBehaviour
         Debug.Log(buttonNo);
         floorNoSys.slectButtonNo = buttonNo;
 
+        //一旦ボタンを全て押せなくする処理
+        for (int i = 0; i < buttonPos.Length; i++)
+        {
+            cloneButton[i].interactable = false;
+        }
+
         //進める場所を格納
         {
             if (floorNoSys.slectButtonNo == -1)
@@ -412,17 +425,11 @@ public class Map : MonoBehaviour
                 limitlessNo[0] = 20;
             }
         }
-
-        //一旦ボタンを全て押せなくする処理
-        for (int i = 0; i < buttonPos.Length; i++)
-        {
-            cloneButton[i].interactable = false;
-        }
-        //次に進めるボタンを押せるようにする処理
-        for (int k = 0; k < limitlessNo.Length; k++)
-        {
-            cloneButton[limitlessNo[k]].interactable = true;
-        }
+            //次に進めるボタンを押せるようにする処理
+            for (int k = 0; k < limitlessNo.Length; k++)
+            {
+                cloneButton[limitlessNo[k]].interactable = true;
+            }
 
     }
 
@@ -442,7 +449,7 @@ public class Map : MonoBehaviour
         //休憩
         if (sceneKindsNo == 2)
         {
-            //SceneManager.LoadScene("Stay");
+           //SceneManager.LoadScene("Stay");
         }
         //宝
         if (sceneKindsNo == 3)
@@ -451,7 +458,7 @@ public class Map : MonoBehaviour
         }
         //ボス
         if (sceneKindsNo == 4)
-        {
+        {   
            SceneManager.LoadScene("Boss");
         }
     }
