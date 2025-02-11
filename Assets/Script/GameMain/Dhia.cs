@@ -528,7 +528,7 @@ public class Dhia : MonoBehaviour
     public void Skill1Move(int enemyNumber)
     {
         //ダメージの計算
-        enemyDamage = DamageCalculation(attack, encountSys.enemyScript.def[0], power);
+        enemyDamage = DamageCalculation(attack, encountSys.enemyScript.def[enemyNumber], power);
 
         timerFlag = true;
         dhiaAnim.SetBool("D_Attack", true);

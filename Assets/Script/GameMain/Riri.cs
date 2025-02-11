@@ -343,7 +343,6 @@ public class Riri : MonoBehaviour
         timerFlag = true;
         ririAnim.SetBool("R_Skill", true);
 
-        Debug.Log("コマンド3リリー");
         encountSys.windowsMes.text = "リリーはバイキルトを唱えた！\nディアの攻撃力が上昇した!";
         dhia.powerUpFlag = true;
     }
@@ -353,23 +352,45 @@ public class Riri : MonoBehaviour
     {
 
     }
-    //弱くなれ！の対象選択
-    void BecomeWeakSlect(int enemyNo)
-    {
-        if(enemyNo == 0)
-        {
+    //強くなれで必要な変数
+    public bool becomeWeakFlag = false;
+    //敵の攻撃力補正値
+    public float powerValue = 0;
 
+    //弱くなれ！の対象選択
+    public void BecomeWeakSlect(int enemyNo)
+    {
+        powerValue = 0.2f;
+        //敵1選択時
+        if (enemyNo == 0)
+        {
+            encountSys.enemyScript.power[0] = encountSys.enemyScript.power[0] + (int)(encountSys.enemyScript.power[0] * powerValue);
         }
+        //敵2選択時
         if(enemyNo == 1)
         {
-
+            encountSys.enemyScript.power[1] = encountSys.enemyScript.power[1] + (int)(encountSys.enemyScript.power[1] * powerValue);
+        }
+        //パワーを初期値に戻す処理
+        if(enemyNo == 100)
+        {
+            encountSys.enemyScript.power[0] = encountSys.enemyScript.power[0] - (int)(encountSys.enemyScript.power[0] * powerValue);
+            encountSys.enemyScript.power[1] = encountSys.enemyScript.power[1] - (int)(encountSys.enemyScript.power[1] * powerValue);
+            becomeWeakFlag = false;
         }
     }
+
+    int prtectTurnDef = 2;
+    public int prtectTurn = 0;
+    public bool prtectFlag = false;
 
     //守ってあげる！
     void Protect()
     {
-
+        //ターンの代入
+        prtectTurn = prtectTurnDef;
+        prtectFlag = true;
+        dhia.defCorrectionValue = (int)(dhia.defCorrectionValue + (dhia.defCorrectionValue * 0.1f));
     }
 
     //動かないで！
@@ -390,53 +411,6 @@ public class Riri : MonoBehaviour
         }
     }
 
-    bool enemySlect = false;
-    public void EnemySlect(int enemyNumber)
-    {
-        timerFlag = true;
-        dhia.enemySelectWin.SetActive(false);
-
-
-        enemySlect = true;
-    }
-
-
-    //リリーのヒール使用時にキャラクターを選択する関数。OnClickで呼ばれる
-    public void RiriSlect()
-    {
-        if (!button)
-        {
-            button = true;
-            ririSelectFlag = true;
-            ririAnim.SetBool("R_Skill", true);
-
-            //ステータスを変更
-            encountSys.mainTurn = MainTurn.RIRIANIM;
-
-            RecoveryWin();
-        }
-    }
-    //リリーのヒール使用時にキャラクターを選択する関数。OnClickで呼ばれる
-    public void DhiaSlect()
-    {
-        if (!button)
-        {
-            button = true;
-            dhiaSelectFlag = true;
-            ririAnim.SetBool("R_Skill", true);
-
-            //ステータスを変更
-            encountSys.mainTurn = MainTurn.RIRIANIM;
-
-            RecoveryWin();
-        }
-    }
-
-    public void RecoveryWin()
-    {
-        recoveryWin.SetActive(false);
-        commandWin.SetActive(true);
-    }
 }
 
 

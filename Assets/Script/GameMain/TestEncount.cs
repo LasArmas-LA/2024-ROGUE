@@ -228,6 +228,22 @@ public class TestEncount : MonoBehaviour
 
                     dhiaScript.button = false;
 
+                    if(ririScript.becomeWeakFlag)
+                    {
+                        ririScript.BecomeWeakSlect(100);                  
+                    }
+
+                    //守ってあげる！
+                    if (ririScript.prtectFlag)
+                    {
+                        ririScript.prtectTurn--;
+                        if (ririScript.prtectTurn == 0)
+                        {
+                            ririScript.prtectFlag = false;
+                            dhiaScript.defCorrectionValue = (int)(dhiaScript.defCorrectionValue - (dhiaScript.defCorrectionValue * 0.1f));
+                        }
+                    }
+
                     //ダメージを受けた時を判別できるように格納
                     ririhpdf = ririScript.hp;
                     fast = false;
@@ -261,6 +277,9 @@ public class TestEncount : MonoBehaviour
 
                     enemyScript.enemyHpDef[0] = enemyScript.hp[0];
                     enemyScript.enemyHpDef[1] = enemyScript.hp[1];
+
+                    //ディアの補正値の代入
+                    dhiaScript.def = dhiaScript.def + (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
 
                     //防御スキルの初期化処理
                     //お守りします！
@@ -297,6 +316,8 @@ public class TestEncount : MonoBehaviour
                         }
                     }
 
+
+                    dhiaScript.powerUpFlag = false;
 
                     //ダメージを受けた時を判別できるように格納
                     dhiahpdf = dhiaScript.hp;
