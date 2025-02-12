@@ -57,8 +57,18 @@ public class TreasureSys : MonoBehaviour
 
     void Start()
     {
+        Init();
+    }
+
+    void Init()
+    {
         equipmentManager.LoopInit();
-        Invoke("Drop", 1.0f);
+        //ドロップ品の表示タイミング調節
+        Invoke("Drop", 3.0f);
+
+        //宝箱の開閉画像切り替えタイミング調節
+        Invoke("TresureOpen", 1f);
+
     }
 
     void Update()
@@ -66,6 +76,7 @@ public class TreasureSys : MonoBehaviour
         
     }
 
+    //パーツのドロップ表示処理
     void Drop()
     {
         partsSlectWin.SetActive(true);
@@ -79,6 +90,14 @@ public class TreasureSys : MonoBehaviour
         dropPartsSp[0].sprite = equipmentManager.randomEquip[equipmentManager.rnd[0]].sprite;
         dropPartsSp[1].sprite = equipmentManager.randomEquip[equipmentManager.rnd[1]].sprite;
         dropPartsSp[2].sprite = equipmentManager.randomEquip[equipmentManager.rnd[2]].sprite;
+    }
+
+    //宝箱の素材
+
+    //宝箱オープン
+    void TresureOpen()
+    {
+
     }
 
 
