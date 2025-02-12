@@ -169,7 +169,7 @@ public class Bird : EnemyManager
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
 
         //素のダメージ計算
-        int damage = (attack + (attack * (int)powerValue) / 2) - (defense / 4);
+        int damage = ((attack * (int)powerValue) / 2) - (defense / 4);
 
         //ダメージ振幅の計算
         int width = damage / 16 + 1;

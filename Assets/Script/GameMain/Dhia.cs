@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using static Dhia;
 using static TestEncount;
@@ -525,10 +527,14 @@ public class Dhia : MonoBehaviour
         }
     }
 
+    //ダメージテキスト表示用
+    [SerializeField]
+    TextMeshProUGUI[] damageText = null;
+
     public void Skill1Move(int enemyNumber)
     {
         //ダメージの計算
-        enemyDamage = DamageCalculation(attack, encountSys.enemyScript.def[enemyNumber], power);
+        enemyDamage = DamageCalculation(attack, encountSys.enemyScript.def[enemyNumber -1], power);
 
         timerFlag = true;
         dhiaAnim.SetBool("D_Attack", true);
@@ -557,12 +563,17 @@ public class Dhia : MonoBehaviour
             {
                 encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage * 1.5f + "のダメージ!";
                 encountSys.enemyScript.hp[0] -= (enemyDamage * 1.5f);
-                powerUpFlag = false;
+
+                damageText[0].text = (enemyDamage * 1.5f).ToString();
+
+            powerUpFlag = false;
             }
             else
             {
                 encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage + "のダメージ!";
                 encountSys.enemyScript.hp[0] -= enemyDamage;
+
+                damageText[0].text = enemyDamage.ToString();
             }
         }
         //敵2を選択された時
@@ -584,14 +595,25 @@ public class Dhia : MonoBehaviour
             {
                 encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage * 1.5f + "のダメージ!";
                 encountSys.enemyScript.hp[1] -= (enemyDamage * 1.5f);
+                damageText[1].text = (enemyDamage * 1.5f).ToString();
+
                 powerUpFlag = false;
             }
             else
             {
                 encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage + "のダメージ!";
                 encountSys.enemyScript.hp[1] -= enemyDamage;
+                damageText[1].text = enemyDamage.ToString();
             }
         }
+        StartCoroutine("DamageInit");
+    }
+
+    IEnumerator DamageInit()
+    {
+        yield return new WaitForSeconds(0.5f);
+        damageText[0].text = "0";
+        damageText[1].text = "0";
     }
 
 

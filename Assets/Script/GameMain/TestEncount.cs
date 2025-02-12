@@ -502,23 +502,20 @@ public class TestEncount : MonoBehaviour
             //ボタンが押されるで待機
             if (command1 || command2 || command3)
             {
-                //タイマー開始
-                if (!command1)
-                {
-                    timer += Time.deltaTime;
-                }
+                timer += Time.deltaTime;
 
                 //ボタンの多段押し防止
                 if (!coLock)
                 {
                     if (command1)
                     {
+                        //ステータスを変更
+                        mainTurn = MainTurn.RIRIANIM;
+
                         ririScript.Skil1();
                     }
                     if (command2)
                     {
-                        //ステータスを変更
-                        mainTurn = MainTurn.RIRIANIM;
 
                         ririScript.Skil2();
                     }
@@ -545,8 +542,11 @@ public class TestEncount : MonoBehaviour
             enemyFloorRunSysObj.commandMain.SetActive(false);
             enemyFloorRunSysObj.commandWin.SetActive(false);
 
-            //タイマー開始
-            timer += Time.deltaTime;
+            if (!command2)
+            {
+                //タイマー開始
+                timer += Time.deltaTime;
+            }
 
             //待機時間を超えて敵が生きている時
             if (timer >= waitTime && !enemyDeath)

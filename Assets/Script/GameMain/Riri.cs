@@ -235,12 +235,6 @@ public class Riri : MonoBehaviour
 
     public void Skil1()
     {
-        if (!button)
-        {
-            recoveryWin.SetActive(true);
-            commandWin.SetActive(false);
-        }
-
         switch (ririAtkSkill1)
         {
             case RiriAtkSkill1.KeepItUp:
