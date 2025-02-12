@@ -530,6 +530,8 @@ public class Dhia : MonoBehaviour
     //ダメージテキスト表示用
     [SerializeField]
     TextMeshProUGUI[] damageText = null;
+    [SerializeField]
+    GameObject[] damageTextObj = null;
 
     public void Skill1Move(int enemyNumber)
     {
@@ -544,6 +546,9 @@ public class Dhia : MonoBehaviour
         //敵1を選ばれた時
         if (enemyNumber == 1)
         {
+            //テキストの表示処理
+            damageTextObj[0].SetActive(true);
+
             //アニメーション用
             //ウサギの時
             if (encountSys.typeRnd[0] == 0)
@@ -579,6 +584,9 @@ public class Dhia : MonoBehaviour
         //敵2を選択された時
         if (enemyNumber == 2)
         {
+            //テキストの表示処理
+            damageTextObj[1].SetActive(true);
+
             //ウサギの時
             if (encountSys.typeRnd[1] == 3)
             {
@@ -612,6 +620,10 @@ public class Dhia : MonoBehaviour
     IEnumerator DamageInit()
     {
         yield return new WaitForSeconds(0.5f);
+
+        damageTextObj[0].SetActive(false);
+        damageTextObj[1].SetActive(false);
+
         damageText[0].text = "0";
         damageText[1].text = "0";
     }
