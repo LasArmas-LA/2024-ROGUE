@@ -68,7 +68,8 @@ public class Map : MonoBehaviour
         }
         
         floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
-        
+
+        floorNoSys.floorCo++;
 
         //ボタンを生成する処理
         for (int i = 0; i < buttonPos.Length; i++)
@@ -232,18 +233,14 @@ public class Map : MonoBehaviour
                 limitlessNo[0] = 20;
             }
         }
-        if (floorNoSys.floorNo == 1 || floorNoSys.floorNo % 11 == 0)
+
+
+        //次に進めるボタンを押せるようにする処理
+        for (int k = 0; k < limitlessNo.Length; k++)
         {
-            cloneButton[0].interactable = true;
+            cloneButton[limitlessNo[k]].interactable = true;
         }
-        else
-        {
-            //次に進めるボタンを押せるようにする処理
-            for (int k = 0; k < limitlessNo.Length; k++)
-            {
-                cloneButton[limitlessNo[k]].interactable = true;
-            }
-        }
+       
     }
 
     void Update()
@@ -439,22 +436,22 @@ public class Map : MonoBehaviour
         //敵
         if (sceneKindsNo == 0)
         {
-            //SceneManager.LoadScene("EncountScene");
+            SceneManager.LoadScene("EncountScene");
         }
         //イベント
         if(sceneKindsNo == 1)
         {
-            //SceneManager.LoadScene("Event");
+            SceneManager.LoadScene("Event");
         }
         //休憩
         if (sceneKindsNo == 2)
         {
-           //SceneManager.LoadScene("Stay");
+           SceneManager.LoadScene("Stay");
         }
         //宝
         if (sceneKindsNo == 3)
         {
-            //SceneManager.LoadScene("Treasure");
+            SceneManager.LoadScene("Treasure");
         }
         //ボス
         if (sceneKindsNo == 4)
