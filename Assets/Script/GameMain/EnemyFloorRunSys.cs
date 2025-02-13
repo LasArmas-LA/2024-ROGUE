@@ -198,7 +198,7 @@ public class EnemyFloorRunSys : MonoBehaviour
 
             if (battleEndFlag)
             {
-                floorNoSys.floorCo += 1;
+                //floorNoSys.floorCo += 1;
                 Debug.Log("ŠK‘wƒAƒbƒv");
                 battleEndFlag = false;
             }
@@ -389,7 +389,7 @@ public class EnemyFloorRunSys : MonoBehaviour
                         commandMain.SetActive(false);
                         if (fastFloorNo)
                         {
-                            floorNoSys.floorCo += 1;
+                            //floorNoSys.floorCo += 1;
                             fastFloorNo = false;
                         }
 

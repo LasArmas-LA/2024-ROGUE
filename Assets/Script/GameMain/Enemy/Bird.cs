@@ -1,3 +1,5 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -72,6 +74,12 @@ public class Bird : EnemyManager
         }
     }
 
+    //ダメージテキスト表示用
+    [SerializeField]
+    TextMeshProUGUI[] damageText = null;
+    [SerializeField]
+    GameObject[] damageTextObj = null;
+
     public override void SkilBird()
     {
         timerFlag = true;
@@ -113,16 +121,21 @@ public class Bird : EnemyManager
                 Invoke("RiriDamage", 1f);
                 timerFlag = true;
 
+                //テキストの表示処理
+                damageTextObj[0].SetActive(true);
+
                 //70%軽減
                 if (dhia.ririDefenseFlag)
                 {
                     encountSys.windowsMes.text = "ふくろうのこうげき！ディアがリリーを守った！ディアに" + (ririDamage * 0.3f) + "のダメージ!";
                     dhia.hp -= (ririDamage * 0.3f);
+                    damageText[0].text = (ririDamage * 0.3f).ToString();
                 }
                 else
                 {
                     encountSys.windowsMes.text = "ふくろうのこうげき！リリーに" + (ririDamage) + "のダメージ!";
                     riri.hp -= (ririDamage);
+                    damageText[0].text = (ririDamage).ToString();
                 }
                 encountSys.HpMoveWait("Riri");
             }
@@ -131,17 +144,22 @@ public class Bird : EnemyManager
             {
                 Invoke("DhiaDamage", 1f);
 
+                //テキストの表示処理
+                damageTextObj[1].SetActive(true);
+
                 timerFlag = true;
 
                 if (dhia.defenseFlag)
                 {
                     encountSys.windowsMes.text = "ふくろうのこうげき！ディアに" + (dhiaDamage * 0.5f) + "のダメージ!";
                     dhia.hp -= (dhiaDamage * 0.5f);
+                    damageText[1].text = (dhiaDamage * 0.5f).ToString();
                 }
                 else
                 {
                     encountSys.windowsMes.text = "ふくろうのこうげき！ディアに" + (dhiaDamage) + "のダメージ!";
                     dhia.hp -= (dhiaDamage);
+                    damageText[1].text = (dhiaDamage).ToString();
                 }
                 encountSys.HpMoveWait("Dhia");
             }
@@ -152,6 +170,8 @@ public class Bird : EnemyManager
         {
 
         }
+
+        StartCoroutine("DamageInit");
     }
 
     void RiriDamage()
@@ -162,6 +182,7 @@ public class Bird : EnemyManager
     {
         dhia.dhiaAnim.SetBool("D_TakeDamage", true);
     }
+
     //ダメージ計算用
     int DamageCalculation(int attack, int defense)
     {
@@ -180,5 +201,17 @@ public class Bird : EnemyManager
         //呼び出し側にダメージ数を返す
         return damage;
     }
+
+    IEnumerator DamageInit()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        damageTextObj[0].SetActive(false);
+        damageTextObj[1].SetActive(false);
+
+        damageText[0].text = "0";
+        damageText[1].text = "0";
+    }
+
 
 }

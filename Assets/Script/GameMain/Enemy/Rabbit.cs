@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.UI;
 
 public class Rabbit : EnemyManager
@@ -74,6 +76,14 @@ public class Rabbit : EnemyManager
         }
     }
 
+
+    //ダメージテキスト表示用
+    [SerializeField]
+    TextMeshProUGUI[] damageText = null;
+    [SerializeField]
+    GameObject[] damageTextObj = null;
+
+
     public override void SkilRabbit()
     {
         int skilRnd = 0;
@@ -116,17 +126,23 @@ public class Rabbit : EnemyManager
             {
                 Invoke("RiriDamage", 1.2f);
 
+                //テキストの表示処理
+                damageTextObj[0].SetActive(true);
+
                 //70%軽減
                 if (dhia.ririDefenseFlag)
                 {
                     encountSys.windowsMes.text = "ウサギのこうげき！ディアがリリーを守った！ディアに" + ( ririDamage * 0.3f) + "のダメージ!";
                     dhia.hp -= (ririDamage * 0.3f);
+                    damageText[0].text = (ririDamage * 0.3f).ToString();
                 }
                 else
                 {
                     encountSys.windowsMes.text = "ウサギのこうげき！リリーに" + (ririDamage) + "のダメージ!";
                     riri.hp -= (ririDamage);
+                    damageText[0].text = (ririDamage).ToString();
                 }
+
 
                 encountSys.HpMoveWait("Riri");
             }
@@ -135,20 +151,26 @@ public class Rabbit : EnemyManager
             {
                 Invoke("DhiaDamage", 1.2f);
 
+                //テキストの表示処理
+                damageTextObj[1].SetActive(true);
+
                 if (dhia.defenseFlag)
                 {
                     encountSys.windowsMes.text = "ウサギのこうげき！ディアに" + (dhiaDamage * 0.5f) + "のダメージ!";
                     dhia.hp -= (dhiaDamage * 0.5f);
+                    damageText[1].text = (dhiaDamage * 0.5f).ToString();
                 }
                 else
                 {
                     encountSys.windowsMes.text = "ウサギのこうげき！ディアに" + (dhiaDamage) + "のダメージ!";
                     dhia.hp -= (dhiaDamage);
+                    damageText[1].text = (dhiaDamage).ToString();
                 }
 
                 encountSys.HpMoveWait("Dhia");
             }
 
+            StartCoroutine("DamageInit");
         }
 
         //スキル2
@@ -157,6 +179,7 @@ public class Rabbit : EnemyManager
             encountSys.windowsMes.text = "ウサギはにんじんシチューを飲んだ！\nウサギの攻撃力が15%アップした！";
             powerValue += 0.15f;
         }
+
     }
 
     void RiriDamage()
@@ -168,10 +191,12 @@ public class Rabbit : EnemyManager
         dhia.dhiaAnim.SetBool("D_TakeDamage", true);
     }
 
-
     //ダメージ計算用
     int DamageCalculation(int attack,int defense)
     {
+        Debug.Log(attack);
+        Debug.Log(defense);
+
         //シード値の変更
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
 
@@ -187,4 +212,16 @@ public class Rabbit : EnemyManager
         //呼び出し側にダメージ数を返す
         return damage;
     }
+
+    IEnumerator DamageInit()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        damageTextObj[0].SetActive(false);
+        damageTextObj[1].SetActive(false);
+
+        damageText[0].text = "0";
+        damageText[1].text = "0";
+    }
+
 }

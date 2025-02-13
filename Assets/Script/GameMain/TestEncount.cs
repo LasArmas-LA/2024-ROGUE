@@ -164,12 +164,13 @@ public class TestEncount : MonoBehaviour
             enemyObj[typeRnd[0]].transform.localScale = new Vector3(1, 1, 1);
 
             //エネミーの種類抽選用
-            typeRnd[1] = UnityEngine.Random.Range(3, enemyObj.Length + 1);
+            typeRnd[1] = UnityEngine.Random.Range(3, enemyObj.Length);
 
             //ランダムで選ばれたエネミーオブジェクトの表示
             enemyObj[typeRnd[1]].transform.localScale = new Vector3(1, 1, 1);
         }
 
+        Debug.Log(ririScript.maxhp);
         //MaxHPの格納
         ririSlider.maxValue = ririScript.maxhp;
         dhiaSlider.maxValue = dhiaScript.maxhp;
@@ -279,7 +280,7 @@ public class TestEncount : MonoBehaviour
                     enemyScript.enemyHpDef[1] = enemyScript.hp[1];
 
                     //ディアの補正値の代入
-                    dhiaScript.def = dhiaScript.def + (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
+                    dhiaScript.def = (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
 
                     //防御スキルの初期化処理
                     //お守りします！
@@ -516,6 +517,8 @@ public class TestEncount : MonoBehaviour
                     }
                     if (command2)
                     {
+                        //ステータスを変更
+                        mainTurn = MainTurn.RIRIANIM;
 
                         ririScript.Skil2();
                     }
@@ -542,11 +545,9 @@ public class TestEncount : MonoBehaviour
             enemyFloorRunSysObj.commandMain.SetActive(false);
             enemyFloorRunSysObj.commandWin.SetActive(false);
 
-            if (!command2)
-            {
-                //タイマー開始
-                timer += Time.deltaTime;
-            }
+            //タイマー開始
+            timer += Time.deltaTime;
+            
 
             //待機時間を超えて敵が生きている時
             if (timer >= waitTime && !enemyDeath)

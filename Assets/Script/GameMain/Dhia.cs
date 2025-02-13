@@ -323,8 +323,6 @@ public class Dhia : MonoBehaviour
         dhiaStatus.ATK += floorNoSys.dhiaAtk;
         dhiaStatus.DEF = floorNoSys.dhiaDef;
 
-        Debug.Log(dhiaStatus.righthandPartsData.name);
-
         //攻撃スキル1の名前を変更
         switch (dhiaAtkSkill1)
         {
