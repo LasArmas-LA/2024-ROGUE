@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 using static BaseEquipment;
+using UnityEngine.SceneManagement;
 
 
 public class TreasureSys : MonoBehaviour
@@ -64,11 +65,15 @@ public class TreasureSys : MonoBehaviour
     {
         equipmentManager.LoopInit();
         //ドロップ品の表示タイミング調節
-        Invoke("Drop", 3.0f);
+        Invoke("Drop", 2.5f);
 
         //宝箱の開閉画像切り替えタイミング調節
-        Invoke("TresureOpen", 1f);
+        Invoke("OpenTresure", 2f);
 
+
+        arrowObj[0].SetActive(false);
+        arrowObj[1].SetActive(false);
+        arrowObj[2].SetActive(false);
     }
 
     void Update()
@@ -93,11 +98,19 @@ public class TreasureSys : MonoBehaviour
     }
 
     //宝箱の素材
+    //開いてる宝箱
+    [SerializeField]
+    GameObject openTresure = null;
+    //閉じてる宝箱
+    [SerializeField]
+    GameObject defTresure = null;
+
 
     //宝箱オープン
-    void TresureOpen()
+    void OpenTresure()
     {
-
+        openTresure.SetActive(true);
+        defTresure.SetActive(false);
     }
 
 
@@ -159,11 +172,16 @@ public class TreasureSys : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    Animator fadeAnim = null;
     public void PartsSlecteEnd()
     {
+        fadeAnim.SetBool("FadeOn", true);
+
         button = true;
         allPartsSlect = true;
         partsSlectWin.SetActive(false);
+        Invoke("SceneChenge", 0.5f);
 
         //該当する部位にパーツデータを格納する処理
         if (partsSlect[0])
@@ -250,6 +268,10 @@ public class TreasureSys : MonoBehaviour
                 dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
             }
         }
+    }
+    void SceneChenge()
+    {
+        SceneManager.LoadScene("Map");
     }
 
 }
