@@ -374,6 +374,12 @@ public class TestEncount : MonoBehaviour
         //リリーのHPが削られた時
         if (ririhpdf > ririScript.hp)
         {
+            //HPが0以下になってる時
+            if(ririScript.hp <= 0)
+            {
+                ririScript.hp = 0;
+                ririSlider.value -= (ririScript.maxhp * Time.deltaTime);
+            }
             Debug.Log("リリーが攻撃を受けた");
             ririSlider.value -= ((ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)) * Time.deltaTime);
 
@@ -384,6 +390,7 @@ public class TestEncount : MonoBehaviour
             }
         }
 
+        /*
         //リリーのHPが回復された時
         if (ririhpdf < ririScript.hp && ririhpdf != 0)
         {
@@ -396,10 +403,18 @@ public class TestEncount : MonoBehaviour
                 ririSlider.value = ririScript.hp;
             }
         }
+        */
 
         //ディアのHPが削られた時
         if (dhiahpdf > dhiaScript.hp)
         {
+            //HPが0以下になってる時
+            if (dhiaScript.hp <= 0)
+            {
+                dhiaScript.hp = 0;
+                dhiaSlider.value -= (dhiaScript.maxhp * Time.deltaTime);
+            }
+
             Debug.Log("ディアが攻撃を受けた");
             dhiaSlider.value -= ((dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)) * Time.deltaTime);
 
@@ -409,6 +424,8 @@ public class TestEncount : MonoBehaviour
                 dhiaSlider.value = dhiaScript.hp;
             }
         }
+
+        /*
         //ディアのHPが回復された時
         if (dhiahpdf < dhiaScript.hp && dhiahpdf != 0)
         {
@@ -421,6 +438,7 @@ public class TestEncount : MonoBehaviour
                 dhiaSlider.value = dhiaScript.hp;
             }
         }
+        */
 
     }
 

@@ -104,6 +104,16 @@ public class Rabbit : EnemyManager
             float ririDamage = DamageCalculation(rabbitPower, riri.def);
             float dhiaDamage = DamageCalculation(rabbitPower, dhia.def);
 
+            //ダメージが0を下回ってる時は0ダメージに書き換え
+            if(ririDamage <= 0)
+            {
+                ririDamage = 0;
+            }
+            if (dhiaDamage <= 0)
+            {
+                dhiaDamage = 0;
+            }
+
             //リリーの方がHP多い時
             if (riri.hp > dhia.hp)
             {

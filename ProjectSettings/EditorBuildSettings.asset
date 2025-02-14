@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Map.unity
     guid: f709a067901060f42afea483ed79673d
   - enabled: 1
-    path: Assets/Scenes/Story.unity
+    path: Assets/Scenes/Stay.unity
     guid: 6de17064db9cd4d4ba9c2b795ec98520
   - enabled: 1
     path: Assets/Scenes/LoadScene.unity
@@ -30,7 +30,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Event.unity
     guid: eaf8ea3c841746a498df13995c9727fc
   - enabled: 1
-    path: Assets/Scenes/Stay.unity
+    path: Assets/Scenes/Story.unity
     guid: 56ee6e2159f8f4d4497cdaf3f45fcaaa
   - enabled: 1
     path: Assets/Scenes/Treasure.unity

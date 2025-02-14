@@ -116,7 +116,6 @@ public class EventSys : MonoBehaviour
 
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
         int rnd = UnityEngine.Random.Range(1, 4);
-        rnd = 1;
 
         switch (rnd)
         {
@@ -170,7 +169,7 @@ public class EventSys : MonoBehaviour
                 Tired();
                 break;
             case EventKinds.END:
-                SceneManager.LoadScene("Map");
+                Invoke("SceneEnd", 0.5f);
                 break;
         }
     }
@@ -530,7 +529,7 @@ public class EventSys : MonoBehaviour
                     }
 
                     //ディアの回復量がマックスHPを超えてしまう時
-                    if (ririStatus.HP + ririStatus.MAXHP * 0.5f >= ririStatus.MAXHP)
+                    if (dhiaStatus.HP + dhiaStatus.MAXHP * 0.5f >= dhiaStatus.MAXHP)
                     {
                         dhiaStatus.HP = dhiaStatus.MAXHP;
                     }
@@ -539,8 +538,6 @@ public class EventSys : MonoBehaviour
                     {
                         dhiaStatus.HP += (dhiaStatus.MAXHP * 0.5f);
                     }
-
-
                 }
                 if (slectNo == 1)
                 {
@@ -550,6 +547,11 @@ public class EventSys : MonoBehaviour
                 eventKinds = EventKinds.END;
             }
         }
+    }
+
+    void SceneEnd()
+    {
+        SceneManager.LoadScene("Map");
     }
 
 

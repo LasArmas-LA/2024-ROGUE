@@ -48,7 +48,6 @@ public class Map : MonoBehaviour
     //選べるマス、選べないマスを制御する処理
     int[] limitlessNo = null;
 
-
     void Start()
     {
         Init();
@@ -95,6 +94,7 @@ public class Map : MonoBehaviour
         for (int i = 0; i < buttonPos.Length; i++)
         {
             cloneButton[i].interactable = false;
+            cloneButton[i].GetComponent<Image>().color = Color.clear;
         }
 
         //進める場所を格納
@@ -239,13 +239,13 @@ public class Map : MonoBehaviour
         for (int k = 0; k < limitlessNo.Length; k++)
         {
             cloneButton[limitlessNo[k]].interactable = true;
+            cloneButton[limitlessNo[k]].GetComponent<Image>().color = Color.yellow;
         }
-       
+
     }
 
     void Update()
     {
-        ButtonColorChenge();
         MouseScroll();
     }
 

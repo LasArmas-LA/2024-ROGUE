@@ -44,6 +44,19 @@ public class TitleSceneSys : MonoBehaviour
     [SerializeField]
     GameObject dhiaMenu = null;
 
+    //ディア画面のステータステキスト表示用
+    [SerializeField]
+    Status ririStatus = null;
+    [SerializeField]
+    Status dhiaStatus = null;
+    [SerializeField]
+    [NamedArrayAttribute(new string[] { "MAXHP", "HP", "ATK", "DEF"})]
+    TextMeshProUGUI[] ririStatusText = new TextMeshProUGUI[4];
+    [SerializeField]
+    [NamedArrayAttribute(new string[] { "MAXHP", "HP", "ATK", "DEF"})]
+    TextMeshProUGUI[] dhiaStatusText = new TextMeshProUGUI[4];
+
+
     void Start()
     {
         Init();
@@ -116,7 +129,21 @@ public class TitleSceneSys : MonoBehaviour
         floorNoSysScript.masterVol = audioSources[0].volume;
         floorNoSysScript.bgmVol = audioSources[1].volume;
         floorNoSysScript.seVol = audioSources[2].volume;
+    }
 
+    void StatusChenge()
+    {
+        //リリーのステータス表示用
+        ririStatusText[0].text = ririStatus.MAXHP.ToString();
+        ririStatusText[1].text = ririStatus.HP.ToString();
+        ririStatusText[2].text = ririStatus.ATK.ToString();
+        ririStatusText[3].text = ririStatus.DEF.ToString();
+
+        //ディアのステータス表示用
+        dhiaStatusText[0].text = dhiaStatus.MAXHP.ToString();
+        dhiaStatusText[1].text = dhiaStatus.HP.ToString();
+        dhiaStatusText[2].text = dhiaStatus.ATK.ToString();
+        dhiaStatusText[3].text = dhiaStatus.DEF.ToString();
     }
 
 
@@ -135,6 +162,8 @@ public class TitleSceneSys : MonoBehaviour
     //ディアメニュー表示用
     public void DhiaMenu()
     {
+        StatusChenge();
+
         dhiaMenu.SetActive(true);
     }
     public void BackDhiaMenu()
@@ -143,11 +172,14 @@ public class TitleSceneSys : MonoBehaviour
     }
 
 
-
+    //アニメーション用
+    [SerializeField]
+    Animator fadeAnim = null;
     public void OnStratButton()
     {
+        fadeAnim.SetBool("FadeOut", true);
         //1秒待ってから関数を呼び出し
-        Invoke("LoadScene", 1.0f);
+        Invoke("LoadScene", 0.8f);
     }
 
     public void OnEndButton()

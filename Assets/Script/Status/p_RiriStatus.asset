@@ -16,7 +16,7 @@ MonoBehaviour:
   MAXHP: 100
   HP: 100
   MAXMP: 10
-  MP: 0
+  MP: 10
   ATK: 0
   DEF: 10
   DEFATK: 0
