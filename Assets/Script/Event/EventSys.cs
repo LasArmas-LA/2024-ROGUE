@@ -97,6 +97,9 @@ public class EventSys : MonoBehaviour
     [SerializeField, Header("階層データ管理用システム")]
     GameObject floorNoSysObj = null;
 
+    //フェードアニメーション用
+    [SerializeField]
+    Animator fadeAnim = null;
 
     void Awake()
     {
@@ -169,7 +172,8 @@ public class EventSys : MonoBehaviour
                 Tired();
                 break;
             case EventKinds.END:
-                Invoke("SceneEnd", 0.5f);
+                Invoke("SceneEnd", 1f);
+                fadeAnim.SetBool("FadeIn", true);
                 break;
         }
     }

@@ -24,6 +24,10 @@ public class LoadSceneSys : MonoBehaviour
     [SerializeField]
     float chengeWaitTime = 0;
 
+    //フェード用アニメーション
+    [SerializeField]
+    Animator fadeAnim = null;
+
     void Start()
     {
         /*
@@ -49,6 +53,9 @@ public class LoadSceneSys : MonoBehaviour
         */
 
         loadSceneName = sceneName[4];
+
+        fadeAnim.SetBool("FadeOut", true);
+
         //待機後シーンを切り替え
         Invoke("SceneChenge", chengeWaitTime);
     }

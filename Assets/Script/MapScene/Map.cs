@@ -45,6 +45,11 @@ public class Map : MonoBehaviour
     [SerializeField]
     GameObject floorNoSysObjClone = null;
 
+    //フェード用
+    [SerializeField]
+    Animator fadeAnim = null;
+
+
     //選べるマス、選べないマスを制御する処理
     int[] limitlessNo = null;
 
@@ -55,6 +60,7 @@ public class Map : MonoBehaviour
 
     void Init()
     {
+
         //オブジェクトの重複チェック
         if (GameObject.Find("FloorNo") == null)
         {
@@ -430,33 +436,41 @@ public class Map : MonoBehaviour
 
     }
 
+    String sceneName = null;
     //シーンの切り替え
     public void SceneChenge (int sceneKindsNo)
     {
         //敵
         if (sceneKindsNo == 0)
         {
-            SceneManager.LoadScene("EncountScene");
+            sceneName = ("EncountScene");
         }
         //イベント
         if(sceneKindsNo == 1)
         {
-            SceneManager.LoadScene("Event");
+            sceneName = ("Event");
         }
         //休憩
         if (sceneKindsNo == 2)
         {
-           SceneManager.LoadScene("Stay");
+            sceneName = ("Stay");
         }
         //宝
         if (sceneKindsNo == 3)
         {
-            SceneManager.LoadScene("Treasure");
+            sceneName = ("Treasure");
         }
         //ボス
         if (sceneKindsNo == 4)
-        {   
-           SceneManager.LoadScene("Boss");
+        {
+            sceneName = ("Boss");
         }
+
+        Invoke("SceneCheger", 1.0f);
+    }
+
+    void SceneCheger()
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }

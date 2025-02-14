@@ -563,9 +563,13 @@ public class EnemyFloorRunSys : MonoBehaviour
         SceneManager.LoadScene("Map");
     }
 
+    //フェード処理用
+    [SerializeField]
+    Animator fadeAnim = null;
     //ドアまで到着した時の処理
     IEnumerator FloorEnd()
     {
+        fadeAnim.SetBool("FadeIn", true);
         yield return new WaitForSeconds(1.0f);
         floorEndFlag = true;
     }

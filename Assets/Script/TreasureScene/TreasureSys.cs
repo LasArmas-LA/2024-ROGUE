@@ -56,6 +56,10 @@ public class TreasureSys : MonoBehaviour
 
     bool button = false;
 
+    //フェードアニメーション用
+    [SerializeField]
+    Animator fadeAnim = null;
+
     void Start()
     {
         Init();
@@ -172,16 +176,14 @@ public class TreasureSys : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    Animator fadeAnim = null;
     public void PartsSlecteEnd()
     {
-        fadeAnim.SetBool("FadeOn", true);
+        fadeAnim.SetBool("FadeIn", true);
 
         button = true;
         allPartsSlect = true;
         partsSlectWin.SetActive(false);
-        Invoke("SceneChenge", 0.5f);
+        Invoke("SceneChenge",1f);
 
         //該当する部位にパーツデータを格納する処理
         if (partsSlect[0])

@@ -14,6 +14,10 @@ public class StaySys : MonoBehaviour
     [SerializeField]
     GameObject stayWin = null;
 
+    //フェードアニメーション用
+    [SerializeField]
+    Animator fadeAnim = null;
+
     void Start()
     {
         
@@ -50,7 +54,8 @@ public class StaySys : MonoBehaviour
             dhiaStatus.HP += (dhiaStatus.MAXHP * 0.5f);
         }
         stayWin.SetActive(false);
-        Invoke("StageChenge",0.5f);
+        fadeAnim.SetBool("FadeIn", true);
+        Invoke("StageChenge",1f);
     }
 
     void StageChenge()
