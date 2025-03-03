@@ -7,6 +7,7 @@ using System.Threading;
 using static TestEncount;
 using static Dhia;
 using System.Data;
+using Live2D.Cubism.Editor.Deleters;
 
 public class Riri : MonoBehaviour
 {
@@ -105,19 +106,32 @@ public class Riri : MonoBehaviour
 
     void Init()
     {
-        maxhp = ririStatus.MAXHP;
-        maxmp = ririStatus.MAXMP;
-        power = ririStatus.DEFATK;
-        def = ririStatus.DEFDEF;
-        this.gameObject.transform.localScale = new Vector3(1, 1, 1);
+        //検索処理の初期化
+        InitFind();
+        //HPの初期化
+        InitStatus();
+        //スキルの名前を初期化
+        InitSkilName();
+    }
 
+    void InitFind()
+    {
         //エラー回避
         try
         {
             floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
         }
         catch { }
+    }
+    void InitStatus()
+    {
+        ririStatus.MAXHP = 100;
 
+        maxhp = ririStatus.MAXHP;
+        maxmp = ririStatus.MAXMP;
+        power = ririStatus.DEFATK;
+        def = ririStatus.DEFDEF;
+        this.gameObject.transform.localScale = new Vector3(1, 1, 1);
 
 
         if (floorNoSys != null)
@@ -137,7 +151,9 @@ public class Riri : MonoBehaviour
                 mp = ririStatus.MP;
             }
         }
-
+    }
+    void InitSkilName()
+    {
         //攻撃スキル1の名前を変更
         switch (ririAtkSkill1)
         {
@@ -188,10 +204,20 @@ public class Riri : MonoBehaviour
                 atkSkillName[2] = "動かないで！";
                 break;
         }
-
     }
 
     void Update()
+    {
+        //HP確認用
+        HpCheck();
+        //選択確認用
+        SlectCheck();
+        //再生中のアニメーション停止用
+        AnimDelete();
+    }
+
+
+    void HpCheck()
     {
         if (hp <= 0)
         {
@@ -202,6 +228,11 @@ public class Riri : MonoBehaviour
             }
         }
 
+        ririStatus.HP = hp;
+        ririStatus.MP = mp;
+    }
+    void SlectCheck()
+    {
         if (ririSelectFlag || dhiaSelectFlag)
         {
             encountSys.timer += Time.deltaTime;
@@ -216,7 +247,9 @@ public class Riri : MonoBehaviour
                 dhiaSelectFlag = false;
             }
         }
-
+    }
+    void AnimDelete()
+    {
         if (timerFlag)
         {
             timer += Time.deltaTime;
@@ -229,8 +262,6 @@ public class Riri : MonoBehaviour
                 timerFlag = false;
             }
         }
-        ririStatus.HP = hp;
-        ririStatus.MP = mp;
     }
 
     public void Skil1()
@@ -346,6 +377,8 @@ public class Riri : MonoBehaviour
     {
 
     }
+
+
     //強くなれで必要な変数
     public bool becomeWeakFlag = false;
     //敵の攻撃力補正値
@@ -406,9 +439,6 @@ public class Riri : MonoBehaviour
     }
 
 }
-
-
-
 
 /*        //アニメーションのカウントダウンとアニメーションスタート
 timerFlag = true;

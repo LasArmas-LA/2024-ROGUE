@@ -115,6 +115,11 @@ public class EventSys : MonoBehaviour
 
     void Start()
     {
+        Init();
+    }
+
+    void Init()
+    {
         equipmentManager.LoopInit();
 
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);

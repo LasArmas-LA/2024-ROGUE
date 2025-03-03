@@ -97,7 +97,7 @@ public class Dhia : MonoBehaviour
     public float mp = 0;
     [NonSerialized]
     public int attack = 0;
-    [NonSerialized]
+    //[NonSerialized]
     public int def = 0;
     [NonSerialized]
     public int power = 0;
@@ -152,13 +152,24 @@ public class Dhia : MonoBehaviour
 
     void Init()
     {
+        //検索の初期化
+        InitFind();
+        //ステータスの初期化
+        InitStatus();
+        //スキルの名前の初期化
+        InitSkilName();
+    }
+    void InitFind()
+    {
         //エラー回避
         try
         {
             floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
         }
         catch { }
-
+    }
+    void InitStatus()
+    {
         //HPと攻撃力と防御力の初期化処理
         dhiaStatus.MAXHP = 150;
 
@@ -194,6 +205,7 @@ public class Dhia : MonoBehaviour
                 mp = dhiaStatus.MP;
             }
         }
+        //ステータス補正値の初期化
         floorNoSys.dhiaHp = 0;
         floorNoSys.dhiaAtk = 0;
         floorNoSys.dhiaDef = 0;
@@ -273,21 +285,23 @@ public class Dhia : MonoBehaviour
                 rabbitSetCou++;
             }
         }
+
+
         //うさぎのセット効果
-        if(rabbitSetCou >= 2)
+        if (rabbitSetCou >= 2)
         {
             //4セット効果
-            if(rabbitSetCou >= 4)
+            if (rabbitSetCou >= 4)
             {
                 //リリーのHPを10%アップ
                 riri.maxhp = (riri.maxhp * 1.1f);
-                
+
                 //自身のHPを10%アップ
                 maxhp = (maxhp * 1.1f);
                 Debug.Log("うさぎ4セット");
             }
             //2セット効果
-            else 
+            else
             {
                 //自身のHPを10%アップ
                 maxhp = (maxhp * 1.1f);
@@ -295,10 +309,10 @@ public class Dhia : MonoBehaviour
             }
         }
         //フクロウのセット効果
-        if(birdSetCou >= 2)
+        if (birdSetCou >= 2)
         {
             //4セット効果
-            if(birdSetCou >= 4)
+            if (birdSetCou >= 4)
             {
                 //HPを10%減らす
                 maxhp = (maxhp * 0.9f);
@@ -308,7 +322,7 @@ public class Dhia : MonoBehaviour
                 Debug.Log("フクロウ4セット");
             }
             //2セット効果
-            else 
+            else
             {
                 //キャスト変換して格納
                 attack = (int)(attack * 1.1f);
@@ -322,7 +336,9 @@ public class Dhia : MonoBehaviour
 
         dhiaStatus.ATK += floorNoSys.dhiaAtk;
         dhiaStatus.DEF = floorNoSys.dhiaDef;
-
+}
+    void InitSkilName()
+    {
         //攻撃スキル1の名前を変更
         switch (dhiaAtkSkill1)
         {
@@ -442,14 +458,22 @@ public class Dhia : MonoBehaviour
                 defSkillName[2] = "守る";
                 break;
         }
-
     }
+
 
 
 
     void Update()
     {
-        if(hp <= 0)
+        //HPの確認処理
+        HpCheck();
+        //アニメーションの停止処理
+        AnimDelete();
+    }
+
+    void HpCheck()
+    {
+        if (hp <= 0)
         {
             deathFlag = true;
             if (this.transform.localScale.x >= 0)
@@ -459,7 +483,10 @@ public class Dhia : MonoBehaviour
         }
         dhiaStatus.HP = hp;
         dhiaStatus.MP = mp;
+    }
 
+    void AnimDelete()
+    {
         if (timerFlag)
         {
             timer += Time.deltaTime;
@@ -474,6 +501,7 @@ public class Dhia : MonoBehaviour
         }
     }
 
+    //多重押し防止
     public bool button = false;
     public void Skil1()
     {
@@ -837,7 +865,7 @@ public class Dhia : MonoBehaviour
     public int postureDef = 0;
     [CustomLabel("防御体制の効果継続ターン数")]
     public int postureTurnInitial = 0;
-    [NonSerialized]
+    //[NonSerialized]
     public int postureTurn = 0;
     //防御体制の管理フラグ
     public bool postureFlag = false;
@@ -854,7 +882,7 @@ public class Dhia : MonoBehaviour
             //防御アニメーションの再生
             dhiaAnim.SetBool("D_Shield", true);
             //防御体制フラグをtrueに
-            defenseFlag = true;
+            postureFlag = true;
             //多重押し防止
             button = true;
         }

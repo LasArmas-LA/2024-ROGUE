@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NAME: "\u30C7\u30A3\u30A2"
   MAXHP: 150
-  HP: 11
+  HP: 74
   MAXMP: 0
   MP: 0
-  ATK: 115
+  ATK: 125
   DEF: 10
   DEFATK: 0
   DEFDEF: 0
   obj: {fileID: 0}
   headPartsData: {fileID: 0}
   bodyPartsData: {fileID: 0}
-  legPartsData: {fileID: 0}
-  righthandPartsData: {fileID: 0}
-  lefthandPartsData: {fileID: 0}
+  legPartsData: {fileID: 11400000, guid: 03f38e21485c63848b87094efea85f31, type: 2}
+  righthandPartsData: {fileID: 11400000, guid: 339bfaf73dd265649a475226b6f39f6d, type: 2}
+  lefthandPartsData: {fileID: 11400000, guid: 3e6c91df0c1b8a34082529ee4ea086a1, type: 2}

@@ -167,7 +167,7 @@ public class EnemyManager : MonoBehaviour
         //敵1のHPが削られた時
         if (enemyHpDef[0] > hp[0])
         {
-            Debug.Log("敵1を攻撃した！");
+            //Debug.Log("敵1を攻撃した！");
             //一気に削って値が0以下になった時の処理
             if (hp[0] <= 0)
             {

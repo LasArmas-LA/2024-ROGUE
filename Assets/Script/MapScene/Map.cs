@@ -263,6 +263,7 @@ public class Map : MonoBehaviour
             var scroll = Input.mouseScrollDelta.y;
             mainCamera.transform.position -= -mainCamera.transform.up * scroll * scrollSpeed;
         }
+        //ˆÚ“®‚Å‚«‚é”ÍˆÍ‚ğ§ŒÀ
         if (mainCamera.transform.position.y <= -500)
         {
             mainCamera.transform.position = new Vector3(0, -500, -10);

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
 
-[CreateAssetMenu(fileName = "NewEquipment", menuName = "partsの生成")]
+[CreateAssetMenu(fileName = "PartsCreate", menuName = "partsの生成")]
 public class BaseEquipment : ScriptableObject
 {
     public string equipmentName;        // 武器の名前
@@ -10,7 +10,6 @@ public class BaseEquipment : ScriptableObject
     public int HP;                      // ヒットポイント
     public int ATK;                     // 攻撃力
     public int DEF;                     // 防御力
-    public int ROT;                     // 回避率（？）
     public Sprite sprite = null;        //画像
 
     public enum EquipmentType

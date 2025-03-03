@@ -141,10 +141,20 @@ public class TestEncount : MonoBehaviour
         //ステータスを待機状態に変更
         mainTurn = MainTurn.WAIT;
 
+
+        EnemyInit();
+        FindInit();
+        HpInit();
+
+    }
+
+    void EnemyInit()
+    {
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
 
         numberRnd = UnityEngine.Random.Range(0, 2);
         numberRnd = 1;
+
 
         //敵の数分データを格納
         if (numberRnd == 0)
@@ -169,8 +179,16 @@ public class TestEncount : MonoBehaviour
             //ランダムで選ばれたエネミーオブジェクトの表示
             enemyObj[typeRnd[1]].transform.localScale = new Vector3(1, 1, 1);
         }
+    }
 
-        Debug.Log(ririScript.maxhp);
+    void FindInit()
+    {
+        //階層データ保持クラスの検索と情報を格納
+        floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
+    }
+
+    void HpInit()
+    {
         //MaxHPの格納
         ririSlider.maxValue = ririScript.maxhp;
         dhiaSlider.maxValue = dhiaScript.maxhp;
@@ -179,8 +197,6 @@ public class TestEncount : MonoBehaviour
         ririSlider.minValue = 0;
         dhiaSlider.minValue = 0;
 
-        floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
-
         //フロアが1階の時
         if (floorNoSys.floorCo == 1)
         {
@@ -188,17 +204,18 @@ public class TestEncount : MonoBehaviour
             ririSlider.value = ririSlider.maxValue;
             dhiaSlider.value = dhiaSlider.maxValue;
         }
+        //それ以外
         else
         {
             //Hpバーを残hpの割合で適用
             ririSlider.value = ririSlider.maxValue * (ririScript.hp / ririScript.maxhp);
             dhiaSlider.value = dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp);
         }
-        if(floorNoSys.floorCo % 5 == 0)
+        if (floorNoSys.floorCo % 5 == 0)
         {
             restFlag = true;
         }
-        if(floorNoSys.floorCo % 10 == 0)
+        if (floorNoSys.floorCo % 10 == 0)
         {
             bossFlag = true;
         }
@@ -279,17 +296,15 @@ public class TestEncount : MonoBehaviour
                     enemyScript.enemyHpDef[0] = enemyScript.hp[0];
                     enemyScript.enemyHpDef[1] = enemyScript.hp[1];
 
-                    //ディアの補正値の代入
-                    dhiaScript.def = (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
-
                     //防御スキルの初期化処理
                     //お守りします！
                     if (dhiaScript.protectFlag)
                     {
                         dhiaScript.protectTurn--;
-                        if (dhiaScript.protectTurn == 0)
+                        if (dhiaScript.protectTurn <= 0)
                         {
                             dhiaScript.protectFlag = false;
+                            //防御補正値を減算
                             dhiaScript.defCorrectionValue -= dhiaScript.postureDef;
                         }
                     }
@@ -297,7 +312,7 @@ public class TestEncount : MonoBehaviour
                     if (dhiaScript.postureFlag)
                     {
                         dhiaScript.postureTurn--;
-                        if(dhiaScript.postureTurn == 0)
+                        if(dhiaScript.postureTurn <= 0)
                         {
                             dhiaScript.postureFlag = false;
                             //防御補正値を減算
@@ -309,13 +324,20 @@ public class TestEncount : MonoBehaviour
                     if(dhiaScript.ririDefenseFlag)
                     {
                         dhiaScript.ririProtectTurn--;
-                        if(dhiaScript.ririProtectTurn == 0)
+                        if(dhiaScript.ririProtectTurn <= 0)
                         {
                             dhiaScript.ririDefenseFlag = false;
                             //防御補正値を減算
                             dhiaScript.defCorrectionValue -= dhiaScript.ririProtectDef;
                         }
                     }
+
+                    if(dhiaScript.defCorrectionValue <= 100)
+                    {
+                        dhiaScript.defCorrectionValue = 100;
+                    }
+                    //ディアの補正値の代入
+                    dhiaScript.def = (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
 
 
                     dhiaScript.powerUpFlag = false;
@@ -338,10 +360,17 @@ public class TestEncount : MonoBehaviour
                         timer = 0;
                     }
                 }
+                //計算はOK、補正値の初期化が上手くいっていない
                 if(!fast)
                 {
                     fast = true;
                     dhiaScript.def = dhiaScript.def + (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
+
+                    Debug.Log("defの数値は" + dhiaScript.def);
+
+                    Debug.Log("defの補正値は" + dhiaScript.defCorrectionValue / 100);
+
+                    Debug.Log("計算結果は" + (dhiaScript.def + (dhiaScript.def * (dhiaScript.defCorrectionValue / 100))));
                 }
                 break;
             case MainTurn.ENEMY1MOVE:
@@ -374,12 +403,14 @@ public class TestEncount : MonoBehaviour
         //リリーのHPが削られた時
         if (ririhpdf > ririScript.hp)
         {
+            /*
             //HPが0以下になってる時
             if(ririScript.hp <= 0)
             {
                 ririScript.hp = 0;
                 ririSlider.value -= (ririScript.maxhp * Time.deltaTime);
             }
+            */
             Debug.Log("リリーが攻撃を受けた");
             ririSlider.value -= ((ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)) * Time.deltaTime);
 
@@ -408,12 +439,14 @@ public class TestEncount : MonoBehaviour
         //ディアのHPが削られた時
         if (dhiahpdf > dhiaScript.hp)
         {
+            /*
             //HPが0以下になってる時
             if (dhiaScript.hp <= 0)
             {
                 dhiaScript.hp = 0;
                 dhiaSlider.value -= (dhiaScript.maxhp * Time.deltaTime);
             }
+            */
 
             Debug.Log("ディアが攻撃を受けた");
             dhiaSlider.value -= ((dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)) * Time.deltaTime);

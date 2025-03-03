@@ -266,8 +266,8 @@ public class EnemyFloorRunSys : MonoBehaviour
                     dhiaAnim.SetBool("D_Walk", false);
 
                     //HPを回復
-                    ririScript.hp = ririScript.maxhp;
-                    dhiaScript.hp = dhiaScript.maxhp;
+                    //ririScript.hp = ririScript.maxhp;
+                    //dhiaScript.hp = dhiaScript.maxhp;
 
                     //コマンドを非表示
                     commandWin.SetActive(false);
