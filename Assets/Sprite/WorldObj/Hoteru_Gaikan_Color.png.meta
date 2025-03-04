@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Hoteru_Gaikan_Color_0: -2827488295565819785
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

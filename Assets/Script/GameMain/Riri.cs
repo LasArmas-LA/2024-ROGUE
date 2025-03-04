@@ -1,13 +1,5 @@
 using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System.Threading;
-using static TestEncount;
-using static Dhia;
-using System.Data;
-using Live2D.Cubism.Editor.Deleters;
 
 public class Riri : MonoBehaviour
 {
