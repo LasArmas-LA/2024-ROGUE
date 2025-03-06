@@ -729,7 +729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneName:
   - Title
-  - 
+  - Map
   - 
   - 
   - EncountScene

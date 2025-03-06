@@ -156,30 +156,44 @@ public class EnemyFloorRunSys : MonoBehaviour
 
     void Init()
     {
-        windowMes.text = "探索中";
-        if(GameObject.Find("FloorNo") == null)
+
+        InitFind();
+        InitActive();
+        InitAnim();
+
+        //武器の抽選
+        equipmentManager.LoopInit();
+    }
+
+    void InitFind()
+    {
+        if (GameObject.Find("FloorNo") == null)
         {
-            GameObject floorNoSys =  Instantiate(floorNoSysObj);
+            GameObject floorNoSys = Instantiate(floorNoSysObj);
             DontDestroyOnLoad(floorNoSys);
-            
+
             floorNoSys.name = "FloorNo";
         }
         floorNoSys = floorNoSysObj.GetComponent<FloorNoSys>();
+    }
+
+    void InitActive()
+    {
         commandWin.SetActive(false);
         commandMain.SetActive(false);
-        equipmentManager.LoopInit();
-
-        //歩きアニメーションを開始
-        ririAnim.SetBool("R_Walk",true);
-        dhiaAnim.SetBool("D_Walk", true);
-
 
         //パーツ選択時の初期化処理
         arrowObj[0].SetActive(false);
         arrowObj[1].SetActive(false);
         arrowObj[2].SetActive(false);
-
     }
+    void InitAnim()
+    {
+        //歩きアニメーションを開始
+        ririAnim.SetBool("R_Walk", true);
+        dhiaAnim.SetBool("D_Walk", true);
+    }
+
     void Update()
     {
         CharMove();
@@ -560,7 +574,7 @@ public class EnemyFloorRunSys : MonoBehaviour
 
     void LoadScene()
     {
-        SceneManager.LoadScene("Map");
+        SceneManager.LoadScene("LoadScene");
     }
 
     //フェード処理用

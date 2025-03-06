@@ -60,7 +60,7 @@ public class StaySys : MonoBehaviour
 
     void StageChenge()
     {
-        SceneManager.LoadScene("Map");
+        SceneManager.LoadScene("LoadScene");
 
     }
 }

@@ -6,7 +6,7 @@ public class LoadSceneSys : MonoBehaviour
     int rnd;
     //シーン名
     [Header("シーン名")]
-    [NamedArrayAttribute(new string[] { "タイトル", "ロビー", "ロード","ストーリー","敵フロア","宝箱フロア","ゲームオーバー","ゲームクリア"})]
+    [NamedArrayAttribute(new string[] { "タイトル","マップ", "ロビー", "ロード","ストーリー","敵フロア","宝箱フロア","ゲームオーバー","ゲームクリア"})]
     public string[] sceneName = null;
 
     string loadSceneName = null;
@@ -52,7 +52,7 @@ public class LoadSceneSys : MonoBehaviour
 
         */
 
-        loadSceneName = sceneName[4];
+        loadSceneName = sceneName[1];
 
         fadeAnim.SetBool("FadeOut", true);
 

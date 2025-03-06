@@ -273,7 +273,7 @@ public class TreasureSys : MonoBehaviour
     }
     void SceneChenge()
     {
-        SceneManager.LoadScene("Map");
+        SceneManager.LoadScene("LoadScene");
     }
 
 }

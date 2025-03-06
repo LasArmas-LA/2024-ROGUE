@@ -560,7 +560,7 @@ public class EventSys : MonoBehaviour
 
     void SceneEnd()
     {
-        SceneManager.LoadScene("Map");
+        SceneManager.LoadScene("LoadScene");
     }
 
 
