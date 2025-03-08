@@ -112,7 +112,7 @@ public class TestEncount : MonoBehaviour
     [Space(10)]
 
     //休憩階のフラグ
-    [NonSerialized]
+    //[NonSerialized]
     public bool restFlag = false;
 
     //ボス階のフラグ
@@ -131,6 +131,11 @@ public class TestEncount : MonoBehaviour
     float hpMoveTimer = 0;
     bool hpMoveTimerFlag = false;
 
+    [Space(5)]
+    [Header("パラメーター調整")]
+    [SerializeField]
+    float hpLowSpeed = 1;
+
     void Start()
     {
         Init();
@@ -141,11 +146,11 @@ public class TestEncount : MonoBehaviour
         //ステータスを待機状態に変更
         mainTurn = MainTurn.WAIT;
 
-
         EnemyInit();
         FindInit();
         HpInit();
 
+        Time.timeScale = 100.0f;
     }
 
     void EnemyInit()
@@ -211,7 +216,7 @@ public class TestEncount : MonoBehaviour
             ririSlider.value = ririSlider.maxValue * (ririScript.hp / ririScript.maxhp);
             dhiaSlider.value = dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp);
         }
-        if (floorNoSys.floorCo % 5 == 0)
+        if (floorNoSys.floorCo % 5 == 0 && floorNoSys.floorCo != 0)
         {
             restFlag = true;
         }
@@ -227,7 +232,6 @@ public class TestEncount : MonoBehaviour
 
     void Update()
     {
-
         switch (mainTurn)
         {
             case MainTurn.WAIT:
@@ -411,8 +415,8 @@ public class TestEncount : MonoBehaviour
                 ririSlider.value -= (ririScript.maxhp * Time.deltaTime);
             }
             */
-            Debug.Log("リリーが攻撃を受けた");
-            ririSlider.value -= ((ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)) * Time.deltaTime);
+
+            ririSlider.value -= ((ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)) * Time.deltaTime) * hpLowSpeed;
 
             if(ririSlider.value <= ririScript.hp)
             {
@@ -420,21 +424,6 @@ public class TestEncount : MonoBehaviour
                 ririSlider.value = ririScript.hp;
             }
         }
-
-        /*
-        //リリーのHPが回復された時
-        if (ririhpdf < ririScript.hp && ririhpdf != 0)
-        {
-            Debug.Log("リリーを回復した");
-            ririSlider.value += ((ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)) * Time.deltaTime);
-
-            if(ririSlider.value >= ririScript.hp)
-            {
-                ririhpdf = ririScript.hp;
-                ririSlider.value = ririScript.hp;
-            }
-        }
-        */
 
         //ディアのHPが削られた時
         if (dhiahpdf > dhiaScript.hp)
@@ -448,8 +437,7 @@ public class TestEncount : MonoBehaviour
             }
             */
 
-            Debug.Log("ディアが攻撃を受けた");
-            dhiaSlider.value -= ((dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)) * Time.deltaTime);
+            dhiaSlider.value -= ((dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)) * Time.deltaTime) * hpLowSpeed;
 
             if(dhiaSlider.value <= dhiaScript.hp)
             {
@@ -457,22 +445,6 @@ public class TestEncount : MonoBehaviour
                 dhiaSlider.value = dhiaScript.hp;
             }
         }
-
-        /*
-        //ディアのHPが回復された時
-        if (dhiahpdf < dhiaScript.hp && dhiahpdf != 0)
-        {
-            Debug.Log("ディアを回復した");
-            dhiaSlider.value += ((dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)) * Time.deltaTime);
-
-            if(dhiaSlider.value >= dhiaScript.hp)
-            {
-                dhiahpdf = dhiaScript.hp;
-                dhiaSlider.value = dhiaScript.hp;
-            }
-        }
-        */
-
     }
 
     public void HpMoveWait(String charName)

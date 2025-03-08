@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 using static BaseEquipment;
+using System.ComponentModel;
 
 public class EventSys : MonoBehaviour
 {
@@ -103,13 +104,6 @@ public class EventSys : MonoBehaviour
 
     void Awake()
     {
-        if (GameObject.Find("FloorNo") == null)
-        {
-            GameObject floorNoSys = Instantiate(floorNoSysObj);
-            DontDestroyOnLoad(floorNoSys);
-
-            floorNoSys.name = "FloorNo";
-        }
 
     }
 
@@ -120,8 +114,29 @@ public class EventSys : MonoBehaviour
 
     void Init()
     {
+        //パーツのランダムドロップ
         equipmentManager.LoopInit();
 
+        //検索の初期化
+        InitFind();
+
+        //イベントの初期化
+        InitEvent();
+    }
+
+    void InitFind()
+    {
+        if (GameObject.Find("FloorNo") == null)
+        {
+            GameObject floorNoSys = Instantiate(floorNoSysObj);
+            DontDestroyOnLoad(floorNoSys);
+
+            floorNoSys.name = "FloorNo";
+        }
+    }
+
+    void InitEvent()
+    {
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
         int rnd = UnityEngine.Random.Range(1, 4);
 
