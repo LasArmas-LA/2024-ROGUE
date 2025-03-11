@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 403ae2dd693bb1d4b924f6b8d206b053, type: 3}
+  m_Name: R_2.fadeMotionList
+  m_EditorClassIdentifier: 
+  MotionInstanceIds: 28f3fdffcaf2fdff2adffdff02dffdff
+  CubismFadeMotionObjects:
+  - {fileID: 11400000, guid: c2ef833dba7fb8d419af56d035bfd65c, type: 2}
+  - {fileID: 11400000, guid: 6f6315cdbb06d0a49bf2a27cc46c918b, type: 2}
+  - {fileID: 11400000, guid: a8e6628eeb728e947be0ae62bb84bacb, type: 2}
+  - {fileID: 11400000, guid: 4f2c5fe693ad8fa4b899b55371ed3239, type: 2}
