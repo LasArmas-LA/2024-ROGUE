@@ -1,16 +1,21 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static BaseEquipment;
 
 public class TestEncount : MonoBehaviour
 {
+    //バトル用
     public enum MainTurn
     {
         WAIT,
+
+        STRATRUN,
 
         DHIAATKDEFSLECT,
 
@@ -27,9 +32,23 @@ public class TestEncount : MonoBehaviour
         
         GAMEOVER,
 
+        ENDRUN
+    }
+    //実体化
+    public MainTurn mainTurn;
+
+    //バトル後のパーツ表示用
+    enum PartsMode
+    {
+        //パーツの表示処理
+        DISP,
+        //パーツの選択待機中
+        WAIT,
+        //パーツ選択後
         END
     }
-    public MainTurn mainTurn;
+    //実体化
+    PartsMode partsMode = PartsMode.DISP;
 
     //バトルコマンドのテキスト
     [Header("バトルコマンドのテキスト")]
@@ -58,16 +77,19 @@ public class TestEncount : MonoBehaviour
     public float waitTime = 0;
     public float timer = 0;
 
+    [SerializeField]
     GameObject floorNoSysObj = null;
 
     [Space(10)]
 
+    //体力ゲージ用
     [Header("体力ゲージ")]
     [SerializeField, Tooltip("リリーの体力ゲージ")]
     Slider ririSlider = null;
     [SerializeField, Tooltip("ディアの体力ゲージ")]
     Slider dhiaSlider = null;
 
+    //各キャラクターの死亡フラグ
     [Space(10)]
     [Header("各キャラクターの死亡フラグ")]
     bool ririDeath = false;
@@ -77,12 +99,19 @@ public class TestEncount : MonoBehaviour
 
     [Space(10)]
 
+    //リリー,ディアのObj
     [Header("各キャラクターのオブジェクト")]
-    //リリー,ディア,エネミーのObj
     [SerializeField]
     GameObject ririObj;
     [SerializeField]
     GameObject dhiaObj;
+
+    [Header("各キャラクターのステータス")]
+    [SerializeField]
+    Status ririStatus = null;
+    [SerializeField]
+    Status dhiaStatus = null;
+
 
     [Space(10)]
 
@@ -136,6 +165,102 @@ public class TestEncount : MonoBehaviour
     [SerializeField]
     float hpLowSpeed = 1;
 
+    [Space(5)]
+    [Header("パーツ管理用")]
+    [SerializeField]
+    bool[] partsSlect;
+    //パーツ選択時の表示切り替え用
+    [SerializeField]
+    GameObject[] partsObj = null;
+    [SerializeField]
+    Image[] partsImage = null;
+    [SerializeField]
+    Sprite slectOnSp = null;
+    [SerializeField]
+    Sprite slectOffSp = null;
+    [SerializeField]
+    GameObject[] arrowObj = null;
+
+
+    //パーツの名前
+    string[] partsName = { "RightHand", "LeftHand", "Head", "Body", "Feet" };
+
+    //ドロップしたパーツの情報表示用
+    [SerializeField]
+    TextMeshProUGUI[] slectText;
+
+    //ドロップしたパーツの画像表示用
+    [SerializeField]
+    Image[] dropPartsSp = null;
+
+    //現在装備しているパーツの情報表示用
+    [SerializeField]
+    TextMeshProUGUI[] slectNowText;
+
+    //パーツを選択後確定させた時の判断
+    bool allPartsSlect;
+
+    //パーツを選択するウィンドウ
+    [SerializeField]
+    GameObject partsSlectWin = null;
+
+    [Space(5)]
+
+    //装備をランダムで入手するロジック組みのシステム
+    [SerializeField, Header("ドロップ装備ランダム化システム")]
+    EquipmentManager equipmentManager = null;
+
+    //アニメーション
+    [SerializeField, Header("アニメーション管理用")]
+    Animator ririAnim = null;
+    [SerializeField]
+    Animator dhiaAnim = null;
+
+    //コマンドを選択するウィンドウ
+    [SerializeField, Header("コマンド管理用")]
+    public GameObject commandWin = null;
+    [SerializeField]
+    public GameObject commandMain = null;
+
+    //敵の場所まで歩くフラグ
+    bool runStratFlag = false;
+    //扉に着いてその階が終了する時のフラグ
+    bool floorEndFlag = false;
+    //最初に1回だけ呼び出したい処理
+    bool fastMove = true;
+
+
+    //キャラクターの親オブジェクト
+    [SerializeField]
+    GameObject characterMainObj = null;
+
+    [Space(10)]
+    //カメラの動く速度
+    [SerializeField, Header("カメラ管理用")]
+    Vector3 characterMoveSpeed = Vector3.zero;
+
+    [Space(10)]
+
+    [SerializeField, Header("オブジェクト管理用")]
+    GameObject restObj = null;
+    [SerializeField]
+    GameObject doorObj = null;
+
+    void Awake()
+    {
+        //Find処理の初期化
+        InitFind();
+
+        //リリーのFindの初期化
+        ririScript.InitFind();
+        //ディアのFindの初期化
+        dhiaScript.InitFind();
+
+        //リリーのHPの初期化
+        ririScript.InitStatus();
+        //ディアのHPの初期化
+        dhiaScript.InitStatus();
+    }
     void Start()
     {
         Init();
@@ -147,16 +272,21 @@ public class TestEncount : MonoBehaviour
         mainTurn = MainTurn.WAIT;
 
         //敵の抽選
-        EnemyInit();
-        //Find処理の初期化
-        FindInit();
+        InitEnemy();
         //HPの初期化
-        HpInit();
+        InitHp();
+        //アクティブ状態の初期化
+        InitActive();
+        //アニメーションの初期化
+        InitAnim();
+
+        //武器の抽選
+        equipmentManager.LoopInit();
 
         //Time.timeScale = 100.0f;
     }
 
-    void EnemyInit()
+    void InitEnemy()
     {
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
 
@@ -182,20 +312,28 @@ public class TestEncount : MonoBehaviour
             enemyObj[typeRnd[0]].transform.localScale = new Vector3(1, 1, 1);
 
             //エネミーの種類抽選用
-            typeRnd[1] = UnityEngine.Random.Range(3, enemyObj.Length);
+            typeRnd[1] = UnityEngine.Random.Range(3, enemyObj.Length + 1);
 
             //ランダムで選ばれたエネミーオブジェクトの表示
-            enemyObj[typeRnd[1]].transform.localScale = new Vector3(1, 1, 1);
+            enemyObj[typeRnd[1 -1]].transform.localScale = new Vector3(1, 1, 1);
         }
     }
 
-    void FindInit()
+    void InitFind()
     {
+        if (GameObject.Find("FloorNo") == null)
+        {
+            GameObject floorNoSys = Instantiate(floorNoSysObj);
+            DontDestroyOnLoad(floorNoSys);
+
+            floorNoSys.name = "FloorNo";
+        }
+
         //階層データ保持クラスの検索と情報を格納
         floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
     }
 
-    void HpInit()
+    void InitHp()
     {
         //MaxHPの格納
         ririSlider.maxValue = ririScript.maxhp;
@@ -204,6 +342,11 @@ public class TestEncount : MonoBehaviour
         //MinHPの格納
         ririSlider.minValue = 0;
         dhiaSlider.minValue = 0;
+
+        //デバッグ用
+        //MaxのHPを現在のHPに格納
+        ririSlider.value = ririSlider.maxValue;
+        dhiaSlider.value = dhiaSlider.maxValue;
 
         //フロアが1階の時
         if (floorNoSys.floorCo == 1)
@@ -229,6 +372,25 @@ public class TestEncount : MonoBehaviour
         }
     }
 
+    void InitActive()
+    {
+        commandWin.SetActive(false);
+        commandMain.SetActive(false);
+
+        //パーツ選択時の初期化処理
+        arrowObj[0].SetActive(false);
+        arrowObj[1].SetActive(false);
+        arrowObj[2].SetActive(false);
+    }
+
+    void InitAnim()
+    {
+        //歩きアニメーションを開始
+        ririAnim.SetBool("R_Walk", true);
+        dhiaAnim.SetBool("D_Walk", true);
+    }
+
+
     bool fast = true;
     float ririhpdf = 0;
     float dhiahpdf = 0;
@@ -238,6 +400,10 @@ public class TestEncount : MonoBehaviour
         switch (mainTurn)
         {
             case MainTurn.WAIT:
+                Wait();
+                break;
+            case MainTurn.STRATRUN:
+                StartRun();
                 break;
             case MainTurn.RIRIMOVE:
                 RiriMove();
@@ -269,7 +435,8 @@ public class TestEncount : MonoBehaviour
             case MainTurn.GAMEOVER:
                 GameOver();
                 break;
-            case MainTurn.END:
+            case MainTurn.ENDRUN:
+                EndRun();
                 break;
         }
         
@@ -377,6 +544,33 @@ public class TestEncount : MonoBehaviour
             button = true;
             dhiaSlectNomber = number;
         }
+    }
+
+    bool floorFast = false;
+    void Wait()
+    {
+        //1回だけ呼び出す
+        if (!floorFast)
+        {
+            //ステータスの変更
+            mainTurn = MainTurn.RIRIMOVE;
+
+            //歩きアニメーションを停止
+            ririAnim.SetBool("R_Walk", false);
+            dhiaAnim.SetBool("D_Walk", false);
+
+            //コマンドを表示
+            commandWin.SetActive(true);
+            commandMain.SetActive(true);
+            fast = true;
+            runStratFlag = false;
+        }
+
+    }
+
+    void StartRun()
+    {
+
     }
 
     void RiriMove()
@@ -689,7 +883,7 @@ public class TestEncount : MonoBehaviour
 
             if (timer >= 3)
             {
-                mainTurn = MainTurn.END;
+                mainTurn = MainTurn.ENDRUN;
                 timer = 0;
             }
         }
@@ -807,14 +1001,255 @@ public class TestEncount : MonoBehaviour
         
     }
 
+    float gameOvertimer = 0f;
     void GameOver()
     {
-        timer += Time.deltaTime;
+        gameOvertimer += Time.deltaTime;
 
-        if (timer >= 2)
+        if (gameOvertimer >= 2)
         {
             SceneManager.LoadScene("GameOver");
-            timer = 0;
+            gameOvertimer = 0;
         }
     }
+
+    [SerializeField]
+    int partsDispTime = 0;
+    float partsTimer = 0;
+
+    void EndRun()
+    {
+        switch(partsMode)
+        {
+            case PartsMode.DISP:
+                partsTimer += Time.deltaTime;
+                if(partsTimer >= partsDispTime)
+                {
+                    partsMode = PartsMode.WAIT;
+                    partsTimer = 0;
+                }
+                break;
+            case PartsMode.WAIT:
+                if (fastMove)
+                {
+                    //ドロップ装備の表示処理
+                    slectText[0].text = equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentName;
+                    slectText[1].text = equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentName;
+                    slectText[2].text = equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentName;
+
+                    //ドロップ装備の画像表示処理
+                    dropPartsSp[0].sprite = equipmentManager.randomEquip[equipmentManager.rnd[0]].sprite;
+                    dropPartsSp[1].sprite = equipmentManager.randomEquip[equipmentManager.rnd[1]].sprite;
+                    dropPartsSp[2].sprite = equipmentManager.randomEquip[equipmentManager.rnd[2]].sprite;
+
+                    fastMove = false;
+                }
+                partsSlectWin.SetActive(true);
+
+                break;
+            case PartsMode.END:
+                if (characterMainObj.transform.position.x <= doorObj.transform.position.x + 70)
+                {
+                    commandWin.SetActive(false);
+                    commandMain.SetActive(false);
+                    characterMainObj.transform.position += characterMoveSpeed * Time.deltaTime;
+                    //歩きアニメーションを開始
+                    dhiaAnim.SetBool("D_Shield", false);
+                    ririAnim.SetBool("R_Walk", true);
+                    dhiaAnim.SetBool("D_Walk", true);
+                }
+                else
+                {
+                    //歩きアニメーションを停止
+                    ririAnim.SetBool("R_Walk", false);
+                    dhiaAnim.SetBool("D_Walk", false);
+                    commandWin.SetActive(false);
+                    commandMain.SetActive(false);
+
+                    commandMain.SetActive(false);
+                    StartCoroutine(FloorEnd());
+                }
+
+                break;
+        }
+        commandWin.SetActive(false);
+        commandMain.SetActive(false);
+
+        if (!allPartsSlect)
+        {
+        }
+        //装備が選ばれたら画面外まで移動する処理
+        else
+        {
+        }
+    }
+
+    bool[] partsButton = new bool[3];
+    public void PartsSlect1()
+    {
+        if (!partsButton[0])
+        {
+            partsImage[0].sprite = slectOnSp;
+            partsImage[1].sprite = slectOffSp;
+            partsImage[2].sprite = slectOffSp;
+            partsObj[0].transform.localScale = new Vector3(1.15f, 1.15f, 1.15f);
+            partsObj[1].transform.localScale = new Vector3(1f, 1f, 1f);
+            partsObj[2].transform.localScale = new Vector3(1f, 1f, 1f);
+            arrowObj[0].SetActive(true);
+            arrowObj[1].SetActive(false);
+            arrowObj[2].SetActive(false);
+
+            partsSlect[0] = true;
+            partsSlect[1] = false;
+            partsSlect[2] = false;
+        }
+    }
+    public void PartsSlect2()
+    {
+        if (!partsButton[1])
+        {
+            partsImage[0].sprite = slectOffSp;
+            partsImage[1].sprite = slectOnSp;
+            partsImage[2].sprite = slectOffSp;
+            partsObj[0].transform.localScale = new Vector3(1f, 1f, 1f);
+            partsObj[1].transform.localScale = new Vector3(1.15f, 1.15f, 1.15f);
+            partsObj[2].transform.localScale = new Vector3(1f, 1f, 1f);
+            arrowObj[0].SetActive(false);
+            arrowObj[1].SetActive(true);
+            arrowObj[2].SetActive(false);
+
+            partsSlect[0] = false;
+            partsSlect[1] = true;
+            partsSlect[2] = false;
+        }
+    }
+    public void PartsSlect3()
+    {
+        if (!partsButton[2])
+        {
+            partsImage[0].sprite = slectOffSp;
+            partsImage[1].sprite = slectOffSp;
+            partsImage[2].sprite = slectOnSp;
+            partsObj[0].transform.localScale = new Vector3(1f, 1f, 1f);
+            partsObj[1].transform.localScale = new Vector3(1f, 1f, 1f);
+            partsObj[2].transform.localScale = new Vector3(1.15f, 1.15f, 1.15f);
+            arrowObj[0].SetActive(false);
+            arrowObj[1].SetActive(false);
+            arrowObj[2].SetActive(true);
+
+            partsSlect[0] = false;
+            partsSlect[1] = false;
+            partsSlect[2] = true;
+        }
+    }
+
+    public void PartsSlecteEnd()
+    {
+        button = true;
+        partsMode = PartsMode.END;
+        partsSlectWin.SetActive(false);
+
+        //該当する部位にパーツデータを格納する処理
+        if (partsSlect[0])
+        {
+            //右手
+            if (equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.RightHand)
+            {
+                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
+            }
+            //左手
+            if (equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.LeftHand)
+            {
+                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
+            }
+            //足
+            if (equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.Feet)
+            {
+                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
+            }
+            //体
+            if (equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.Body)
+            {
+                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
+            }
+            //頭
+            if (equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentType == EquipmentType.Head)
+            {
+                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd[0]];
+            }
+        }
+        if (partsSlect[1])
+        {
+            //右手
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.RightHand)
+            {
+                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
+            }
+            //左手
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.LeftHand)
+            {
+                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
+            }
+            //足
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.Feet)
+            {
+                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
+            }
+            //体
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.Body)
+            {
+                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
+            }
+            //頭
+            if (equipmentManager.randomEquip[equipmentManager.rnd[1]].equipmentType == EquipmentType.Head)
+            {
+                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd[1]];
+            }
+        }
+        if (partsSlect[2])
+        {
+            //右手
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.RightHand)
+            {
+                dhiaStatus.righthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
+            }
+            //左手
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.LeftHand)
+            {
+                dhiaStatus.lefthandPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
+            }
+            //足
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.Feet)
+            {
+                dhiaStatus.legPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
+            }
+            //体
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.Body)
+            {
+                dhiaStatus.bodyPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
+            }
+            //頭
+            if (equipmentManager.randomEquip[equipmentManager.rnd[2]].equipmentType == EquipmentType.Head)
+            {
+                dhiaStatus.headPartsData = equipmentManager.randomEquip[equipmentManager.rnd[2]];
+            }
+        }
+    }
+
+    void LoadScene()
+    {
+        SceneManager.LoadScene("LoadScene");
+    }
+
+    //フェード処理用
+    [SerializeField]
+    Animator fadeAnim = null;
+    //ドアまで到着した時の処理
+    IEnumerator FloorEnd()
+    {
+        fadeAnim.SetBool("FadeIn", true);
+        yield return new WaitForSeconds(1.0f);
+        floorEndFlag = true;
+    }
+
 }

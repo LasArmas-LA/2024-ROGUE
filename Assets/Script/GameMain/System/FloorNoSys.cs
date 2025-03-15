@@ -28,7 +28,8 @@ public class FloorNoSys : MonoBehaviour
 
     void Update()
     {
-        KeyIn();    
+        KeyIn();
+        //Time.timeScale = 100.0f;
     }
 
     void KeyIn()

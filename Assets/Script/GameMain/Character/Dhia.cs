@@ -144,8 +144,12 @@ public class Dhia : MonoBehaviour
     float timer = 0;
     bool timerFlag = false;
 
-
     void Awake()
+    {
+        //ステータスの初期化
+        //InitStatus();
+    }
+    void Start()
     {
         Init();
     }
@@ -153,13 +157,11 @@ public class Dhia : MonoBehaviour
     void Init()
     {
         //検索の初期化
-        InitFind();
-        //ステータスの初期化
-        InitStatus();
+        //InitFind();
         //スキルの名前の初期化
         InitSkilName();
     }
-    void InitFind()
+    public void InitFind()
     {
         //エラー回避
         try
@@ -168,7 +170,7 @@ public class Dhia : MonoBehaviour
         }
         catch { }
     }
-    void InitStatus()
+    public void InitStatus()
     {
         //HPと攻撃力と防御力の初期化処理
         dhiaStatus.MAXHP = 150;
@@ -188,6 +190,11 @@ public class Dhia : MonoBehaviour
         //スケールの初期化処理
         this.gameObject.transform.localScale = new Vector3(1, 1, 1);
 
+        //デバッグ用
+        hp = maxhp;
+        mp = maxmp;
+        deathFlag = false;
+
 
         if (floorNoSys != null)
         {
@@ -201,7 +208,7 @@ public class Dhia : MonoBehaviour
             }
             else
             {
-                hp = dhiaStatus.HP;
+                //hp = dhiaStatus.HP;
                 mp = dhiaStatus.MP;
             }
         }

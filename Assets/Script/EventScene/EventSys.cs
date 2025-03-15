@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using static BaseEquipment;
 using System.ComponentModel;
+using System.Collections.Generic;
+using System;
 
 public class EventSys : MonoBehaviour
 {
@@ -84,7 +86,9 @@ public class EventSys : MonoBehaviour
 
     public EventKinds eventKinds;
 
+    //選ばれた選択肢を管理用
     int slectNo = 0;
+    //多重押し防止
     bool button = false;
 
     [SerializeField]
@@ -101,11 +105,6 @@ public class EventSys : MonoBehaviour
     //フェードアニメーション用
     [SerializeField]
     Animator fadeAnim = null;
-
-    void Awake()
-    {
-
-    }
 
     void Start()
     {

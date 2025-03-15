@@ -90,23 +90,23 @@ public class Riri : MonoBehaviour
 
     void Awake()
     {
-        Init();
+        //HPの初期化
+        //InitStatus();
     }
     void Start()
     {
+        Init();
     }
 
-    void Init()
+    public void Init()
     {
         //検索処理の初期化
-        InitFind();
-        //HPの初期化
-        InitStatus();
+        //InitFind();
         //スキルの名前を初期化
         InitSkilName();
     }
 
-    void InitFind()
+    public void InitFind()
     {
         //エラー回避
         try
@@ -115,16 +115,17 @@ public class Riri : MonoBehaviour
         }
         catch { }
     }
-    void InitStatus()
+    public void InitStatus()
     {
-        ririStatus.MAXHP = 100;
-
         maxhp = ririStatus.MAXHP;
         maxmp = ririStatus.MAXMP;
         power = ririStatus.DEFATK;
         def = ririStatus.DEFDEF;
         this.gameObject.transform.localScale = new Vector3(1, 1, 1);
 
+        //デバッグ用
+        hp = maxhp;
+        mp = maxmp;
 
         if (floorNoSys != null)
         {
@@ -139,7 +140,7 @@ public class Riri : MonoBehaviour
             }
             else
             {
-                hp = ririStatus.HP;
+                //hp = ririStatus.HP;
                 mp = ririStatus.MP;
             }
         }

@@ -272,7 +272,7 @@ public class EnemyManager : MonoBehaviour
         if (liveNumber == 0)
         {
             deathFlag = true;
-            encountSys.mainTurn = MainTurn.END;
+            encountSys.mainTurn = MainTurn.ENDRUN;
         }
     }
 
@@ -308,6 +308,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    //オーバーライド
     public virtual void SkilBird(){ return; }
     public virtual void SkilRabbit(){ return; }
     public virtual void InitBird(){ return; }
