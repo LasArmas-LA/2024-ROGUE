@@ -7,7 +7,7 @@ using static TestEncount;
 
 public class EnemyManager : MonoBehaviour
 {
-
+    //敵のステータスを管理用
     [NonSerialized]
     public float[] maxhp = new float [2];
     [NonSerialized]
@@ -21,14 +21,23 @@ public class EnemyManager : MonoBehaviour
     [NonSerialized]
     public int[] def = new int[2];
 
+    //敵全滅フラグ
     public bool deathFlag = false;
+    //各敵の死亡確認フラグ
     public bool[] deathLook = new bool[2];
+
+    public bool[] enemyDeath = new bool[2];
+
+    //生きている敵の数を確認用
     int liveNumber = 0;
 
     float timer = 0f;
 
     [SerializeField]
     GameObject enemyMain;
+
+    [SerializeField]
+    GameObject[] enemyMainObj;
 
     [SerializeField]
     GameObject[] enemyObj;
@@ -73,7 +82,7 @@ public class EnemyManager : MonoBehaviour
             //エネミーの親オブジェクトの初期化
             enemyMain.transform.localScale = new Vector3(1, 1, 1);
 
-            //出現したエネミーの判別
+                //出現したエネミーの判別
             switch (encountSys.typeRnd[0])
             {
                 //うさぎ
@@ -213,8 +222,8 @@ public class EnemyManager : MonoBehaviour
         //エネミー死亡時の処理
         if (hp[0] <= 0 && !deathLook[0])
         {
-            deathLook[0] = true;
-            liveNumber -= 1;
+            //死亡フラグ
+            enemyDeath[0] = true;
 
             //敵1がうさぎの時の死亡アニメーション
             if (encountSys.typeRnd[0] == 0)
@@ -230,22 +239,22 @@ public class EnemyManager : MonoBehaviour
             timer += Time.deltaTime;
             if (timer >= 1f)
             {
-                if (enemyMain.transform.localScale.x >= 0)
-                {
-                    enemyMain.transform.localScale -= new Vector3(1, 1, 1) * Time.deltaTime;
-                }
+                //エネミーをHPBarごとスケールを小さくする処理
+                enemyMainObj[0].SetActive(false);
+                deathLook[0] = true;
+                liveNumber -= 1;
 
                 timer = 0f;           
             }
         }
-        if (encountSys.numberRnd == 1 && !deathLook[1])
+        if (encountSys.numberRnd == 1 && hp[1] <= 0 && !deathLook[1])
         {
+            //死亡フラグ
+            enemyDeath[1] = true;
+
             //エネミー死亡時の処理
             if (hp[1] <= 0)
             {
-                deathLook[1] = true;
-                liveNumber -= 1;
-
                 //敵2がうさぎの時の死亡アニメーション
                 if (encountSys.typeRnd[1] == 3)
                 {
@@ -260,10 +269,10 @@ public class EnemyManager : MonoBehaviour
                 timer += Time.deltaTime;
                 if (timer >= 1f)
                 {
-                    if (enemyMain.transform.localScale.x >= 0)
-                    {
-                        enemyMain.transform.localScale -= new Vector3(1, 1, 1) * Time.deltaTime;
-                    }
+                    enemyMainObj[1].SetActive(false);
+                    deathLook[1] = true;
+                    liveNumber -= 1;
+
                     timer = 0f;
                 }
             }

@@ -925,7 +925,7 @@ public class TestEncount : MonoBehaviour
     void Enemy1Move()
     {
         //死んでる時はターンをスキップして戻る
-        if (enemyScript.deathLook[0])
+        if (enemyScript.enemyDeath[0])
         {
             mainTurn = MainTurn.ENEMY2MOVE;
             return;
@@ -969,7 +969,7 @@ public class TestEncount : MonoBehaviour
     void Enemy2Move()
     {
 
-        if (numberRnd == 0 || enemyScript.deathLook[1])
+        if (numberRnd == 0 || enemyScript.enemyDeath[1])
         {
             mainTurn = MainTurn.RIRIMOVE;
             return;
@@ -1249,6 +1249,7 @@ public class TestEncount : MonoBehaviour
     {
         fadeAnim.SetBool("FadeIn", true);
         yield return new WaitForSeconds(1.0f);
+        LoadScene();
         floorEndFlag = true;
     }
 

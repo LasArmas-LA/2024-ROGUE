@@ -5,26 +5,26 @@ using UnityEngine.UI;
 
 public class Map : MonoBehaviour
 {
+    enum MapMode
+    {
+        CameraMove,
+        Wait,
+        End
+    }
+    //実体化
+    MapMode mapMode = MapMode.CameraMove;
+
+    [Space(10), Header("ボタン")]
+
     [SerializeField]
     Outline[] button = null;
     [SerializeField]
     Image[] buttonImage = null;
 
-    [SerializeField]
-    float scrollSpeed = 1;
-    [SerializeField]
-    GameObject mainCamera;
-
-    [SerializeField]
-    GameObject floorNoSysObj = null;
-    [SerializeField]
-    FloorNoSys floorNoSys = null;
-
     //ボタンの位置を保存
     [SerializeField]
     Vector3[] buttonPos = null;
 
-    
     [SerializeField]
     GameObject[] buttonObj = null;
 
@@ -42,16 +42,41 @@ public class Map : MonoBehaviour
     [SerializeField]
     Button[] cloneButton = null;
 
+    //選べるマス、選べないマスを制御する処理
+    int[] limitlessNo = null;
+
+
+    [Space(10), Header("マウス操作")]
+    [SerializeField]
+    float scrollSpeed = 1;
+
+
+    [Space(10),Header("カメラ")]
+    //メインカメラのゲームオブジェクト
+    [SerializeField]
+    GameObject mainCamera;
+    //カメラY軸移動の最大座標
+    [SerializeField]
+    int cameraYMoveMax = 0;
+    //カメラY軸移動の最小座標
+    [SerializeField]
+    int cameraYMoveMin = 0;
+
+    [Space(10), Header("階層データ")]
+
+    [SerializeField]
+    GameObject floorNoSysObj = null;
+    [SerializeField]
+    FloorNoSys floorNoSys = null;
+
     [SerializeField]
     GameObject floorNoSysObjClone = null;
+
+    [Space(10), Header("フェード")]
 
     //フェード用
     [SerializeField]
     Animator fadeAnim = null;
-
-
-    //選べるマス、選べないマスを制御する処理
-    int[] limitlessNo = null;
 
     void Start()
     {
@@ -248,36 +273,63 @@ public class Map : MonoBehaviour
             cloneButton[limitlessNo[k]].GetComponent<Image>().color = Color.yellow;
         }
 
+
     }
 
     void Update()
     {
-        MouseScroll();
+        switch(mapMode)
+        {
+            case MapMode.CameraMove:
+                CameraMove();
+                break;
+            case MapMode.Wait:
+                MouseScroll();
+                break;
+            case MapMode.End:
+                break;
+        }
+    }
+
+    float cameraSpeed = 100f;
+    void CameraMove()
+    {
+        if(mainCamera.transform.position.y <= cloneButtonObj[limitlessNo[0]].transform.position.y && mainCamera.transform.position.y < 500)
+        {
+            Vector3 cameraPos = mainCamera.transform.position;
+            cameraPos.y += cameraSpeed * Time.deltaTime;
+            mainCamera.transform.position = cameraPos;
+
+            cameraSpeed += 350f * Time.deltaTime;
+        }
+        else 
+        {
+            mapMode = MapMode.Wait;
+        }
     }
 
     void MouseScroll()
     {
         //マウススクロール
-        if (mainCamera.transform.position.y >= -500 && mainCamera.transform.position.y <= 500)
+        if (mainCamera.transform.position.y >= cameraYMoveMin && mainCamera.transform.position.y <= cameraYMoveMax)
         {
             var scroll = Input.mouseScrollDelta.y;
             mainCamera.transform.position -= -mainCamera.transform.up * scroll * scrollSpeed;
         }
-        //移動できる範囲を制限
-        if (mainCamera.transform.position.y <= -500)
-        {
-            mainCamera.transform.position = new Vector3(0, -500, -10);
-        }
-        if (mainCamera.transform.position.y >= 500)
-        {
-            mainCamera.transform.position = new Vector3(0, 500, -10);
-        }
-    }
 
-    void ButtonColorChenge()
-    {
-        button[floorNoSys.slectButtonNo].effectColor = Color.yellow;
-        button[floorNoSys.slectButtonNo].effectDistance = new Vector2(10, 10);
+        Vector3 cameraPos = mainCamera.transform.position;
+
+        //移動できる範囲を制限
+        if (mainCamera.transform.position.y <= cameraYMoveMin)
+        {
+            cameraPos.y = cameraYMoveMin;
+        }
+        if (mainCamera.transform.position.y >= cameraYMoveMax)
+        {
+            cameraPos.y = cameraYMoveMax;
+        }
+
+        mainCamera.transform.position = cameraPos;
     }
 
     //どのボタンが押されたかの判別
@@ -437,6 +489,7 @@ public class Map : MonoBehaviour
 
     }
 
+    //分岐用
     String sceneName = null;
     //シーンの切り替え
     public void SceneChenge (int sceneKindsNo)
