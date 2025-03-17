@@ -21,15 +21,20 @@ public class TestEncount : MonoBehaviour
 
         RIRIMOVE,
         RIRIANIM,
+        RIRIEFFECT,
 
         DHIAMOVE,
         DHIAANIM,
+        DHIAEFFECT,
 
         ENEMY1MOVE,
         ENEMY1ANIM,
+        ENEMY1EFFECT,
+
         ENEMY2MOVE,
         ENEMY2ANIM,
-        
+        ENEMY2EFFECT,
+
         GAMEOVER,
 
         ENDRUN
@@ -405,32 +410,53 @@ public class TestEncount : MonoBehaviour
             case MainTurn.STRATRUN:
                 StartRun();
                 break;
+            //リリーのムーブ
             case MainTurn.RIRIMOVE:
                 RiriMove();
                 break;
+            //リリーのアニメーション
             case MainTurn.RIRIANIM:
                 RiriAnimMove();
                 break;
+                //リリーのエフェクト
+            case MainTurn.RIRIEFFECT:
+                RiriEffect();
+                break;
+            //ディアの攻防選択
             case MainTurn.DHIAATKDEFSLECT:
                 DhiaFastSlect();
                 break;
+            //ディアのムーブ
             case MainTurn.DHIAMOVE:
                 DhiaMove();
                 break;
+            //ディアのアニメーション
             case MainTurn.DHIAANIM:
                 DhiaAnimMove();
+                break;
+            //ディアのエフェクト
+            case MainTurn.DHIAEFFECT:
+                DhiaEffect();
                 break;
             case MainTurn.ENEMY1MOVE:
                 Enemy1Move();
                 break;
             case MainTurn.ENEMY1ANIM:
                 Enemy1AnimMove();
+                //敵1のエフェクト
+                break;
+            case MainTurn.ENEMY1EFFECT:
+                Enmey1Effect();
                 break;
             case MainTurn.ENEMY2MOVE:
                 Enemy2Move();
                 break;
             case MainTurn.ENEMY2ANIM:
                 Enemy2AnimMove();
+                break;
+            //敵2のエフェクト
+            case MainTurn.ENEMY2EFFECT:
+                Enemy2Effect();
                 break;
             case MainTurn.GAMEOVER:
                 GameOver();
@@ -687,6 +713,10 @@ public class TestEncount : MonoBehaviour
         }
     }
 
+    void RiriEffect()
+    {
+
+    }
     
     void DhiaFastSlect()
     {
@@ -922,6 +952,11 @@ public class TestEncount : MonoBehaviour
         }
     }
 
+    void DhiaEffect()
+    {
+
+    }
+
     void Enemy1Move()
     {
         //死んでる時はターンをスキップして戻る
@@ -965,6 +1000,11 @@ public class TestEncount : MonoBehaviour
 
     }
 
+    void Enmey1Effect()
+    {
+
+    }
+
 
     void Enemy2Move()
     {
@@ -999,6 +1039,11 @@ public class TestEncount : MonoBehaviour
     void Enemy2AnimMove()
     {
         
+    }
+
+    void Enemy2Effect()
+    {
+
     }
 
     float gameOvertimer = 0f;

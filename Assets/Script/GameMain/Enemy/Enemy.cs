@@ -54,6 +54,8 @@ public class EnemyManager : MonoBehaviour
     [SerializeField]
     Bird[] birdScript;
 
+    [SerializeField]
+    float hpLowSpeed = 0f;
 
     int rnd = 0;
     void Start()
@@ -185,7 +187,7 @@ public class EnemyManager : MonoBehaviour
             }
             else
             {
-                enemySlider[0].value -= ((enemySlider[0].maxValue * (hp[0] / maxhp[0])) * Time.deltaTime);
+                enemySlider[0].value -= ((enemySlider[0].maxValue * (hp[0] / maxhp[0])) * Time.deltaTime) * hpLowSpeed;
 
                 if (enemySlider[0].value <= hp[0])
                 {
@@ -209,7 +211,7 @@ public class EnemyManager : MonoBehaviour
             {
                 Debug.Log("“G2‚ðUŒ‚‚µ‚½I2");
 
-                enemySlider[1].value -= ((enemySlider[1].maxValue * (hp[1] / maxhp[1])) * Time.deltaTime);
+                enemySlider[1].value -= ((enemySlider[1].maxValue * (hp[1] / maxhp[1])) * Time.deltaTime) * hpLowSpeed;
 
                 if (enemySlider[1].value <= hp[1])
                 {

@@ -30,38 +30,21 @@ public class LoadSceneSys : MonoBehaviour
 
     void Start()
     {
-        /*
-        //シード値の変更
-        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
-
-        rnd = Random.Range(1, 101);
-
-
-        chestFloor = 100 - enemyFloor;
-
-        //敵フロア
-        if (rnd <= enemyFloor)
-        {
-            loadSceneName = sceneName[4];
-        }
-        //チェストフロア
-        if (rnd >= enemyFloor)
-        {
-            loadSceneName = sceneName[5];
-        }
-
-        */
-
         loadSceneName = sceneName[1];
 
-        fadeAnim.SetBool("FadeOut", true);
 
         //待機後シーンを切り替え
         Invoke("SceneChenge", chengeWaitTime);
+        Invoke("SceneChengeFade", chengeWaitTime - 1);
     }
 
     void SceneChenge()
     {
         SceneManager.LoadScene(loadSceneName);
+    }
+
+    void SceneChengeFade()
+    {
+        fadeAnim.SetBool("FadeOut", true);
     }
 }

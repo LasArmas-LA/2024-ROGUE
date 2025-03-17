@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class StaySys : MonoBehaviour
@@ -6,7 +7,6 @@ public class StaySys : MonoBehaviour
     //リリーのステータス
     [SerializeField, Header("リリーのステータス管理用")]
     Status ririStatus = null;
-
     //ディアのステータス
     [SerializeField, Header("ディアのステータス管理用")]
     Status dhiaStatus = null;
@@ -18,11 +18,25 @@ public class StaySys : MonoBehaviour
     [SerializeField]
     Animator fadeAnim = null;
 
+    //スライダー
+    [SerializeField]
+    Slider ririSlider = null;
+    [SerializeField]
+    Slider dhiaSlider = null;
+
     void Start()
     {
-        
+        Init();
     }
 
+    void Init()
+    {
+        ririSlider.maxValue = ririStatus.MAXHP;
+        dhiaSlider.maxValue = dhiaStatus.MAXHP;
+
+        ririSlider.value = ririSlider.maxValue * (ririStatus.HP / ririStatus.MAXHP);
+        dhiaSlider.value = dhiaSlider.maxValue * (dhiaStatus.HP / dhiaStatus.MAXHP);
+    }
     void Update()
     {
         
@@ -53,6 +67,10 @@ public class StaySys : MonoBehaviour
         {
             dhiaStatus.HP += (dhiaStatus.MAXHP * 0.5f);
         }
+
+        ririSlider.value = ririSlider.maxValue * (ririStatus.HP / ririStatus.MAXHP);
+        dhiaSlider.value = dhiaSlider.maxValue * (dhiaStatus.HP / dhiaStatus.MAXHP);
+
         stayWin.SetActive(false);
         fadeAnim.SetBool("FadeIn", true);
         Invoke("StageChenge",1f);

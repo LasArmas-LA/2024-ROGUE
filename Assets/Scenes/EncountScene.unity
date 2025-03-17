@@ -16060,6 +16060,7 @@ MonoBehaviour:
   enemySlider: []
   rabbitScript: []
   birdScript: []
+  hpLowSpeed: 0
   enemyHpDef: []
   death: 0
   enemyStatus: {fileID: 11400000, guid: 2df0c384f88ce564e977c7ad96935fff, type: 2}
@@ -45908,6 +45909,7 @@ MonoBehaviour:
   birdScript:
   - {fileID: 208588768178634637}
   - {fileID: 1679341842}
+  hpLowSpeed: 1.5
   enemyHpDef:
   - 0
   - 0
@@ -61185,6 +61187,7 @@ MonoBehaviour:
   enemySlider: []
   rabbitScript: []
   birdScript: []
+  hpLowSpeed: 0
   enemyHpDef: []
   death: 0
   birdMaxhp: 0
@@ -80743,6 +80746,7 @@ MonoBehaviour:
   enemySlider: []
   rabbitScript: []
   birdScript: []
+  hpLowSpeed: 0
   enemyHpDef: []
   death: 0
   birdMaxhp: 0
@@ -83186,6 +83190,7 @@ MonoBehaviour:
   enemySlider: []
   rabbitScript: []
   birdScript: []
+  hpLowSpeed: 0
   enemyHpDef: []
   death: 0
   enemyStatus: {fileID: 11400000, guid: 2df0c384f88ce564e977c7ad96935fff, type: 2}
