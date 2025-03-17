@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NAME: "\u30C7\u30A3\u30A2"
   MAXHP: 150
-  HP: 30
+  HP: 150
   MAXMP: 0
   MP: 0
   ATK: 100

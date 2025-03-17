@@ -16,7 +16,7 @@ public class EnemyManager : MonoBehaviour
     public float[] hp = new float[2];
     [NonSerialized]
     public float[] mp = new float[2];
-    [NonSerialized]
+    //[NonSerialized]
     public int[] power = new int[2];
     [NonSerialized]
     public int[] def = new int[2];

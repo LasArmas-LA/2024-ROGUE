@@ -316,7 +316,7 @@ public class Riri : MonoBehaviour
     //エネミーの対象用システム
     public void EnemySlectSys(int enemyNo)
     {
-        if(encountSys.command1)
+        if (encountSys.command1)
         {
             switch (ririAtkSkill1)
             {
@@ -363,12 +363,19 @@ public class Riri : MonoBehaviour
 
         encountSys.windowsMes.text = "リリーはバイキルトを唱えた！\nディアの攻撃力が上昇した!";
         dhia.powerUpFlag = true;
+
+        //ステータスを変更
+        encountSys.mainTurn = TestEncount.MainTurn.RIRIANIM;
     }
 
+
+    [SerializeField]
+    GameObject ririEnemySlectWin = null;
     //弱くなれ！
     void BecomeWeak()
     {
-
+        //敵選択のウィンドウを表示
+        ririEnemySlectWin.SetActive(true);
     }
 
 
@@ -376,27 +383,50 @@ public class Riri : MonoBehaviour
     public bool becomeWeakFlag = false;
     //敵の攻撃力補正値
     public float powerValue = 0;
+    //敵の攻撃力補正値保存用
+    int[] powerValueKeep = new int[2];
 
     //弱くなれ！の対象選択
     public void BecomeWeakSlect(int enemyNo)
     {
+        //敵死亡時に対象塗り替え
+        if (encountSys.enemyScript.enemyDeath[0]) { enemyNo = 1;}
+        if (encountSys.enemyScript.enemyDeath[1]) { enemyNo = 0;}
+
         powerValue = 0.2f;
         //敵1選択時
         if (enemyNo == 0)
         {
-            encountSys.enemyScript.power[0] = encountSys.enemyScript.power[0] + (int)(encountSys.enemyScript.power[0] * powerValue);
+             //効果終了時に減算するための補正値の保存
+             powerValueKeep[0] = 
+                (int)(encountSys.enemyScript.power[0] * powerValue);
+
+            encountSys.enemyScript.power[0] -= powerValueKeep[0];
         }
         //敵2選択時
-        if(enemyNo == 1)
+        if (enemyNo == 1)
         {
-            encountSys.enemyScript.power[1] = encountSys.enemyScript.power[1] + (int)(encountSys.enemyScript.power[1] * powerValue);
+            //効果終了時に減算するための補正値の保存
+            powerValueKeep[1] = 
+                (int)(encountSys.enemyScript.power[1] * powerValue);
+
+            encountSys.enemyScript.power[1] -= powerValueKeep[1];
         }
         //パワーを初期値に戻す処理
         if(enemyNo == 100)
         {
-            encountSys.enemyScript.power[0] = encountSys.enemyScript.power[0] - (int)(encountSys.enemyScript.power[0] * powerValue);
-            encountSys.enemyScript.power[1] = encountSys.enemyScript.power[1] - (int)(encountSys.enemyScript.power[1] * powerValue);
+            encountSys.enemyScript.power[0] += powerValueKeep[0];
+
+            encountSys.enemyScript.power[1] += powerValueKeep[1];
             becomeWeakFlag = false;
+        }
+        else
+        {
+            //ステータスを変更
+            encountSys.mainTurn = TestEncount.MainTurn.RIRIANIM;
+            //敵選択のウィンドウを表示
+            ririEnemySlectWin.SetActive(false);
+            becomeWeakFlag = true;
         }
     }
 
@@ -411,12 +441,17 @@ public class Riri : MonoBehaviour
         prtectTurn = prtectTurnDef;
         prtectFlag = true;
         dhia.defCorrectionValue = (int)(dhia.defCorrectionValue + (dhia.defCorrectionValue * 0.1f));
+
+        //ステータスを変更
+        encountSys.mainTurn = TestEncount.MainTurn.RIRIANIM;
     }
 
     //動かないで！
     void DoNotMove()
     {
-        
+        //敵選択のウィンドウを表示
+        ririEnemySlectWin.SetActive(true);
+
     }
     //動かないで！の対処選択
     void DoNotMoveSlect(int enemyNo)
@@ -432,29 +467,4 @@ public class Riri : MonoBehaviour
     }
 
 }
-
-/*        //アニメーションのカウントダウンとアニメーションスタート
-timerFlag = true;
-ririAnim.SetBool("R_Skill", true);
-
-if (maxhp > hp + 20 && dhia.maxhp > dhia.hp + 20)
-{
-    hp += 20;
-    dhia.hp += 20;
-    encountSys.windowsMes.text = "リリーはオールヒールを唱えた！\nリリーとディアのHPを20ずつ回復した!";
-}
-else
-{
-    if (maxhp < hp + 20)
-    {
-        hp = maxhp;
-    }
-    if (dhia.maxhp < dhia.hp + 20)
-    {
-        dhia.hp = dhia.maxhp;
-    }
-    encountSys.windowsMes.text = "リリーはオールヒールを唱えた！\nリリーのHPを" + (maxhp - hp) + "ディアのHPを" + (dhia.maxhp - dhia.hp) + "回復した!";
-}
-*/
-
 

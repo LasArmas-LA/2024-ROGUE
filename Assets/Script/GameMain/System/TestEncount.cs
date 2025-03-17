@@ -80,6 +80,10 @@ public class TestEncount : MonoBehaviour
     //待機時間
     [SerializeField]
     public float waitTime = 0;
+    //エフェクトの待機時間設定用
+    public float effectWaitTime = 0;
+    //エフェクトの待機時間カウント用
+    public float effectWaitTimer = 0;
     public float timer = 0;
 
     [SerializeField]
@@ -617,6 +621,7 @@ public class TestEncount : MonoBehaviour
             if (ririScript.becomeWeakFlag)
             {
                 ririScript.BecomeWeakSlect(100);
+                Debug.Log("100000000000000000000");
             }
 
             //守ってあげる！
@@ -654,21 +659,27 @@ public class TestEncount : MonoBehaviour
                 if (command1)
                 {
                     //ステータスを変更
-                    mainTurn = MainTurn.RIRIANIM;
+                    //mainTurn = MainTurn.RIRIANIM;
+                    //コマンド非表示の処理
+                    enemyFloorRunSysObj.commandMain.SetActive(false);
 
                     ririScript.Skil1();
                 }
                 if (command2)
                 {
                     //ステータスを変更
-                    mainTurn = MainTurn.RIRIANIM;
+                    //mainTurn = MainTurn.RIRIANIM;
+                    //コマンド非表示の処理
+                    enemyFloorRunSysObj.commandMain.SetActive(false);
 
                     ririScript.Skil2();
                 }
                 if (command3)
                 {
                     //ステータスを変更
-                    mainTurn = MainTurn.RIRIANIM;
+                    //mainTurn = MainTurn.RIRIANIM;
+                    //コマンド非表示の処理
+                    enemyFloorRunSysObj.commandMain.SetActive(false);
 
                     ririScript.Skil3();
                 }
@@ -709,15 +720,23 @@ public class TestEncount : MonoBehaviour
             command3 = false;
 
             //ステータスを変更
-            mainTurn = MainTurn.DHIAATKDEFSLECT;
+            mainTurn = MainTurn.RIRIEFFECT;
         }
     }
 
     void RiriEffect()
     {
+        effectWaitTimer += Time.deltaTime;
 
+        if(effectWaitTimer >= effectWaitTime)
+        {
+            //ステータスを変更
+            mainTurn = MainTurn.DHIAATKDEFSLECT;
+            effectWaitTimer = 0f;
+            effectWaitTime = 0f;
+        }
     }
-    
+
     void DhiaFastSlect()
     {
         //コマンド部分の表示切り替え
@@ -948,13 +967,20 @@ public class TestEncount : MonoBehaviour
             command3 = false;
 
             //ステータスを変更
-            mainTurn = MainTurn.ENEMY1MOVE;
+            mainTurn = MainTurn.DHIAEFFECT;
         }
     }
 
     void DhiaEffect()
     {
-
+        effectWaitTimer += Time.deltaTime;
+        if(effectWaitTimer >= effectWaitTime)
+        {
+            //ステータスを変更
+            mainTurn = MainTurn.ENEMY1MOVE;
+            effectWaitTimer = 0;
+            effectWaitTime = 0;
+        }
     }
 
     void Enemy1Move()
@@ -966,8 +992,6 @@ public class TestEncount : MonoBehaviour
             return;
         }
 
-        //タイマー開始
-        timer += Time.deltaTime;
 
         if (!coLock)
         {
@@ -976,12 +1000,31 @@ public class TestEncount : MonoBehaviour
             coLock = true;
         }
 
+        mainTurn = MainTurn.ENEMY1ANIM;
+    }
+
+    void Enemy1AnimMove()
+    {
+        //タイマー開始
+        timer += Time.deltaTime;
+
         //待機時間を超えたら
         if (timer >= waitTime)
         {
             coLock = false;
             timer = 0;
 
+            //ステータスを変更
+            mainTurn = MainTurn.ENEMY1EFFECT;
+        }
+    }
+
+    void Enmey1Effect()
+    {
+        effectWaitTimer += Time.deltaTime;
+
+        if (effectWaitTimer >= effectWaitTime)
+        {
             //ステータスを変更
             //敵が2体の時
             if (numberRnd == 1)
@@ -992,17 +1035,9 @@ public class TestEncount : MonoBehaviour
             {
                 mainTurn = MainTurn.RIRIMOVE;
             }
+            effectWaitTimer = 0;
+            effectWaitTime = 0;
         }
-    }
-
-    void Enemy1AnimMove()
-    {
-
-    }
-
-    void Enmey1Effect()
-    {
-
     }
 
 
@@ -1015,8 +1050,6 @@ public class TestEncount : MonoBehaviour
             return;
         }
 
-        //タイマー開始
-        timer += Time.deltaTime;
 
         if (!coLock)
         {
@@ -1025,6 +1058,15 @@ public class TestEncount : MonoBehaviour
             coLock = true;
         }
 
+        //ステータスを変更
+        mainTurn = MainTurn.ENEMY2ANIM;
+    }
+
+    void Enemy2AnimMove()
+    {
+        //タイマー開始
+        timer += Time.deltaTime;
+
         //待機時間を超えたら
         if (timer >= waitTime)
         {
@@ -1032,26 +1074,34 @@ public class TestEncount : MonoBehaviour
             timer = 0;
 
             //ステータスを変更
-            mainTurn = MainTurn.RIRIMOVE;
+            mainTurn = MainTurn.ENEMY2EFFECT;
         }
-    }
-
-    void Enemy2AnimMove()
-    {
-        
     }
 
     void Enemy2Effect()
     {
+        effectWaitTimer += Time.deltaTime;
 
+        if (effectWaitTimer >= effectWaitTime)
+        {
+            //ステータスを変更
+            mainTurn = MainTurn.RIRIMOVE;
+
+            effectWaitTimer = 0;
+            effectWaitTime = 0;
+        }
     }
 
+    //ゲームオーバーの時間計測用
     float gameOvertimer = 0f;
+    //ゲームオーバーの遷移タイム設定用
+    [SerializeField]
+    float gameOverTime = 0f;
     void GameOver()
     {
         gameOvertimer += Time.deltaTime;
 
-        if (gameOvertimer >= 2)
+        if (gameOvertimer >= gameOverTime)
         {
             SceneManager.LoadScene("GameOver");
             gameOvertimer = 0;
