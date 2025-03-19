@@ -103,7 +103,7 @@ public class Dhia : MonoBehaviour
     public int power = 0;
 
     //ñhå‰ÇÃï‚ê≥ílóp
-    [NonSerialized]
+    //[NonSerialized]
     public int defCorrectionValue = 100;
 
     float enemyDamage = 0;

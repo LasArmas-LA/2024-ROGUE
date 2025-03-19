@@ -17,20 +17,25 @@ public class TestEncount : MonoBehaviour
 
         STRATRUN,
 
-        DHIAATKDEFSLECT,
 
+        RIRILOOPINIT,
         RIRIMOVE,
         RIRIANIM,
         RIRIEFFECT,
 
+
+        DHIALOOPINIT,
+        DHIAATKDEFSLECT,
         DHIAMOVE,
         DHIAANIM,
         DHIAEFFECT,
 
+        ENEMY1LOOPINIT,
         ENEMY1MOVE,
         ENEMY1ANIM,
         ENEMY1EFFECT,
 
+        ENEMY2LOOPINIT,
         ENEMY2MOVE,
         ENEMY2ANIM,
         ENEMY2EFFECT,
@@ -414,6 +419,12 @@ public class TestEncount : MonoBehaviour
             case MainTurn.STRATRUN:
                 StartRun();
                 break;
+
+                //<<<リリー>>>
+            //リリーのムーブ
+            case MainTurn.RIRILOOPINIT:
+                RiriLoopInit();
+                break;
             //リリーのムーブ
             case MainTurn.RIRIMOVE:
                 RiriMove();
@@ -425,6 +436,11 @@ public class TestEncount : MonoBehaviour
                 //リリーのエフェクト
             case MainTurn.RIRIEFFECT:
                 RiriEffect();
+                break;
+
+　　　　　　     //<<<ディア>>>
+            case MainTurn.DHIALOOPINIT:
+                DhiaLoopInit();
                 break;
             //ディアの攻防選択
             case MainTurn.DHIAATKDEFSLECT:
@@ -442,6 +458,11 @@ public class TestEncount : MonoBehaviour
             case MainTurn.DHIAEFFECT:
                 DhiaEffect();
                 break;
+
+                 //<<<敵1>>>
+            case MainTurn.ENEMY1LOOPINIT:
+                Enemy1LoopInit();
+                break;
             case MainTurn.ENEMY1MOVE:
                 Enemy1Move();
                 break;
@@ -451,6 +472,11 @@ public class TestEncount : MonoBehaviour
                 break;
             case MainTurn.ENEMY1EFFECT:
                 Enmey1Effect();
+                break;
+
+            //<<<敵2>>>
+            case MainTurn.ENEMY2LOOPINIT:
+                Enemy2LoopInit();
                 break;
             case MainTurn.ENEMY2MOVE:
                 Enemy2Move();
@@ -462,9 +488,13 @@ public class TestEncount : MonoBehaviour
             case MainTurn.ENEMY2EFFECT:
                 Enemy2Effect();
                 break;
+
+                //<<<ゲームオーバー>>>
             case MainTurn.GAMEOVER:
                 GameOver();
                 break;
+
+                //<<<敵倒した後の移動>>>
             case MainTurn.ENDRUN:
                 EndRun();
                 break;
@@ -583,7 +613,7 @@ public class TestEncount : MonoBehaviour
         if (!floorFast)
         {
             //ステータスの変更
-            mainTurn = MainTurn.RIRIMOVE;
+            mainTurn = MainTurn.RIRILOOPINIT;
 
             //歩きアニメーションを停止
             ririAnim.SetBool("R_Walk", false);
@@ -603,6 +633,49 @@ public class TestEncount : MonoBehaviour
 
     }
 
+
+    //リリーの初期化
+    void RiriLoopInit()
+    {
+        //スキルの名前表示を書き換え
+        command1Text.text = ririScript.atkSkillName[0];
+        command2Text.text = ririScript.atkSkillName[1];
+        command3Text.text = ririScript.atkSkillName[2];
+
+        //コマンドのテクスチャを切り替え
+        commnadImage[0].sprite = ririCommandSp;
+        commnadImage[1].sprite = ririCommandSp;
+        commnadImage[2].sprite = ririCommandSp;
+
+        //コマンド部分の表示アクティブを切り替え
+        dhiaCommand.SetActive(false);
+        ririCommand.SetActive(true);
+
+        dhiaScript.button = false;
+
+        
+        if (ririScript.becomeWeakFlag)
+        {
+            ririScript.BecomeWeakSlect(100);
+        }
+
+        //守ってあげる！のターン経過処理
+        if (ririScript.prtectFlag)
+        {
+            ririScript.prtectTurn--;
+            if (ririScript.prtectTurn == 0)
+            {
+                ririScript.prtectFlag = false;
+                dhiaScript.defCorrectionValue = (int)(dhiaScript.defCorrectionValue - (dhiaScript.defCorrectionValue * 0.1f));
+            }
+        }
+
+        //ダメージを受けた時を判別できるように格納
+        ririhpdf = ririScript.hp;
+
+        //ステータスの切り替え
+        mainTurn = MainTurn.RIRIMOVE;
+    }
     void RiriMove()
     {
         //リリー死亡時ゲームオーバー
@@ -610,43 +683,6 @@ public class TestEncount : MonoBehaviour
         {
             mainTurn = MainTurn.GAMEOVER;
         }
-        if (fast)
-        {
-            //コマンド部分の表示切り替え
-            dhiaCommand.SetActive(false);
-            ririCommand.SetActive(true);
-
-            dhiaScript.button = false;
-
-            if (ririScript.becomeWeakFlag)
-            {
-                ririScript.BecomeWeakSlect(100);
-                Debug.Log("100000000000000000000");
-            }
-
-            //守ってあげる！
-            if (ririScript.prtectFlag)
-            {
-                ririScript.prtectTurn--;
-                if (ririScript.prtectTurn == 0)
-                {
-                    ririScript.prtectFlag = false;
-                    dhiaScript.defCorrectionValue = (int)(dhiaScript.defCorrectionValue - (dhiaScript.defCorrectionValue * 0.1f));
-                }
-            }
-
-            //ダメージを受けた時を判別できるように格納
-            ririhpdf = ririScript.hp;
-            fast = false;
-        }
-
-        command1Text.text = ririScript.atkSkillName[0];
-        command2Text.text = ririScript.atkSkillName[1];
-        command3Text.text = ririScript.atkSkillName[2];
-
-        commnadImage[0].sprite = ririCommandSp;
-        commnadImage[1].sprite = ririCommandSp;
-        commnadImage[2].sprite = ririCommandSp;
 
         //ボタンが押されるで待機
         if (command1 || command2 || command3)
@@ -694,6 +730,7 @@ public class TestEncount : MonoBehaviour
         }
     }
 
+    float ririTimer = 0;
     void RiriAnimMove()
     {
         if (!fast)
@@ -731,22 +768,87 @@ public class TestEncount : MonoBehaviour
         if(effectWaitTimer >= effectWaitTime)
         {
             //ステータスを変更
-            mainTurn = MainTurn.DHIAATKDEFSLECT;
+            mainTurn = MainTurn.DHIALOOPINIT;
             effectWaitTimer = 0f;
             effectWaitTime = 0f;
         }
     }
 
-    void DhiaFastSlect()
+
+    void DhiaLoopInit()
     {
         //コマンド部分の表示切り替え
         ririCommand.SetActive(false);
         dhiaCommand.SetActive(true);
 
+        //コマンドのテクスチャの切り替え
+        commnadImage[0].sprite = dhiaCommandSp;
+        commnadImage[1].sprite = dhiaCommandSp;
+        commnadImage[2].sprite = dhiaCommandSp;
+
 
         atkDefSlectWin.SetActive(true);
         enemyFloorRunSysObj.commandWin.SetActive(true);
 
+        enemyScript.enemyHpDef[0] = enemyScript.hp[0];
+        enemyScript.enemyHpDef[1] = enemyScript.hp[1];
+
+        //防御スキルの初期化処理
+        //お守りします！
+        if (dhiaScript.protectFlag)
+        {
+            dhiaScript.protectTurn--;
+            if (dhiaScript.protectTurn <= 0)
+            {
+                dhiaScript.protectFlag = false;
+                //防御補正値を減算
+                dhiaScript.defCorrectionValue -= dhiaScript.postureDef;
+            }
+        }
+        //防御体制
+        if (dhiaScript.postureFlag)
+        {
+            dhiaScript.postureTurn--;
+            if (dhiaScript.postureTurn <= 0)
+            {
+                dhiaScript.postureFlag = false;
+                //防御補正値を減算
+                dhiaScript.defCorrectionValue -= dhiaScript.postureDef;
+            }
+        }
+
+        //守る
+        if (dhiaScript.ririDefenseFlag)
+        {
+            dhiaScript.ririProtectTurn--;
+            if (dhiaScript.ririProtectTurn <= 0)
+            {
+                dhiaScript.ririDefenseFlag = false;
+                //防御補正値を減算
+                dhiaScript.defCorrectionValue -= dhiaScript.ririProtectDef;
+            }
+        }
+
+        if (dhiaScript.defCorrectionValue <= 100)
+        {
+            dhiaScript.defCorrectionValue = 100;
+        }
+        //ディアの補正値の代入
+        //dhiaScript.def = (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
+
+
+        dhiaScript.powerUpFlag = false;
+
+        //ダメージを受けた時を判別できるように格納
+        dhiahpdf = dhiaScript.hp;
+
+        ririScript.button = false;
+
+        mainTurn = MainTurn.DHIAATKDEFSLECT;
+    }
+
+    void DhiaFastSlect()
+    {
         if (button)
         {
             //アタックスキルを選択
@@ -773,6 +875,7 @@ public class TestEncount : MonoBehaviour
         }
     }
 
+
     void DhiaMove()
     {
         //ディア死亡時ターンをスキップ
@@ -786,65 +889,8 @@ public class TestEncount : MonoBehaviour
             ririCommand.SetActive(false);
             dhiaCommand.SetActive(true);
 
-            enemyScript.enemyHpDef[0] = enemyScript.hp[0];
-            enemyScript.enemyHpDef[1] = enemyScript.hp[1];
-
-            //防御スキルの初期化処理
-            //お守りします！
-            if (dhiaScript.protectFlag)
-            {
-                dhiaScript.protectTurn--;
-                if (dhiaScript.protectTurn <= 0)
-                {
-                    dhiaScript.protectFlag = false;
-                    //防御補正値を減算
-                    dhiaScript.defCorrectionValue -= dhiaScript.postureDef;
-                }
-            }
-            //防御体制
-            if (dhiaScript.postureFlag)
-            {
-                dhiaScript.postureTurn--;
-                if (dhiaScript.postureTurn <= 0)
-                {
-                    dhiaScript.postureFlag = false;
-                    //防御補正値を減算
-                    dhiaScript.defCorrectionValue -= dhiaScript.postureDef;
-                }
-            }
-
-            //守る
-            if (dhiaScript.ririDefenseFlag)
-            {
-                dhiaScript.ririProtectTurn--;
-                if (dhiaScript.ririProtectTurn <= 0)
-                {
-                    dhiaScript.ririDefenseFlag = false;
-                    //防御補正値を減算
-                    dhiaScript.defCorrectionValue -= dhiaScript.ririProtectDef;
-                }
-            }
-
-            if (dhiaScript.defCorrectionValue <= 100)
-            {
-                dhiaScript.defCorrectionValue = 100;
-            }
-            //ディアの補正値の代入
-            dhiaScript.def = (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
-
-
-            dhiaScript.powerUpFlag = false;
-
-            //ダメージを受けた時を判別できるように格納
-            dhiahpdf = dhiaScript.hp;
             fast = false;
-            ririScript.button = false;
         }
-
-
-        commnadImage[0].sprite = dhiaCommandSp;
-        commnadImage[1].sprite = dhiaCommandSp;
-        commnadImage[2].sprite = dhiaCommandSp;
 
         if (command1 || command2 || command3)
         {
@@ -917,7 +963,6 @@ public class TestEncount : MonoBehaviour
             enemyFloorRunSysObj.commandMain.SetActive(true);
             enemyFloorRunSysObj.commandWin.SetActive(true);
 
-            windowsMes.text = "ディアの行動をにゅうりょくしてください";
         }
     }
 
@@ -940,13 +985,6 @@ public class TestEncount : MonoBehaviour
         if (!fast)
         {
             fast = true;
-            dhiaScript.def = dhiaScript.def + (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
-
-            Debug.Log("defの数値は" + dhiaScript.def);
-
-            Debug.Log("defの補正値は" + dhiaScript.defCorrectionValue / 100);
-
-            Debug.Log("計算結果は" + (dhiaScript.def + (dhiaScript.def * (dhiaScript.defCorrectionValue / 100))));
         }
 
         //コマンド非表示の処理
@@ -966,6 +1004,12 @@ public class TestEncount : MonoBehaviour
             command2 = false;
             command3 = false;
 
+            //ディアのステータス反映
+            dhiaScript.def -= dhiaScript.def - (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
+
+            dhiaScript.def = (dhiaScript.def + (dhiaScript.def * (dhiaScript.defCorrectionValue / 100)));
+
+
             //ステータスを変更
             mainTurn = MainTurn.DHIAEFFECT;
         }
@@ -977,10 +1021,17 @@ public class TestEncount : MonoBehaviour
         if(effectWaitTimer >= effectWaitTime)
         {
             //ステータスを変更
-            mainTurn = MainTurn.ENEMY1MOVE;
+            mainTurn = MainTurn.ENEMY1LOOPINIT;
             effectWaitTimer = 0;
             effectWaitTime = 0;
         }
+    }
+
+
+    void Enemy1LoopInit()
+    {
+
+        mainTurn = MainTurn.ENEMY1MOVE;
     }
 
     void Enemy1Move()
@@ -1029,11 +1080,11 @@ public class TestEncount : MonoBehaviour
             //敵が2体の時
             if (numberRnd == 1)
             {
-                mainTurn = MainTurn.ENEMY2MOVE;
+                mainTurn = MainTurn.ENEMY2LOOPINIT;
             }
             else
             {
-                mainTurn = MainTurn.RIRIMOVE;
+                mainTurn = MainTurn.RIRILOOPINIT;
             }
             effectWaitTimer = 0;
             effectWaitTime = 0;
@@ -1041,12 +1092,20 @@ public class TestEncount : MonoBehaviour
     }
 
 
+    void Enemy2LoopInit()
+    {
+
+
+
+        mainTurn = MainTurn.ENEMY2MOVE;
+    }
+
     void Enemy2Move()
     {
 
         if (numberRnd == 0 || enemyScript.enemyDeath[1])
         {
-            mainTurn = MainTurn.RIRIMOVE;
+            mainTurn = MainTurn.RIRILOOPINIT;
             return;
         }
 
@@ -1085,7 +1144,7 @@ public class TestEncount : MonoBehaviour
         if (effectWaitTimer >= effectWaitTime)
         {
             //ステータスを変更
-            mainTurn = MainTurn.RIRIMOVE;
+            mainTurn = MainTurn.RIRILOOPINIT;
 
             effectWaitTimer = 0;
             effectWaitTime = 0;
