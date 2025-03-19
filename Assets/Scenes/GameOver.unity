@@ -779,8 +779,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ec05381ffec7949896d61a8e2bf5fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hiFloor: {fileID: 0}
-  nowFloor: {fileID: 0}
+  hiFloor: {fileID: 62299228}
+  nowFloor: {fileID: 1747845596}
+  ririStatus: {fileID: 11400000, guid: 6a865f769d030084ba07828a1728d383, type: 2}
+  dhiaStatus: {fileID: 11400000, guid: ff9529fcff4a1bd4d81150027e4d3b9b, type: 2}
+  floorNoSysObj: {fileID: 6171527524165419376, guid: decc38fd1c5d7b244a57952fa6e6f72d, type: 3}
 --- !u!1 &771748849
 GameObject:
   m_ObjectHideFlags: 0

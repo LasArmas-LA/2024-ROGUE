@@ -228,13 +228,13 @@ public class Riri : MonoBehaviour
     {
         if (ririSelectFlag || dhiaSelectFlag)
         {
-            encountSys.timer += Time.deltaTime;
+            encountSys.ririAnimTimer += Time.deltaTime;
 
-            if (encountSys.timer >= 3.5f)
+            if (encountSys.ririAnimTimer >= 3.5f)
             {
                 ririAnim.SetBool("R_Skill", false);
             }
-            if (encountSys.timer >= encountSys.waitTime)
+            if (encountSys.ririAnimTimer >= encountSys.waitTime)
             {
                 ririSelectFlag = false;
                 dhiaSelectFlag = false;

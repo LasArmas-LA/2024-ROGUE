@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using System.Timers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -80,7 +81,7 @@ public class TestEncount : MonoBehaviour
     public EnemyManager enemyScript = null;
     [SerializeField]
     EnemyFloorRunSys enemyFloorRunSysObj = null;
-    FloorNoSys floorNoSys = null;
+    FloorNoSys floorNoSysScript = null;
 
     //待機時間
     [SerializeField]
@@ -89,7 +90,7 @@ public class TestEncount : MonoBehaviour
     public float effectWaitTime = 0;
     //エフェクトの待機時間カウント用
     public float effectWaitTimer = 0;
-    public float timer = 0;
+
 
     [SerializeField]
     GameObject floorNoSysObj = null;
@@ -241,7 +242,7 @@ public class TestEncount : MonoBehaviour
     //扉に着いてその階が終了する時のフラグ
     bool floorEndFlag = false;
     //最初に1回だけ呼び出したい処理
-    bool fastMove = true;
+    bool partFastMove = true;
 
 
     //キャラクターの親オブジェクト
@@ -344,7 +345,7 @@ public class TestEncount : MonoBehaviour
         }
 
         //階層データ保持クラスの検索と情報を格納
-        floorNoSys = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
+        floorNoSysScript = GameObject.Find("FloorNo").GetComponent<FloorNoSys>();
     }
 
     void InitHp()
@@ -363,7 +364,7 @@ public class TestEncount : MonoBehaviour
         dhiaSlider.value = dhiaSlider.maxValue;
 
         //フロアが1階の時
-        if (floorNoSys.floorCo == 1)
+        if (floorNoSysScript.floorCo == 1)
         {
             //MaxのHPを現在のHPに格納
             ririSlider.value = ririSlider.maxValue;
@@ -376,11 +377,11 @@ public class TestEncount : MonoBehaviour
             ririSlider.value = ririSlider.maxValue * (ririScript.hp / ririScript.maxhp);
             dhiaSlider.value = dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp);
         }
-        if (floorNoSys.floorCo % 5 == 0 && floorNoSys.floorCo != 0)
+        if (floorNoSysScript.floorCo % 5 == 0 && floorNoSysScript.floorCo != 0)
         {
             restFlag = true;
         }
-        if (floorNoSys.floorCo % 10 == 0)
+        if (floorNoSysScript.floorCo % 10 == 0)
         {
             bossFlag = true;
         }
@@ -499,7 +500,12 @@ public class TestEncount : MonoBehaviour
                 EndRun();
                 break;
         }
-        
+
+        HpCheck();
+    }
+
+    void HpCheck()
+    {
         //リリーのHPが削られた時
         if (ririhpdf > ririScript.hp)
         {
@@ -514,7 +520,7 @@ public class TestEncount : MonoBehaviour
 
             ririSlider.value -= ((ririSlider.maxValue * (ririScript.hp / ririScript.maxhp)) * Time.deltaTime) * hpLowSpeed;
 
-            if(ririSlider.value <= ririScript.hp)
+            if (ririSlider.value <= ririScript.hp)
             {
                 ririhpdf = ririScript.hp;
                 ririSlider.value = ririScript.hp;
@@ -535,7 +541,7 @@ public class TestEncount : MonoBehaviour
 
             dhiaSlider.value -= ((dhiaSlider.maxValue * (dhiaScript.hp / dhiaScript.maxhp)) * Time.deltaTime) * hpLowSpeed;
 
-            if(dhiaSlider.value <= dhiaScript.hp)
+            if (dhiaSlider.value <= dhiaScript.hp)
             {
                 dhiahpdf = dhiaScript.hp;
                 dhiaSlider.value = dhiaScript.hp;
@@ -596,13 +602,13 @@ public class TestEncount : MonoBehaviour
         }
     }
 
-    int dhiaSlectNomber = 0;
+    int dhiaSlectNumber = 0;
     public void DhiaAtkDefSlect(int number)
     {
         if (!button)
         {
             button = true;
-            dhiaSlectNomber = number;
+            dhiaSlectNumber = number;
         }
     }
 
@@ -676,6 +682,9 @@ public class TestEncount : MonoBehaviour
         //ステータスの切り替え
         mainTurn = MainTurn.RIRIMOVE;
     }
+
+    float rirMoveiTimer = 0;
+
     void RiriMove()
     {
         //リリー死亡時ゲームオーバー
@@ -687,7 +696,7 @@ public class TestEncount : MonoBehaviour
         //ボタンが押されるで待機
         if (command1 || command2 || command3)
         {
-            timer += Time.deltaTime;
+            rirMoveiTimer += Time.deltaTime;
 
             //ボタンの多段押し防止
             if (!coLock)
@@ -730,7 +739,7 @@ public class TestEncount : MonoBehaviour
         }
     }
 
-    float ririTimer = 0;
+    public float ririAnimTimer = 0f;
     void RiriAnimMove()
     {
         if (!fast)
@@ -743,12 +752,12 @@ public class TestEncount : MonoBehaviour
         enemyFloorRunSysObj.commandWin.SetActive(false);
 
         //タイマー開始
-        timer += Time.deltaTime;
+        ririAnimTimer += Time.deltaTime;
 
         //待機時間を超えて敵が生きている時
-        if (timer >= waitTime && !enemyDeath)
+        if (ririAnimTimer >= waitTime && !enemyDeath)
         {
-            timer = 0;
+            ririAnimTimer = 0;
 
             button = false;
             coLock = false;
@@ -852,7 +861,7 @@ public class TestEncount : MonoBehaviour
         if (button)
         {
             //アタックスキルを選択
-            if (dhiaSlectNomber == 0)
+            if (dhiaSlectNumber == 0)
             {
                 command1Text.text = dhiaScript.atkSkillName[0];
                 command2Text.text = dhiaScript.atkSkillName[1];
@@ -861,7 +870,7 @@ public class TestEncount : MonoBehaviour
                 dhiaScript.atkDefSlect = Dhia.AtkDefSlect.ATK;
             }
             //ディフェンススキルを選択
-            if (dhiaSlectNomber == 1)
+            if (dhiaSlectNumber == 1)
             {
                 command1Text.text = dhiaScript.defSkillName[0];
                 command2Text.text = dhiaScript.defSkillName[1];
@@ -900,7 +909,7 @@ public class TestEncount : MonoBehaviour
                 {
                     dhiaScript.Skil1();
                     //攻撃選択時は対象を選ばせる
-                    if (dhiaSlectNomber == 0)
+                    if (dhiaSlectNumber == 0)
                     {
                         if (numberRnd != 1)
                         {
@@ -909,7 +918,7 @@ public class TestEncount : MonoBehaviour
                         }
                     }
                     //防御時は対象を選ばせない
-                    if(dhiaSlectNomber == 1)
+                    if(dhiaSlectNumber == 1)
                     {
                         //ステータスを変更
                         mainTurn = MainTurn.DHIAANIM;   
@@ -920,7 +929,7 @@ public class TestEncount : MonoBehaviour
                 {
                     dhiaScript.Skil2();
                     //攻撃選択時は対象を選ばせる
-                    if (dhiaSlectNomber == 0)
+                    if (dhiaSlectNumber == 0)
                     {
                         if (numberRnd != 1)
                         {
@@ -929,7 +938,7 @@ public class TestEncount : MonoBehaviour
                         }
                     }
                     //防御時は対象を選ばせない
-                    if (dhiaSlectNomber == 1)
+                    if (dhiaSlectNumber == 1)
                     {
                         //ステータスを変更
                         mainTurn = MainTurn.DHIAANIM;
@@ -939,7 +948,7 @@ public class TestEncount : MonoBehaviour
                 {
                     dhiaScript.Skil3();
                     //攻撃選択時は対象を選ばせる
-                    if (dhiaSlectNomber == 0)
+                    if (dhiaSlectNumber == 0)
                     {
                         if (numberRnd != 1)
                         {
@@ -948,7 +957,7 @@ public class TestEncount : MonoBehaviour
                         }
                     }
                     //防御時は対象を選ばせない
-                    if (dhiaSlectNomber == 1)
+                    if (dhiaSlectNumber == 1)
                     {
                         //ステータスを変更
                         mainTurn = MainTurn.DHIAANIM;
@@ -966,52 +975,50 @@ public class TestEncount : MonoBehaviour
         }
     }
 
+    float endWaitTimer = 0f;
+    float dhiaAnimTimer = 0f;
     void DhiaAnimMove()
     {
         //アニメーションの時間
-        //敵の死亡チェック
+        //敵を倒したか確認
         if (enemyScript.deathFlag)
         {
             //タイマー開始
-            timer += Time.deltaTime;
+            endWaitTimer += Time.deltaTime;
 
-            if (timer >= 3)
+            if (endWaitTimer >= 3)
             {
                 mainTurn = MainTurn.ENDRUN;
-                timer = 0;
+                endWaitTimer = 0;
             }
         }
-        //DEFの値補正値の反映
-        if (!fast)
+        else
         {
-            fast = true;
-        }
+            //コマンド非表示の処理
+            enemyFloorRunSysObj.commandMain.SetActive(false);
+            enemyFloorRunSysObj.commandWin.SetActive(false);
 
-        //コマンド非表示の処理
-        enemyFloorRunSysObj.commandMain.SetActive(false);
-        enemyFloorRunSysObj.commandWin.SetActive(false);
+            //タイマー開始
+            dhiaAnimTimer += Time.deltaTime;
 
-        //タイマー開始
-        timer += Time.deltaTime;
+            //待機時間を超えて敵が生きている時
+            if (dhiaAnimTimer >= waitTime && !enemyDeath)
+            {
+                dhiaAnimTimer = 0;
+                button = false;
+                coLock = false;
+                command1 = false;
+                command2 = false;
+                command3 = false;
 
-        //待機時間を超えて敵が生きている時
-        if (timer >= waitTime && !enemyDeath)
-        {
-            timer = 0;
-            button = false;
-            coLock = false;
-            command1 = false;
-            command2 = false;
-            command3 = false;
+                //ディアのステータス反映
+                dhiaScript.def -= dhiaScript.def - (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
 
-            //ディアのステータス反映
-            dhiaScript.def -= dhiaScript.def - (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
+                dhiaScript.def = (dhiaScript.def + (dhiaScript.def * (dhiaScript.defCorrectionValue / 100)));
 
-            dhiaScript.def = (dhiaScript.def + (dhiaScript.def * (dhiaScript.defCorrectionValue / 100)));
-
-
-            //ステータスを変更
-            mainTurn = MainTurn.DHIAEFFECT;
+                //ステータスを変更
+                mainTurn = MainTurn.DHIAEFFECT;
+            }
         }
     }
 
@@ -1054,16 +1061,17 @@ public class TestEncount : MonoBehaviour
         mainTurn = MainTurn.ENEMY1ANIM;
     }
 
+    float enemy1Timer = 0f;
     void Enemy1AnimMove()
     {
         //タイマー開始
-        timer += Time.deltaTime;
+        enemy1Timer += Time.deltaTime;
 
         //待機時間を超えたら
-        if (timer >= waitTime)
+        if (enemy1Timer >= waitTime)
         {
             coLock = false;
-            timer = 0;
+            enemy1Timer = 0;
 
             //ステータスを変更
             mainTurn = MainTurn.ENEMY1EFFECT;
@@ -1121,16 +1129,17 @@ public class TestEncount : MonoBehaviour
         mainTurn = MainTurn.ENEMY2ANIM;
     }
 
+    float enemy2Timer = 0f;
     void Enemy2AnimMove()
     {
         //タイマー開始
-        timer += Time.deltaTime;
+        enemy2Timer += Time.deltaTime;
 
         //待機時間を超えたら
-        if (timer >= waitTime)
+        if (enemy2Timer >= waitTime)
         {
             coLock = false;
-            timer = 0;
+            enemy2Timer = 0;
 
             //ステータスを変更
             mainTurn = MainTurn.ENEMY2EFFECT;
@@ -1184,7 +1193,7 @@ public class TestEncount : MonoBehaviour
                 }
                 break;
             case PartsMode.WAIT:
-                if (fastMove)
+                if (partFastMove)
                 {
                     //ドロップ装備の表示処理
                     slectText[0].text = equipmentManager.randomEquip[equipmentManager.rnd[0]].equipmentName;
@@ -1196,7 +1205,7 @@ public class TestEncount : MonoBehaviour
                     dropPartsSp[1].sprite = equipmentManager.randomEquip[equipmentManager.rnd[1]].sprite;
                     dropPartsSp[2].sprite = equipmentManager.randomEquip[equipmentManager.rnd[2]].sprite;
 
-                    fastMove = false;
+                    partFastMove = false;
                 }
                 partsSlectWin.SetActive(true);
 
