@@ -87,6 +87,8 @@ public class Dhia : MonoBehaviour
     [SerializeField]
     FloorNoSys floorNoSys = null;
 
+    //パラメーター
+    [Space(10),Header("パラメーター")]
     [NonSerialized]
     public float maxhp = 0;
     [NonSerialized]
@@ -95,16 +97,31 @@ public class Dhia : MonoBehaviour
     public float hp = 0;
     [NonSerialized]
     public float mp = 0;
-    [NonSerialized]
+    //攻撃力
+    //[NonSerialized]
     public int attack = 0;
+    [NonSerialized]
+    public int attackDefault = 0;
+    //攻撃の補正値用
+    public int atkCorrectionValue = 100;
+
+    //防御
     //[NonSerialized]
     public int def = 0;
+    //防御の初期値
+    public int defDefault = 0;
+
+    //威力
     [NonSerialized]
     public int power = 0;
 
     //防御の補正値用
     //[NonSerialized]
     public int defCorrectionValue = 100;
+
+    //命中率
+    public int hitRate = 100;
+
 
     float enemyDamage = 0;
 
@@ -122,7 +139,7 @@ public class Dhia : MonoBehaviour
 
     [Header("クラス参照")]
     [SerializeField]
-    Riri riri = null;
+    Riri ririScript = null;
 
     [SerializeField]
     TestEncount encountSys = null;
@@ -301,7 +318,7 @@ public class Dhia : MonoBehaviour
             if (rabbitSetCou >= 4)
             {
                 //リリーのHPを10%アップ
-                riri.maxhp = (riri.maxhp * 1.1f);
+                ririScript.maxhp = (ririScript.maxhp * 1.1f);
 
                 //自身のHPを10%アップ
                 maxhp = (maxhp * 1.1f);
@@ -343,7 +360,10 @@ public class Dhia : MonoBehaviour
 
         dhiaStatus.ATK += floorNoSys.dhiaAtk;
         dhiaStatus.DEF = floorNoSys.dhiaDef;
-}
+
+        defDefault = dhiaStatus.DEF;
+        attackDefault = dhiaStatus.ATK;
+    }
     void InitSkilName()
     {
         //攻撃スキル1の名前を変更
@@ -568,59 +588,65 @@ public class Dhia : MonoBehaviour
 
     public void Skill1Move(int enemyNumber)
     {
-        //ダメージの計算
-        enemyDamage = DamageCalculation(attack, encountSys.enemyScript.def[enemyNumber -1], power);
+        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
 
-        timerFlag = true;
-        dhiaAnim.SetBool("D_Attack", true);
-        enemySelectWin.SetActive(false);
-        encountSys.mainTurn = MainTurn.DHIAANIM;
+        //0から100の乱数を取得
+        float rnd = UnityEngine.Random.Range(0, 100);
 
-        //テキストの表示処理
-        damageTextObj[enemyNumber -1].SetActive(true);
-
-        if (encountSys.enemyScript.hp[0] <= 0)
+        //技命中
+        if (rnd <= hitRate)
         {
-            enemyNumber = 2;
-        }
-        if (encountSys.enemyScript.hp[1] <= 0)
-        {
-            enemyNumber = 1;
-        }
+            //ダメージの計算
+            enemyDamage = DamageCalculation(attack, encountSys.enemyScript.def[enemyNumber - 1], power);
 
-        //アニメーション用
-        //ウサギの時
-        if (encountSys.typeRnd[enemyNumber - 1] == 0)
-        {
-            rabbitScript[enemyNumber - 1].rabbitAnim.SetBool("Damage2", true);
-            rabbitScript[enemyNumber - 1].timerFlag = true;
-        }
-        //鳥の時
-        if (encountSys.typeRnd[enemyNumber - 1] == 1)
-        {
-            birdScript[enemyNumber - 1].birdAnim.SetBool("Eb_Damage2", true);
-            birdScript[enemyNumber - 1].timerFlag = true;
-        }
+            timerFlag = true;
+            dhiaAnim.SetBool("D_Attack", true);
+            enemySelectWin.SetActive(false);
+            encountSys.mainTurn = MainTurn.DHIAANIM;
 
-        //攻撃の処理
-        if (powerUpFlag)
-        {
-            encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage * 1.5f + "のダメージ!";
-            encountSys.enemyScript.hp[enemyNumber - 1] -= (enemyDamage * 1.5f);
+            //テキストの表示処理
+            damageTextObj[enemyNumber - 1].SetActive(true);
 
-            damageText[enemyNumber - 1].text = (enemyDamage * 1.5f).ToString();
+            if (encountSys.enemyScript.hp[0] <= 0)
+            {
+                enemyNumber = 2;
+            }
+            if (encountSys.enemyScript.hp[1] <= 0)
+            {
+                enemyNumber = 1;
+            }
 
-        powerUpFlag = false;
-        }
-        else
-        {
+            //アニメーション用
+            //ウサギの時
+            if (encountSys.typeRnd[enemyNumber - 1] == 0)
+            {
+                rabbitScript[enemyNumber - 1].rabbitAnim.SetBool("Damage2", true);
+                rabbitScript[enemyNumber - 1].timerFlag = true;
+            }
+            //鳥の時
+            if (encountSys.typeRnd[enemyNumber - 1] == 1)
+            {
+                birdScript[enemyNumber - 1].birdAnim.SetBool("Eb_Damage2", true);
+                birdScript[enemyNumber - 1].timerFlag = true;
+            }
+
+            //攻撃の処理
             encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage + "のダメージ!";
             encountSys.enemyScript.hp[enemyNumber - 1] -= enemyDamage;
 
             damageText[enemyNumber - 1].text = enemyDamage.ToString();
-        }
 
-        StartCoroutine("DamageInit");
+
+            StartCoroutine("DamageInit");
+        }
+        //技外し
+        else
+        {
+            Debug.Log("残念でした笑");
+
+            enemySelectWin.SetActive(false);
+            encountSys.mainTurn = MainTurn.DHIAANIM;
+        }
     }
 
     IEnumerator DamageInit()
@@ -761,7 +787,11 @@ public class Dhia : MonoBehaviour
     [Header("技の威力")]
     [SerializeField]
     [CustomLabel("殴りの威力")]
-    int hitPower = 0; 
+    int hitPower = 0;
+    [SerializeField]
+    [CustomLabel("殴りの命中率")]
+    int hitHitRate = 0;
+
     //殴る
     void HitSkill()
     {
@@ -771,15 +801,22 @@ public class Dhia : MonoBehaviour
             //威力
             power = hitPower;
 
+            //命中率
+            hitRate = hitHitRate;
+
             enemySelectWin.SetActive(true);
             commandButton.SetActive(false);
             button = true;
         }
     }
 
+    [Space(10)]
     [SerializeField]
     [CustomLabel("蹴りの威力")]
     int kickPower = 0;
+    [SerializeField]
+    [CustomLabel("蹴りの命中率")]
+    int kickHitRate = 0;
     //蹴る
     void KickSkill()
     {
@@ -788,6 +825,8 @@ public class Dhia : MonoBehaviour
         {
             //威力
             power = kickPower;
+            //命中率
+            hitRate = kickHitRate;
 
             enemySelectWin.SetActive(true);
             commandButton.SetActive(false);
@@ -795,9 +834,14 @@ public class Dhia : MonoBehaviour
         }
     }
 
+    [Space(10)]
     [SerializeField]
     [CustomLabel("シールドバッシュの威力")]
     int defatkPower = 0;
+    [SerializeField]
+    [CustomLabel("シールドバッシュの命中率")]
+    int defatkHitRate = 0;
+
     //シールドバッシュ
     void DefensiveAttack()
     {
@@ -805,7 +849,9 @@ public class Dhia : MonoBehaviour
         if (!button)
         {
             //威力
-            power = defatkPower;
+            power = def;
+            //命中率
+            hitRate = defatkHitRate;
 
             enemySelectWin.SetActive(true);
             commandButton.SetActive(false);
@@ -813,7 +859,7 @@ public class Dhia : MonoBehaviour
         }
     }
 
-    [Space(5)]
+    [Space(10)]
 
     [CustomLabel("お守りします！の防御補正(%)")]
     public int protectDef = 0;
@@ -821,7 +867,10 @@ public class Dhia : MonoBehaviour
     public int protectTurnInitial = 0;
     [NonSerialized]
     public int protectTurn = 0;
+    [NonSerialized]
+    int protectdefTurn = 0;
     //お守りします！の管理フラグ
+    [NonSerialized]
     public bool protectFlag = false;
     //お守りします！
     void ProtectYou()
@@ -840,14 +889,15 @@ public class Dhia : MonoBehaviour
         }
     }
 
-    [Space(5)]
+    [Space(10)]
     [CustomLabel("防御体制の防御補正(%)")]
     public int postureDef = 0;
     [CustomLabel("防御体制の効果継続ターン数")]
     public int postureTurnInitial = 0;
-    //[NonSerialized]
+    [NonSerialized]
     public int postureTurn = 0;
     //防御体制の管理フラグ
+    [NonSerialized]
     public bool postureFlag = false;
 
     //防御体制
@@ -868,15 +918,16 @@ public class Dhia : MonoBehaviour
         }
     }
 
-    [Space(5)]
+    [Space(10)]
     //防御補正値の初期値
-    [NonSerialized]
+    //[NonSerialized]
     public int ririProtectDef = 0;
     [CustomLabel("守るの効果継続ターン数")]
     public int ririProtectTurnInitial = 0;
     [NonSerialized]
     public int ririProtectTurn = 0;
     //守るの管理フラグ
+    [NonSerialized]
     public bool ririProtectFlag = false;
 
     //守る
@@ -886,8 +937,10 @@ public class Dhia : MonoBehaviour
         {
             //ターン数の初期化
             ririProtectTurn = ririProtectTurnInitial;
+
             //防御補正値の加算
-            defCorrectionValue += ririProtectDef;
+            ririScript.defCorrectionValue += ririProtectDef;
+
             //防御アニメーションの再生
             dhiaAnim.SetBool("D_Shield", true);
             //守るのフラグをtrueに
@@ -897,7 +950,7 @@ public class Dhia : MonoBehaviour
         }
     }
 
-    [Space(5)]
+    [Space(10)]
     [SerializeField]
     [CustomLabel("切るの威力")]
     int cutPower = 0;
@@ -916,6 +969,7 @@ public class Dhia : MonoBehaviour
         }
     }
 
+    [Space(10)]
     [SerializeField]
     [CustomLabel("撃つの威力")]
     int destroyPower = 0;
@@ -934,6 +988,7 @@ public class Dhia : MonoBehaviour
         }
     }
 
+    [Space(10)]
     [SerializeField]
     [CustomLabel("切り裂くの威力")]
     int cutUpPower = 0;
@@ -952,6 +1007,7 @@ public class Dhia : MonoBehaviour
         }
     }
 
+    [Space(10)]
     [SerializeField]
     [CustomLabel("乱射の威力")]
     int blindlyPower = 0;

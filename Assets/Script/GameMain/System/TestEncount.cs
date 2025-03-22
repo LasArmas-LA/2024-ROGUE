@@ -665,14 +665,27 @@ public class TestEncount : MonoBehaviour
             ririScript.BecomeWeakSlect(100);
         }
 
-        //守ってあげる！のターン経過処理
-        if (ririScript.prtectFlag)
+        //頑張って！のターン経過処理
+        if (ririScript.keepItUpFlag)
         {
-            ririScript.prtectTurn--;
-            if (ririScript.prtectTurn == 0)
+            ririScript.keepItUpTurn--;
+            if (ririScript.keepItUpTurn == 0)
             {
-                ririScript.prtectFlag = false;
-                dhiaScript.defCorrectionValue = (int)(dhiaScript.defCorrectionValue - (dhiaScript.defCorrectionValue * 0.1f));
+                ririScript.keepItUpFlag = false;
+                dhiaScript.atkCorrectionValue -= ririScript.keepItUpValue;
+            }
+        }
+        //守ってあげる！のターン経過処理
+        if (ririScript.protectFlag)
+        {
+            ririScript.protectTurn--;
+            if (ririScript.protectTurn == 0)
+            {
+                ririScript.protectFlag = false;
+                //リリーの減算
+                ririScript.defCorrectionValue -= ririScript.protectValue;
+                //ディアの減算
+                dhiaScript.defCorrectionValue -= ririScript.protectValue;
             }
         }
 
@@ -802,10 +815,15 @@ public class TestEncount : MonoBehaviour
         enemyScript.enemyHpDef[0] = enemyScript.hp[0];
         enemyScript.enemyHpDef[1] = enemyScript.hp[1];
 
+
+
         //防御スキルの初期化処理
         //お守りします！
         if (dhiaScript.protectFlag)
         {
+            //ディアの補正値の代入
+            dhiaScript.def -= (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
+
             dhiaScript.protectTurn--;
             if (dhiaScript.protectTurn <= 0)
             {
@@ -832,9 +850,12 @@ public class TestEncount : MonoBehaviour
             dhiaScript.ririProtectTurn--;
             if (dhiaScript.ririProtectTurn <= 0)
             {
+                //リリーの補正値の代入
+                //ririScript.def -= (ririScript.def * (ririScript.defCorrectionValue / 100));
+
                 dhiaScript.ririDefenseFlag = false;
                 //防御補正値を減算
-                dhiaScript.defCorrectionValue -= dhiaScript.ririProtectDef;
+                ririScript.defCorrectionValue -= dhiaScript.ririProtectDef;
             }
         }
 
@@ -842,9 +863,6 @@ public class TestEncount : MonoBehaviour
         {
             dhiaScript.defCorrectionValue = 100;
         }
-        //ディアの補正値の代入
-        //dhiaScript.def = (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
-
 
         dhiaScript.powerUpFlag = false;
 
@@ -852,6 +870,22 @@ public class TestEncount : MonoBehaviour
         dhiahpdf = dhiaScript.hp;
 
         ririScript.button = false;
+
+        //リリーのステータスをデフォルト値に初期化
+        ririScript.def = ririScript.defaultDef;
+
+        ririScript.def = (ririScript.def * ririScript.defCorrectionValue) / 100;
+
+
+        //ディアのステータスをデフォルト値に初期化
+        dhiaScript.attack = dhiaScript.attackDefault;
+
+        dhiaScript.attack = (dhiaScript.attack * dhiaScript.atkCorrectionValue) / 100;
+
+        dhiaScript.def = dhiaScript.defDefault;
+
+        dhiaScript.def = (dhiaScript.def * dhiaScript.defCorrectionValue) / 100;
+
 
         mainTurn = MainTurn.DHIAATKDEFSLECT;
     }
@@ -1011,10 +1045,16 @@ public class TestEncount : MonoBehaviour
                 command2 = false;
                 command3 = false;
 
-                //ディアのステータス反映
-                dhiaScript.def -= dhiaScript.def - (dhiaScript.def * (dhiaScript.defCorrectionValue / 100));
+                //リリーのステータスをデフォルト値に初期化
+                ririScript.def = ririScript.defaultDef;
 
-                dhiaScript.def = (dhiaScript.def + (dhiaScript.def * (dhiaScript.defCorrectionValue / 100)));
+                ririScript.def = (ririScript.def * ririScript.defCorrectionValue) / 100;
+
+
+                //ディアのステータスをデフォルト値に初期化
+                dhiaScript.def = dhiaScript.defDefault;
+
+                dhiaScript.def = (dhiaScript.def  * dhiaScript.defCorrectionValue) / 100;
 
                 //ステータスを変更
                 mainTurn = MainTurn.DHIAEFFECT;

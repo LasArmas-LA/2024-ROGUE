@@ -50,16 +50,21 @@ public class Riri : MonoBehaviour
     public float mp = 0;
     [NonSerialized]
     public int power = 0;
-    [NonSerialized]
+    //[NonSerialized]
     public int def = 0;
-
+    [NonSerialized]
+    public int defaultDef = 0;
+    //防御補正値
+    public int defCorrectionValue = 100;
     [NonSerialized]
     public bool deathFlag = false;
 
+    //命中率
+    public int hitRate = 100;
 
     [Header("クラス参照")]
     [SerializeField]
-    Dhia dhia = null;
+    Dhia dhiaScript = null;
 
     [Space(10)]
 
@@ -117,10 +122,14 @@ public class Riri : MonoBehaviour
     }
     public void InitStatus()
     {
-        maxhp = ririStatus.MAXHP;
-        maxmp = ririStatus.MAXMP;
-        power = ririStatus.DEFATK;
-        def = ririStatus.DEFDEF;
+        //ステータスの初期化
+        maxhp      = ririStatus.MAXHP;
+        maxmp      = ririStatus.MAXMP;
+        power      = ririStatus.ATK;
+        def        = ririStatus.DEF;
+        defaultDef = def;
+
+        //サイズの初期化
         this.gameObject.transform.localScale = new Vector3(1, 1, 1);
 
         //デバッグ用
@@ -157,7 +166,7 @@ public class Riri : MonoBehaviour
                 atkSkillName[0] = "弱くなれ！";
                 break;
             case RiriAtkSkill1.Protect:
-                atkSkillName[0] = "守る";
+                atkSkillName[0] = "守ってあげる！";
                 break;
             case RiriAtkSkill1.DoNotMove:
                 atkSkillName[0] = "動かないで！";
@@ -174,7 +183,7 @@ public class Riri : MonoBehaviour
                 atkSkillName[1] = "弱くなれ！";
                 break;
             case RiriAtkSkill2.Protect:
-                atkSkillName[1] = "守る";
+                atkSkillName[1] = "守ってあげる！";
                 break;
             case RiriAtkSkill2.DoNotMove:
                 atkSkillName[1] = "動かないで！";
@@ -191,7 +200,7 @@ public class Riri : MonoBehaviour
                 atkSkillName[2] = "弱くなれ！";
                 break;
             case RiriAtkSkill3.Protect:
-                atkSkillName[2] = "守る";
+                atkSkillName[2] = "守ってあげる！";
                 break;
             case RiriAtkSkill3.DoNotMove:
                 atkSkillName[2] = "動かないで！";
@@ -354,6 +363,15 @@ public class Riri : MonoBehaviour
         }
     }
 
+    [CustomLabel("頑張って！の攻撃補正(%)")]
+    public int keepItUpValue = 0;
+    [CustomLabel("頑張って！の効果継続ターン数")]
+    public int keepItUpTurnInitial = 0;
+    [NonSerialized]
+    public int keepItUpTurn = 0;
+    //頑張って！の管理フラグ
+    public bool keepItUpFlag = false;
+
     //頑張って！
     void KeepItUp()
     {
@@ -361,8 +379,12 @@ public class Riri : MonoBehaviour
         timerFlag = true;
         ririAnim.SetBool("R_Skill", true);
 
-        encountSys.windowsMes.text = "リリーはバイキルトを唱えた！\nディアの攻撃力が上昇した!";
-        dhia.powerUpFlag = true;
+        //ターン数の初期化
+        keepItUpTurn = keepItUpTurnInitial;
+
+        dhiaScript.atkCorrectionValue += keepItUpValue;
+
+        keepItUpFlag = true;
 
         //ステータスを変更
         encountSys.mainTurn = TestEncount.MainTurn.RIRIANIM;
@@ -430,17 +452,27 @@ public class Riri : MonoBehaviour
         }
     }
 
-    int prtectTurnDef = 2;
-    public int prtectTurn = 0;
-    public bool prtectFlag = false;
+
+    [CustomLabel("守ってあげる！の攻撃補正(%)")]
+    public int protectValue = 0;
+    [CustomLabel("守ってあげる！の効果継続ターン数")]
+    public int protectTurnInitial = 0;
+    [NonSerialized]
+    public int protectTurn = 0;
+    //守ってあげる！の管理フラグ
+    public bool protectFlag = false;
 
     //守ってあげる！
     void Protect()
     {
         //ターンの代入
-        prtectTurn = prtectTurnDef;
-        prtectFlag = true;
-        dhia.defCorrectionValue = (int)(dhia.defCorrectionValue + (dhia.defCorrectionValue * 0.1f));
+        protectTurn = protectTurnInitial;
+        protectFlag = true;
+
+        //リリー
+        defCorrectionValue += protectValue;
+        //ディア
+        dhiaScript.defCorrectionValue += protectValue;
 
         //ステータスを変更
         encountSys.mainTurn = TestEncount.MainTurn.RIRIANIM;
