@@ -950,6 +950,13 @@ public class TestEncount : MonoBehaviour
                             //ステータスを変更
                             mainTurn = MainTurn.DHIAANIM;
                         }
+
+                        //ランダム攻撃がオンの時
+                        if(dhiaScript.rndAtk)
+                        {
+                            dhiaScript.Skill1Move(1);
+                            dhiaScript.rndAtk = false;
+                        }
                     }
                     //防御時は対象を選ばせない
                     if(dhiaSlectNumber == 1)
@@ -970,6 +977,13 @@ public class TestEncount : MonoBehaviour
                             //ステータスを変更
                             mainTurn = MainTurn.DHIAANIM;
                         }
+
+                        //ランダム攻撃がオンの時
+                        if (dhiaScript.rndAtk)
+                        {
+                            dhiaScript.Skill1Move(1);
+                            dhiaScript.rndAtk = false;
+                        }
                     }
                     //防御時は対象を選ばせない
                     if (dhiaSlectNumber == 1)
@@ -988,6 +1002,13 @@ public class TestEncount : MonoBehaviour
                         {
                             //ステータスを変更
                             mainTurn = MainTurn.DHIAANIM;
+                        }
+
+                        //ランダム攻撃がオンの時
+                        if (dhiaScript.rndAtk)
+                        {
+                            dhiaScript.Skill1Move(1);
+                            dhiaScript.rndAtk = false;
                         }
                     }
                     //防御時は対象を選ばせない

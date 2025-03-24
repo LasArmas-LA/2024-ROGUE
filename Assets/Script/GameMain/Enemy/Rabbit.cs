@@ -204,9 +204,6 @@ public class Rabbit : EnemyManager
     //ダメージ計算用
     int DamageCalculation(int attack,int defense)
     {
-        Debug.Log(attack);
-        Debug.Log(defense);
-
         //シード値の変更
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
 

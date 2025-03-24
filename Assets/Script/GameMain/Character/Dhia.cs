@@ -17,7 +17,17 @@ public class Dhia : MonoBehaviour
         CutSkil,
         Destroy,
         CutUp,
-        FiringBlindly
+        FiringBlindly,
+        FocusedShot,
+        ChoppingIntoChunks,
+        IaiCutting,
+        ArmourCrushing,
+        ReverseClipping,
+        RevolvingSlash,
+        MagicArrows,
+        MagicMissile,
+        LightningArrow,
+        LightningBolt
     }
     public enum DhiaAtkSkill2
     {
@@ -27,7 +37,17 @@ public class Dhia : MonoBehaviour
         CutSkil,
         Destroy,
         CutUp,
-        FiringBlindly
+        FiringBlindly,
+        FocusedShot,
+        ChoppingIntoChunks,
+        IaiCutting,
+        ArmourCrushing,
+        ReverseClipping,
+        RevolvingSlash,
+        MagicArrows,
+        MagicMissile,
+        LightningArrow,
+        LightningBolt
     }
     public enum DhiaAtkSkill3
     {
@@ -37,7 +57,17 @@ public class Dhia : MonoBehaviour
         CutSkil,
         Destroy,
         CutUp,
-        FiringBlindly
+        FiringBlindly,
+        FocusedShot,
+        ChoppingIntoChunks,
+        IaiCutting,
+        ArmourCrushing,
+        ReverseClipping,
+        RevolvingSlash,
+        MagicArrows,
+        MagicMissile,
+        LightningArrow,
+        LightningBolt
     }
     public enum DhiaDefSkill1
     {
@@ -379,16 +409,46 @@ public class Dhia : MonoBehaviour
                 atkSkillName[0] = "シールドバッシュ";
                 break;
             case DhiaAtkSkill1.CutSkil:
-                atkSkillName[0] = "切る";
+                atkSkillName[0] = "斬撃";
                 break;
             case DhiaAtkSkill1.Destroy:
-                atkSkillName[0] = "撃つ";
+                atkSkillName[0] = "射撃";
                 break;
             case DhiaAtkSkill1.CutUp:
                 atkSkillName[0] = "切り裂く";
                 break;
             case DhiaAtkSkill1.FiringBlindly:
                 atkSkillName[0] = "乱射";
+                break;
+            case DhiaAtkSkill1.FocusedShot:
+                atkSkillName[0] = "集中射撃";
+                break;
+            case DhiaAtkSkill1.ChoppingIntoChunks:
+                atkSkillName[0] = "乱切り";
+                break;
+            case DhiaAtkSkill1.IaiCutting:
+                atkSkillName[0] = "居合切り";
+                break;
+            case DhiaAtkSkill1.ArmourCrushing:
+                atkSkillName[0] = "鎧砕き";
+                break;
+            case DhiaAtkSkill1.ReverseClipping:
+                atkSkillName[0] = "逆刃斬り　";
+                break;
+            case DhiaAtkSkill1.RevolvingSlash:
+                atkSkillName[0] = "回転斬り";
+                break;
+            case DhiaAtkSkill1.MagicArrows:
+                atkSkillName[0] = "マジックアロー";
+                break;
+            case DhiaAtkSkill1.MagicMissile:
+                atkSkillName[0] = "マジックミサイル";
+                break;
+            case DhiaAtkSkill1.LightningArrow:
+                atkSkillName[0] = "ライトニングアロー";
+                break;
+            case DhiaAtkSkill1.LightningBolt:
+                atkSkillName[0] = "ライトニングボルト";
                 break;
         }
 
@@ -405,10 +465,10 @@ public class Dhia : MonoBehaviour
                 atkSkillName[1] = "シールドバッシュ";
                 break;
             case DhiaAtkSkill2.CutSkil:
-                atkSkillName[1] = "切る";
+                atkSkillName[1] = "斬撃";
                 break;
             case DhiaAtkSkill2.Destroy:
-                atkSkillName[1] = "撃つ";
+                atkSkillName[1] = "射撃";
                 break;
             case DhiaAtkSkill2.CutUp:
                 atkSkillName[1] = "切り裂く";
@@ -416,6 +476,37 @@ public class Dhia : MonoBehaviour
             case DhiaAtkSkill2.FiringBlindly:
                 atkSkillName[1] = "乱射";
                 break;
+            case DhiaAtkSkill2.FocusedShot:
+                atkSkillName[1] = "集中射撃";
+                break;
+            case DhiaAtkSkill2.ChoppingIntoChunks:
+                atkSkillName[1] = "乱切り";
+                break;
+            case DhiaAtkSkill2.IaiCutting:
+                atkSkillName[1] = "居合切り";
+                break;
+            case DhiaAtkSkill2.ArmourCrushing:
+                atkSkillName[1] = "鎧砕き";
+                break;
+            case DhiaAtkSkill2.ReverseClipping:
+                atkSkillName[1] = "逆刃斬り　";
+                break;
+            case DhiaAtkSkill2.RevolvingSlash:
+                atkSkillName[1] = "回転斬り";
+                break;
+            case DhiaAtkSkill2.MagicArrows:
+                atkSkillName[1] = "マジックアロー";
+                break;
+            case DhiaAtkSkill2.MagicMissile:
+                atkSkillName[1] = "マジックミサイル";
+                break;
+            case DhiaAtkSkill2.LightningArrow:
+                atkSkillName[1] = "ライトニングアロー";
+                break;
+            case DhiaAtkSkill2.LightningBolt:
+                atkSkillName[1] = "ライトニングボルト";
+                break;
+
         }
 
         //攻撃スキル3の名前を変更
@@ -431,16 +522,46 @@ public class Dhia : MonoBehaviour
                 atkSkillName[2] = "シールドバッシュ";
                 break;
             case DhiaAtkSkill3.CutSkil:
-                atkSkillName[2] = "切る";
+                atkSkillName[2] = "斬撃";
                 break;
             case DhiaAtkSkill3.Destroy:
-                atkSkillName[2] = "撃つ";
+                atkSkillName[2] = "撃斬";
                 break;
             case DhiaAtkSkill3.CutUp:
                 atkSkillName[2] = "切り裂く";
                 break;
             case DhiaAtkSkill3.FiringBlindly:
                 atkSkillName[2] = "乱射";
+                break;
+            case DhiaAtkSkill3.FocusedShot:
+                atkSkillName[2] = "集中射撃";
+                break;
+            case DhiaAtkSkill3.ChoppingIntoChunks:
+                atkSkillName[2] = "乱切り";
+                break;
+            case DhiaAtkSkill3.IaiCutting:
+                atkSkillName[2] = "居合切り";
+                break;
+            case DhiaAtkSkill3.ArmourCrushing:
+                atkSkillName[2] = "鎧砕き";
+                break;
+            case DhiaAtkSkill3.ReverseClipping:
+                atkSkillName[2] = "逆刃斬り　";
+                break;
+            case DhiaAtkSkill3.RevolvingSlash:
+                atkSkillName[2] = "回転斬り";
+                break;
+            case DhiaAtkSkill3.MagicArrows:
+                atkSkillName[2] = "マジックアロー";
+                break;
+            case DhiaAtkSkill3.MagicMissile:
+                atkSkillName[2] = "マジックミサイル";
+                break;
+            case DhiaAtkSkill3.LightningArrow:
+                atkSkillName[2] = "ライトニングアロー";
+                break;
+            case DhiaAtkSkill3.LightningBolt:
+                atkSkillName[2] = "ライトニングボルト";
                 break;
         }
 
@@ -559,6 +680,36 @@ public class Dhia : MonoBehaviour
                     case DhiaAtkSkill1.FiringBlindly:
                         FiringBlindly();
                         break;
+                    case DhiaAtkSkill1.FocusedShot:
+                        FocusedShot();
+                        break;
+                    case DhiaAtkSkill1.ChoppingIntoChunks:
+                        ChoppingIntoChunks();
+                        break;
+                    case DhiaAtkSkill1.IaiCutting:
+                        IaiCutting();
+                        break;
+                    case DhiaAtkSkill1.ArmourCrushing:
+                        ArmourCrushing();
+                        break;
+                    case DhiaAtkSkill1.ReverseClipping:
+                        ReverseClipping();
+                        break;
+                    case DhiaAtkSkill1.RevolvingSlash:
+                        RevolvingSlash();
+                        break;
+                    case DhiaAtkSkill1.MagicArrows:
+                        MagicArrows();
+                        break;
+                    case DhiaAtkSkill1.MagicMissile:
+                        MagicMissile();
+                        break;
+                    case DhiaAtkSkill1.LightningArrow:
+                        LightningArrow();
+                        break;
+                    case DhiaAtkSkill1.LightningBolt:
+                        LightningBolt();
+                        break;
                 }
                 break;
 
@@ -586,67 +737,88 @@ public class Dhia : MonoBehaviour
     [SerializeField]
     GameObject[] damageTextObj = null;
 
+    //攻撃回数
+    [SerializeField]
+    int attackFrequency = 1;
+    //ランダム攻撃のフラグ
+    public bool rndAtk = false;
+
     public void Skill1Move(int enemyNumber)
     {
-        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
-
-        //0から100の乱数を取得
-        float rnd = UnityEngine.Random.Range(0, 100);
-
-        //技命中
-        if (rnd <= hitRate)
+        for (int i = 1; i <= attackFrequency; i++)
         {
-            //ダメージの計算
-            enemyDamage = DamageCalculation(attack, encountSys.enemyScript.def[enemyNumber - 1], power);
+            UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
 
-            timerFlag = true;
-            dhiaAnim.SetBool("D_Attack", true);
-            enemySelectWin.SetActive(false);
-            encountSys.mainTurn = MainTurn.DHIAANIM;
-
-            //テキストの表示処理
-            damageTextObj[enemyNumber - 1].SetActive(true);
-
-            if (encountSys.enemyScript.hp[0] <= 0)
+            //ランダム攻撃の時
+            if (rndAtk) 
             {
-                enemyNumber = 2;
-            }
-            if (encountSys.enemyScript.hp[1] <= 0)
-            {
-                enemyNumber = 1;
+                int rndAttack = UnityEngine.Random.Range(1, 2);
+                enemyNumber = rndAttack;
             }
 
-            //アニメーション用
-            //ウサギの時
-            if (encountSys.typeRnd[enemyNumber - 1] == 0)
+            //0から100の乱数を取得
+            int rnd = UnityEngine.Random.Range(0, 100);
+
+            Debug.Log(rnd);
+
+            //技命中
+            if (rnd <= hitRate)
             {
-                rabbitScript[enemyNumber - 1].rabbitAnim.SetBool("Damage2", true);
-                rabbitScript[enemyNumber - 1].timerFlag = true;
+                //ダメージの計算
+                enemyDamage = DamageCalculation(attack, encountSys.enemyScript.def[enemyNumber - 1], power);
+
+                timerFlag = true;
+                dhiaAnim.SetBool("D_Attack", true);
+                enemySelectWin.SetActive(false);
+
+                //テキストの表示処理
+                damageTextObj[enemyNumber - 1].SetActive(true);
+
+                if (encountSys.enemyScript.hp[0] <= 0)
+                {
+                    enemyNumber = 2;
+                }
+                if (encountSys.enemyScript.hp[1] <= 0)
+                {
+                    enemyNumber = 1;
+                }
+
+                //アニメーション用
+                //ウサギの時
+                if (encountSys.typeRnd[enemyNumber - 1] == 0)
+                {
+                    rabbitScript[enemyNumber - 1].rabbitAnim.SetBool("Damage2", true);
+                    rabbitScript[enemyNumber - 1].timerFlag = true;
+                }
+                //鳥の時
+                if (encountSys.typeRnd[enemyNumber - 1] == 1)
+                {
+                    birdScript[enemyNumber - 1].birdAnim.SetBool("Eb_Damage2", true);
+                    birdScript[enemyNumber - 1].timerFlag = true;
+                }
+
+                //攻撃の処理
+                encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage + "のダメージ!";
+                encountSys.enemyScript.hp[enemyNumber - 1] -= enemyDamage;
+
+                damageText[enemyNumber - 1].text = enemyDamage.ToString();
+
+                Debug.Log(enemyDamage);
+
+
+                StartCoroutine("DamageInit");
             }
-            //鳥の時
-            if (encountSys.typeRnd[enemyNumber - 1] == 1)
+            //技外し
+            else
             {
-                birdScript[enemyNumber - 1].birdAnim.SetBool("Eb_Damage2", true);
-                birdScript[enemyNumber - 1].timerFlag = true;
+                Debug.Log("残念でした笑");
+
+                enemySelectWin.SetActive(false);
             }
-
-            //攻撃の処理
-            encountSys.windowsMes.text = "ディアのこうげき！" + enemyDamage + "のダメージ!";
-            encountSys.enemyScript.hp[enemyNumber - 1] -= enemyDamage;
-
-            damageText[enemyNumber - 1].text = enemyDamage.ToString();
-
-
-            StartCoroutine("DamageInit");
         }
-        //技外し
-        else
-        {
-            Debug.Log("残念でした笑");
+        encountSys.mainTurn = MainTurn.DHIAANIM;
 
-            enemySelectWin.SetActive(false);
-            encountSys.mainTurn = MainTurn.DHIAANIM;
-        }
+        attackFrequency = 1;
     }
 
     IEnumerator DamageInit()
@@ -690,6 +862,36 @@ public class Dhia : MonoBehaviour
                         break;
                     case DhiaAtkSkill2.FiringBlindly:
                         FiringBlindly();
+                        break;
+                    case DhiaAtkSkill2.FocusedShot:
+                        FocusedShot();
+                        break;
+                    case DhiaAtkSkill2.ChoppingIntoChunks:
+                        ChoppingIntoChunks();
+                        break;
+                    case DhiaAtkSkill2.IaiCutting:
+                        IaiCutting();
+                        break;
+                    case DhiaAtkSkill2.ArmourCrushing:
+                        ArmourCrushing();
+                        break;
+                    case DhiaAtkSkill2.ReverseClipping:
+                        ReverseClipping();
+                        break;
+                    case DhiaAtkSkill2.RevolvingSlash:
+                        RevolvingSlash();
+                        break;
+                    case DhiaAtkSkill2.MagicArrows:
+                        MagicArrows();
+                        break;
+                    case DhiaAtkSkill2.MagicMissile:
+                        MagicMissile();
+                        break;
+                    case DhiaAtkSkill2.LightningArrow:
+                        LightningArrow();
+                        break;
+                    case DhiaAtkSkill2.LightningBolt:
+                        LightningBolt();
                         break;
                 }
 
@@ -741,6 +943,36 @@ public class Dhia : MonoBehaviour
                         break;
                     case DhiaAtkSkill3.FiringBlindly:
                         FiringBlindly();
+                        break;
+                    case DhiaAtkSkill3.FocusedShot:
+                        FocusedShot();
+                        break;
+                    case DhiaAtkSkill3.ChoppingIntoChunks:
+                        ChoppingIntoChunks();
+                        break;
+                    case DhiaAtkSkill3.IaiCutting:
+                        IaiCutting();
+                        break;
+                    case DhiaAtkSkill3.ArmourCrushing:
+                        ArmourCrushing();
+                        break;
+                    case DhiaAtkSkill3.ReverseClipping:
+                        ReverseClipping();
+                        break;
+                    case DhiaAtkSkill3.RevolvingSlash:
+                        RevolvingSlash();
+                        break;
+                    case DhiaAtkSkill3.MagicArrows:
+                        MagicArrows();
+                        break;
+                    case DhiaAtkSkill3.MagicMissile:
+                        MagicMissile();
+                        break;
+                    case DhiaAtkSkill3.LightningArrow:
+                        LightningArrow();
+                        break;
+                    case DhiaAtkSkill3.LightningBolt:
+                        LightningBolt();
                         break;
                 }
 
@@ -952,8 +1184,11 @@ public class Dhia : MonoBehaviour
 
     [Space(10)]
     [SerializeField]
-    [CustomLabel("切るの威力")]
+    [CustomLabel("斬撃の威力")]
     int cutPower = 0;
+    [SerializeField]
+    [CustomLabel("斬撃の命中率")]
+    int cutHitRate = 0;
     //切る
     void CutSkil()
     {
@@ -963,6 +1198,9 @@ public class Dhia : MonoBehaviour
             //威力
             power = cutPower;
 
+            //命中率
+            hitRate = cutHitRate;
+
             enemySelectWin.SetActive(true);
             commandButton.SetActive(false);
             button = true;
@@ -971,8 +1209,12 @@ public class Dhia : MonoBehaviour
 
     [Space(10)]
     [SerializeField]
-    [CustomLabel("撃つの威力")]
+    [CustomLabel("射撃の威力")]
     int destroyPower = 0;
+    [SerializeField]
+    [CustomLabel("射撃の命中率")]
+    int destroyHitRate = 0;
+
     //撃つ
     void Destroy()
     {
@@ -981,6 +1223,8 @@ public class Dhia : MonoBehaviour
         {
             //威力
             power = destroyPower;
+            //命中率
+            hitRate = destroyHitRate;
 
             enemySelectWin.SetActive(true);
             commandButton.SetActive(false);
@@ -992,6 +1236,10 @@ public class Dhia : MonoBehaviour
     [SerializeField]
     [CustomLabel("切り裂くの威力")]
     int cutUpPower = 0;
+    [SerializeField]
+    [CustomLabel("切り裂くの命中率")]
+    int cutUpPowerHitRate = 0;
+
     //切り裂く
     void CutUp()
     {
@@ -1000,6 +1248,8 @@ public class Dhia : MonoBehaviour
         {
             //威力
             power = cutUpPower;
+            //命中率
+            hitRate = cutUpPowerHitRate;
 
             enemySelectWin.SetActive(true);
             commandButton.SetActive(false);
@@ -1011,14 +1261,290 @@ public class Dhia : MonoBehaviour
     [SerializeField]
     [CustomLabel("乱射の威力")]
     int blindlyPower = 0;
+    [SerializeField]
+    [CustomLabel("乱射の命中率")]
+    int blindlyHitRate = 0;
+    [SerializeField]
+    [CustomLabel("乱射の攻撃回数")]
+    int blindlyAtkFrequency = 0;
+
     //乱射
     void FiringBlindly()
     {
         //敵の選択ウィンドウ表示
         if (!button)
         {
+            //攻撃回数
+            attackFrequency = blindlyAtkFrequency;
+            //ランダム攻撃フラグをオン
+            rndAtk = true;
+
             //威力
             power = blindlyPower;
+            //命中率
+            hitRate = blindlyHitRate;
+
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
+    }
+
+
+    [Space(10)]
+    [SerializeField]
+    [CustomLabel("集中射撃の威力")]
+    int focusedShotPower = 0;
+    [SerializeField]
+    [CustomLabel("集中射撃の命中率")]
+    int focusedShotHitRate = 0;
+
+    //集中射撃
+    void FocusedShot()
+    {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            //威力
+            power = focusedShotPower;
+            //命中率
+            hitRate = focusedShotHitRate;
+
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
+    }
+
+    [Space(10)]
+    [SerializeField]
+    [CustomLabel("乱切りの威力")]
+    int choppingIntoChunksPower = 0;
+    [SerializeField]
+    [CustomLabel("乱切りの命中率")]
+    int choppingIntoChunksHitRate = 0;
+    [SerializeField]
+    [CustomLabel("乱射の攻撃回数")]
+    int choppingIntoChunksFrequency = 0;
+
+    //乱切り
+    void ChoppingIntoChunks()
+    {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            //攻撃回数
+            attackFrequency = choppingIntoChunksFrequency;
+            //ランダム攻撃フラグをオン
+            rndAtk = true;
+
+            //威力
+            power = choppingIntoChunksPower;
+            //命中率
+            hitRate = choppingIntoChunksHitRate;
+
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
+    }
+
+    [Space(10)]
+    [SerializeField]
+    [CustomLabel("居合切りの威力")]
+    int iaiCuttingPower = 0;
+    [SerializeField]
+    [CustomLabel("居合切りの命中率")]
+    int iaiCuttingHitRate = 0;
+
+    //居合切り
+    void IaiCutting()
+    {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            //威力
+            power = iaiCuttingPower;
+            //命中率
+            hitRate = iaiCuttingHitRate;
+
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
+    }
+
+    [Space(10)]
+    [SerializeField]
+    [CustomLabel("鎧砕きの威力")]
+    int armourCrushingPower = 0;
+    [SerializeField]
+    [CustomLabel("鎧砕きの命中率")]
+    int armourCrushingHitRate = 0;
+
+    //鎧砕き
+    void ArmourCrushing()
+    {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            //威力
+            power = armourCrushingPower;
+            //命中率
+            hitRate = armourCrushingHitRate;
+
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
+    }
+
+    [Space(10)]
+    [SerializeField]
+    [CustomLabel("逆刃斬りの威力")]
+    int reverseClippingPower = 0;
+    [SerializeField]
+    [CustomLabel("逆刃斬りの命中率")]
+    int reverseClippingHitRate = 0;
+
+    //逆刃斬り　
+    void ReverseClipping()
+    {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            //威力
+            power = reverseClippingPower;
+            //命中率
+            hitRate = reverseClippingHitRate;
+
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
+    }
+
+
+    [Space(10)]
+    [SerializeField]
+    [CustomLabel("回転斬りの威力")]
+    int revolvingSlashPower = 0;
+    [SerializeField]
+    [CustomLabel("回転斬りの命中率")]
+    int revolvingSlashHitRate = 0;
+
+    //回転斬り
+    void RevolvingSlash()
+    {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            //威力
+            power = revolvingSlashPower;
+            //命中率
+            hitRate = revolvingSlashHitRate;
+
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
+    }
+
+    [Space(10)]
+    [SerializeField]
+    [CustomLabel("マジックアローの威力")]
+    int magicArrowsPower = 0;
+    [SerializeField]
+    [CustomLabel("マジックアローの命中率")]
+    int magicArrowsHitRate = 0;
+
+    //マジックアロー
+    void MagicArrows()
+    {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            //威力
+            power = magicArrowsPower;
+            //命中率
+            hitRate = magicArrowsHitRate;
+
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
+    }
+
+
+    [Space(10)]
+    [SerializeField]
+    [CustomLabel("集中射撃の威力")]
+    int magicMissilePower = 0;
+    [SerializeField]
+    [CustomLabel("集中射撃の命中率")]
+    int magicMissileHitRate = 0;
+
+    //マジックミサイル
+    void MagicMissile()
+    {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            //威力
+            power = magicMissilePower;
+            //命中率
+            hitRate = magicMissileHitRate;
+
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
+    }
+
+
+    [Space(10)]
+    [SerializeField]
+    [CustomLabel("ライトニングアローの威力")]
+    int lightningArrowPower = 0;
+    [SerializeField]
+    [CustomLabel("ライトニングアローの命中率")]
+    int lightningArrowHitRate = 0;
+
+    //ライトニングアロー
+    void LightningArrow()
+    {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            //威力
+            power = lightningArrowPower;
+            //命中率
+            hitRate = lightningArrowHitRate;
+
+            enemySelectWin.SetActive(true);
+            commandButton.SetActive(false);
+            button = true;
+        }
+    }
+
+    [Space(10)]
+    [SerializeField]
+    [CustomLabel("ライトニングボルトの威力")]
+    int lightningBoltPower = 0;
+    [SerializeField]
+    [CustomLabel("ライトニングボルトの命中率")]
+    int lightningBoltHitRate = 0;
+
+    //ライトニングボルト
+    void LightningBolt()
+    {
+        //敵の選択ウィンドウ表示
+        if (!button)
+        {
+            //威力
+            power = lightningBoltPower;
+            //命中率
+            hitRate = lightningBoltHitRate;
 
             enemySelectWin.SetActive(true);
             commandButton.SetActive(false);

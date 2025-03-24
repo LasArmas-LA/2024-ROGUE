@@ -202,14 +202,12 @@ public class EnemyManager : MonoBehaviour
             //ˆê‹C‚Éí‚Á‚Ä’l‚ª0ˆÈ‰º‚É‚È‚Á‚½‚Ìˆ—
             if (hp[1] <= 0)
             {
-                Debug.Log("“G2‚ğUŒ‚‚µ‚½I1");
 
                 hp[1] = 0;
                 enemySlider[1].value -= (maxhp[1] * Time.deltaTime);
             }
             else
             {
-                Debug.Log("“G2‚ğUŒ‚‚µ‚½I2");
 
                 enemySlider[1].value -= ((enemySlider[1].maxValue * (hp[1] / maxhp[1])) * Time.deltaTime) * hpLowSpeed;
 
