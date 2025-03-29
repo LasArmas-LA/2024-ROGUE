@@ -1033,6 +1033,21 @@ public class TestEncount : MonoBehaviour
                     //ステータスを変更
                     mainTurn = MainTurn.DHIAANIM;
                 }
+                //ディア単体
+                if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaAtk[0]].charSlectType == DefenseSkillStatus.eCharSlectType._DHIA)
+                {
+                    //3つのコマンドボタンのアクティブ消し
+                    dhiaScript.commandButton.SetActive(false);
+
+                    //防御バフ
+                    if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaDef[0]].correctionType == DhiaSkillList.DefenseSkillStatus.eCorrectionType._DEF)
+                    {
+                        dhiaScript.defCorrectionValue += dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaDef[0]].correctionValue;
+                    }
+
+                    //ステータスを変更
+                    mainTurn = MainTurn.DHIAANIM;
+                }
                 //敵
                 if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaAtk[0]].charSlectType == DefenseSkillStatus.eCharSlectType._ALLENEMY)
                 {
