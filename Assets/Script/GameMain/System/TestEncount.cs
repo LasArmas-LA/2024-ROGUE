@@ -1063,85 +1063,224 @@ public class TestEncount : MonoBehaviour
         }
         if (command2 && !coLock)
         {
-            //計算に必要な数値の代入
-            dhiaScript.power = dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[1]].power;
-            dhiaScript.hitRate = dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[1]].hitRate;
-
-
-            //対象を選ばせる(単体)
-            //味方
-            if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[1]].charSlectType == AtackSkillStatus.eCharSlectType._PICKCHARA)
+            //攻撃スキルの時
+            if (dhiaScript.atkDefSlect == AtkDefSlect.ATK)
             {
-                //3つのコマンドボタンのアクティブ消し
-                dhiaScript.commandButton.SetActive(false);
 
-                ririScript.ririEnemySlectWin.SetActive(true);
+                //計算に必要な数値の代入
+                dhiaScript.power = dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[1]].power;
+                dhiaScript.hitRate = dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[1]].hitRate;
+
+
+                //対象を選ばせる(単体)
+                //味方
+                if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[1]].charSlectType == AtackSkillStatus.eCharSlectType._PICKCHARA)
+                {
+                    //3つのコマンドボタンのアクティブ消し
+                    dhiaScript.commandButton.SetActive(false);
+
+                    ririScript.ririEnemySlectWin.SetActive(true);
+                }
+                //敵
+                if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[1]].charSlectType == AtackSkillStatus.eCharSlectType._PICKENEMY)
+                {
+                    //3つのコマンドボタンのアクティブ消し
+                    dhiaScript.commandButton.SetActive(false);
+
+                    dhiaScript.enemySelectWin.SetActive(true);
+                }
+
+                //対象を選ばせない(全体)
+                //味方
+                if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[1]].charSlectType == AtackSkillStatus.eCharSlectType._ALLCHARA)
+                {
+                    //ステータスを変更
+                    mainTurn = MainTurn.DHIAANIM;
+                }
+                //敵
+                if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[1]].charSlectType == AtackSkillStatus.eCharSlectType._ALLENEMY)
+                {
+                    //ステータスを変更
+                    mainTurn = MainTurn.DHIAANIM;
+                }
+
+                //多重押し制限
+                coLock = true;
+
+                commandNo = 2;
             }
-            //敵
-            if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[1]].charSlectType == AtackSkillStatus.eCharSlectType._PICKENEMY)
+            //防御スキルの時
+            if (dhiaScript.atkDefSlect == AtkDefSlect.DEF)
             {
-                //3つのコマンドボタンのアクティブ消し
-                dhiaScript.commandButton.SetActive(false);
+                //対象を選ばせる(単体)
+                //味方
+                if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaAtk[1]].charSlectType == DefenseSkillStatus.eCharSlectType._PICKCHARA)
+                {
+                    //3つのコマンドボタンのアクティブ消し
+                    dhiaScript.commandButton.SetActive(false);
 
-                dhiaScript.enemySelectWin.SetActive(true);
+                }
+                //敵
+                if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaAtk[1]].charSlectType == DefenseSkillStatus.eCharSlectType._PICKENEMY)
+                {
+                    //3つのコマンドボタンのアクティブ消し
+                    dhiaScript.commandButton.SetActive(false);
+
+                    dhiaScript.enemySelectWin.SetActive(true);
+                }
+
+                //対象を選ばせない(全体)
+                //味方
+                if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaAtk[1]].charSlectType == DefenseSkillStatus.eCharSlectType._ALLCHARA)
+                {
+                    //ステータスを変更
+                    mainTurn = MainTurn.DHIAANIM;
+                }
+                //リリー単体
+                if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaAtk[1]].charSlectType == DefenseSkillStatus.eCharSlectType._RIRI)
+                {
+                    //3つのコマンドボタンのアクティブ消し
+                    dhiaScript.commandButton.SetActive(false);
+
+                    //防御バフ
+                    if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaDef[1]].correctionType == DhiaSkillList.DefenseSkillStatus.eCorrectionType._DEF)
+                    {
+                        ririScript.defCorrectionValue += dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaDef[1]].correctionValue;
+                    }
+
+                    //ステータスを変更
+                    mainTurn = MainTurn.DHIAANIM;
+                }
+                //ディア単体
+                if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaAtk[1]].charSlectType == DefenseSkillStatus.eCharSlectType._DHIA)
+                {
+                    //3つのコマンドボタンのアクティブ消し
+                    dhiaScript.commandButton.SetActive(false);
+
+                    //防御バフ
+                    if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaDef[1]].correctionType == DhiaSkillList.DefenseSkillStatus.eCorrectionType._DEF)
+                    {
+                        dhiaScript.defCorrectionValue += dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaDef[1]].correctionValue;
+                    }
+
+                    //ステータスを変更
+                    mainTurn = MainTurn.DHIAANIM;
+                }
+                //敵
+                if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaAtk[1]].charSlectType == DefenseSkillStatus.eCharSlectType._ALLENEMY)
+                {
+                    //ステータスを変更
+                    mainTurn = MainTurn.DHIAANIM;
+                }
             }
 
-            //対象を選ばせない(全体)
-            //味方
-            if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[1]].charSlectType == AtackSkillStatus.eCharSlectType._ALLCHARA)
-            {
-                //ステータスを変更
-                mainTurn = MainTurn.DHIAANIM;
-            }
-            //敵
-            if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[1]].charSlectType == AtackSkillStatus.eCharSlectType._ALLENEMY)
-            {
-                //ステータスを変更
-                mainTurn = MainTurn.DHIAANIM;
-            }
-
-            //多重押し制限
-            coLock = true;
-
-            commandNo = 2;
         }
         if (command3 && !coLock)
         {
-            //計算に必要な数値の代入
-            dhiaScript.power = dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[2]].power;
-            dhiaScript.hitRate = dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[2]].hitRate;
 
-
-            //対象を選ばせる(単体)
-            //味方
-            if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[2]].charSlectType == AtackSkillStatus.eCharSlectType._PICKCHARA)
+            //攻撃スキルの時
+            if (dhiaScript.atkDefSlect == AtkDefSlect.ATK)
             {
-                //3つのコマンドボタンのアクティブ消し
-                dhiaScript.commandButton.SetActive(false);
+                //計算に必要な数値の代入
+                dhiaScript.power = dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[2]].power;
+                dhiaScript.hitRate = dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[2]].hitRate;
 
-                ririScript.ririEnemySlectWin.SetActive(true);
+
+                //対象を選ばせる(単体)
+                //味方
+                if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[2]].charSlectType == AtackSkillStatus.eCharSlectType._PICKCHARA)
+                {
+                    //3つのコマンドボタンのアクティブ消し
+                    dhiaScript.commandButton.SetActive(false);
+
+                    ririScript.ririEnemySlectWin.SetActive(true);
+                }
+                //敵
+                if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[2]].charSlectType == AtackSkillStatus.eCharSlectType._PICKENEMY)
+                {
+                    //3つのコマンドボタンのアクティブ消し
+                    dhiaScript.commandButton.SetActive(false);
+
+                    dhiaScript.enemySelectWin.SetActive(true);
+                }
+
+                //対象を選ばせない(全体)
+                //味方
+                if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[2]].charSlectType == AtackSkillStatus.eCharSlectType._ALLCHARA)
+                {
+                    //ステータスを変更
+                    mainTurn = MainTurn.DHIAANIM;
+                }
+                //敵
+                if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[2]].charSlectType == AtackSkillStatus.eCharSlectType._ALLENEMY)
+                {
+                    //ステータスを変更
+                    mainTurn = MainTurn.DHIAANIM;
+                }
             }
-            //敵
-            if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[2]].charSlectType == AtackSkillStatus.eCharSlectType._PICKENEMY)
+            //防御スキルの時
+            if (dhiaScript.atkDefSlect == AtkDefSlect.DEF)
             {
-                //3つのコマンドボタンのアクティブ消し
-                dhiaScript.commandButton.SetActive(false);
+                //対象を選ばせる(単体)
+                //味方
+                if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaAtk[2]].charSlectType == DefenseSkillStatus.eCharSlectType._PICKCHARA)
+                {
+                    //3つのコマンドボタンのアクティブ消し
+                    dhiaScript.commandButton.SetActive(false);
 
-                dhiaScript.enemySelectWin.SetActive(true);
-            }
+                }
+                //敵
+                if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaAtk[2]].charSlectType == DefenseSkillStatus.eCharSlectType._PICKENEMY)
+                {
+                    //3つのコマンドボタンのアクティブ消し
+                    dhiaScript.commandButton.SetActive(false);
 
-            //対象を選ばせない(全体)
-            //味方
-            if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[2]].charSlectType == AtackSkillStatus.eCharSlectType._ALLCHARA)
-            {
-                //ステータスを変更
-                mainTurn = MainTurn.DHIAANIM;
-            }
-            //敵
-            if (dhiaSkillList.atkSkillList[floorNoSysScript.skillNoDhiaAtk[2]].charSlectType == AtackSkillStatus.eCharSlectType._ALLENEMY)
-            {
-                //ステータスを変更
-                mainTurn = MainTurn.DHIAANIM;
+                    dhiaScript.enemySelectWin.SetActive(true);
+                }
+
+                //対象を選ばせない(全体)
+                //味方
+                if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaAtk[2]].charSlectType == DefenseSkillStatus.eCharSlectType._ALLCHARA)
+                {
+                    //ステータスを変更
+                    mainTurn = MainTurn.DHIAANIM;
+                }
+                //リリー単体
+                if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaAtk[2]].charSlectType == DefenseSkillStatus.eCharSlectType._RIRI)
+                {
+                    //3つのコマンドボタンのアクティブ消し
+                    dhiaScript.commandButton.SetActive(false);
+
+                    //防御バフ
+                    if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaDef[2]].correctionType == DhiaSkillList.DefenseSkillStatus.eCorrectionType._DEF)
+                    {
+                        ririScript.defCorrectionValue += dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaDef[2]].correctionValue;
+                    }
+
+                    //ステータスを変更
+                    mainTurn = MainTurn.DHIAANIM;
+                }
+                //ディア単体
+                if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaAtk[2]].charSlectType == DefenseSkillStatus.eCharSlectType._DHIA)
+                {
+                    //3つのコマンドボタンのアクティブ消し
+                    dhiaScript.commandButton.SetActive(false);
+
+                    //防御バフ
+                    if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaDef[2]].correctionType == DhiaSkillList.DefenseSkillStatus.eCorrectionType._DEF)
+                    {
+                        dhiaScript.defCorrectionValue += dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaDef[2]].correctionValue;
+                    }
+
+                    //ステータスを変更
+                    mainTurn = MainTurn.DHIAANIM;
+                }
+                //敵
+                if (dhiaSkillList.defSkillList[floorNoSysScript.skillNoDhiaAtk[2]].charSlectType == DefenseSkillStatus.eCharSlectType._ALLENEMY)
+                {
+                    //ステータスを変更
+                    mainTurn = MainTurn.DHIAANIM;
+                }
             }
 
             //多重押し制限
@@ -1151,7 +1290,7 @@ public class TestEncount : MonoBehaviour
         }
     }
 
-    float endWaitTimer = 0f;
+        float endWaitTimer = 0f;
     float dhiaAnimTimer = 0f;
     void DhiaAnimMove()
     {
