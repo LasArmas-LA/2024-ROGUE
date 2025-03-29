@@ -27,6 +27,22 @@ public class FloorNoSys : MonoBehaviour
     [SerializeField]
     Status dhiaStatus = null;
 
+    //リリーのスキル管理用
+    public int[] skillNoRiri;
+
+    //ディアのスキル管理用
+    public int[] skillNoDhiaAtk = new int[3]
+    {
+        //初期値
+        0,1,2
+    };
+    public int[] skillNoDhiaDef = new int[3]
+    {
+        //初期値
+        0,1,2
+    };
+
+
     void Update()
     {
         KeyIn();

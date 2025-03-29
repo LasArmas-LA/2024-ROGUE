@@ -55,3 +55,6 @@ MonoBehaviour:
   hiFloorNo: 0
   slectButtonNo: -1
   dhiaStatus: {fileID: 11400000, guid: ff9529fcff4a1bd4d81150027e4d3b9b, type: 2}
+  skillNoRiri: 000000000100000002000000
+  skillNoDhiaAtk: 000000000100000002000000
+  skillNoDhiaDef: 000000000100000002000000

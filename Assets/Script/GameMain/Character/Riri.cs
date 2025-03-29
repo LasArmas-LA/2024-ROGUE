@@ -391,8 +391,7 @@ public class Riri : MonoBehaviour
     }
 
 
-    [SerializeField]
-    GameObject ririEnemySlectWin = null;
+    public GameObject ririEnemySlectWin = null;
     //é„Ç≠Ç»ÇÍÅI
     void BecomeWeak()
     {

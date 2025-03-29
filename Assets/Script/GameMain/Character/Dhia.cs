@@ -9,6 +9,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 public class Dhia : MonoBehaviour
 {
     //技の管理用
+
     public enum DhiaAtkSkill1
     {
         HitSkill,
@@ -102,6 +103,7 @@ public class Dhia : MonoBehaviour
     public DhiaDefSkill2 dhiaDefSkill2;    
     public DhiaDefSkill3 dhiaDefSkill3;
 
+    
     //攻撃と防御enumの実体化
     public AtkDefSlect atkDefSlect;
 
@@ -142,7 +144,6 @@ public class Dhia : MonoBehaviour
     public int defDefault = 0;
 
     //威力
-    [NonSerialized]
     public int power = 0;
 
     //防御の補正値用
@@ -180,10 +181,10 @@ public class Dhia : MonoBehaviour
     public Rabbit[] rabbitScript = null;
     public Bird[] birdScript = null;
 
+    //敵を選択するウィンドウ
     public GameObject enemySelectWin = null;
 
-    [SerializeField]
-    GameObject commandButton = null;
+    public GameObject commandButton = null;
 
     //アニメーション管理用
     [SerializeField]
@@ -394,217 +395,18 @@ public class Dhia : MonoBehaviour
         defDefault = dhiaStatus.DEF;
         attackDefault = dhiaStatus.ATK;
     }
+
     void InitSkilName()
     {
-        //攻撃スキル1の名前を変更
-        switch (dhiaAtkSkill1)
+        //攻撃名の適用
+        for (int i = 0; i < 3; i++)
         {
-            case DhiaAtkSkill1.HitSkill:
-                atkSkillName[0] = "殴る";
-                break;
-            case DhiaAtkSkill1.KickSkill:
-                atkSkillName[0] = "蹴る";
-                break;
-            case DhiaAtkSkill1.DefensiveAttack:
-                atkSkillName[0] = "シールドバッシュ";
-                break;
-            case DhiaAtkSkill1.CutSkil:
-                atkSkillName[0] = "斬撃";
-                break;
-            case DhiaAtkSkill1.Destroy:
-                atkSkillName[0] = "射撃";
-                break;
-            case DhiaAtkSkill1.CutUp:
-                atkSkillName[0] = "切り裂く";
-                break;
-            case DhiaAtkSkill1.FiringBlindly:
-                atkSkillName[0] = "乱射";
-                break;
-            case DhiaAtkSkill1.FocusedShot:
-                atkSkillName[0] = "集中射撃";
-                break;
-            case DhiaAtkSkill1.ChoppingIntoChunks:
-                atkSkillName[0] = "乱切り";
-                break;
-            case DhiaAtkSkill1.IaiCutting:
-                atkSkillName[0] = "居合切り";
-                break;
-            case DhiaAtkSkill1.ArmourCrushing:
-                atkSkillName[0] = "鎧砕き";
-                break;
-            case DhiaAtkSkill1.ReverseClipping:
-                atkSkillName[0] = "逆刃斬り　";
-                break;
-            case DhiaAtkSkill1.RevolvingSlash:
-                atkSkillName[0] = "回転斬り";
-                break;
-            case DhiaAtkSkill1.MagicArrows:
-                atkSkillName[0] = "マジックアロー";
-                break;
-            case DhiaAtkSkill1.MagicMissile:
-                atkSkillName[0] = "マジックミサイル";
-                break;
-            case DhiaAtkSkill1.LightningArrow:
-                atkSkillName[0] = "ライトニングアロー";
-                break;
-            case DhiaAtkSkill1.LightningBolt:
-                atkSkillName[0] = "ライトニングボルト";
-                break;
+            atkSkillName[i] = dhiaSkillList.atkSkillList[floorNoSys.skillNoDhiaAtk[i]].name;
         }
-
-        //攻撃スキル2の名前を変更
-        switch (dhiaAtkSkill2)
+        //防御名の適用
+        for (int i = 0; i < 3; i++)
         {
-            case DhiaAtkSkill2.HitSkill:
-                atkSkillName[1] = "殴る";
-                break;
-            case DhiaAtkSkill2.KickSkill:
-                atkSkillName[1] = "蹴る";
-                break;
-            case DhiaAtkSkill2.DefensiveAttack:
-                atkSkillName[1] = "シールドバッシュ";
-                break;
-            case DhiaAtkSkill2.CutSkil:
-                atkSkillName[1] = "斬撃";
-                break;
-            case DhiaAtkSkill2.Destroy:
-                atkSkillName[1] = "射撃";
-                break;
-            case DhiaAtkSkill2.CutUp:
-                atkSkillName[1] = "切り裂く";
-                break;
-            case DhiaAtkSkill2.FiringBlindly:
-                atkSkillName[1] = "乱射";
-                break;
-            case DhiaAtkSkill2.FocusedShot:
-                atkSkillName[1] = "集中射撃";
-                break;
-            case DhiaAtkSkill2.ChoppingIntoChunks:
-                atkSkillName[1] = "乱切り";
-                break;
-            case DhiaAtkSkill2.IaiCutting:
-                atkSkillName[1] = "居合切り";
-                break;
-            case DhiaAtkSkill2.ArmourCrushing:
-                atkSkillName[1] = "鎧砕き";
-                break;
-            case DhiaAtkSkill2.ReverseClipping:
-                atkSkillName[1] = "逆刃斬り　";
-                break;
-            case DhiaAtkSkill2.RevolvingSlash:
-                atkSkillName[1] = "回転斬り";
-                break;
-            case DhiaAtkSkill2.MagicArrows:
-                atkSkillName[1] = "マジックアロー";
-                break;
-            case DhiaAtkSkill2.MagicMissile:
-                atkSkillName[1] = "マジックミサイル";
-                break;
-            case DhiaAtkSkill2.LightningArrow:
-                atkSkillName[1] = "ライトニングアロー";
-                break;
-            case DhiaAtkSkill2.LightningBolt:
-                atkSkillName[1] = "ライトニングボルト";
-                break;
-
-        }
-
-        //攻撃スキル3の名前を変更
-        switch (dhiaAtkSkill3)
-        {
-            case DhiaAtkSkill3.HitSkill:
-                atkSkillName[2] = "殴る";
-                break;
-            case DhiaAtkSkill3.KickSkill:
-                atkSkillName[2] = "蹴る";
-                break;
-            case DhiaAtkSkill3.DefensiveAttack:
-                atkSkillName[2] = "シールドバッシュ";
-                break;
-            case DhiaAtkSkill3.CutSkil:
-                atkSkillName[2] = "斬撃";
-                break;
-            case DhiaAtkSkill3.Destroy:
-                atkSkillName[2] = "撃斬";
-                break;
-            case DhiaAtkSkill3.CutUp:
-                atkSkillName[2] = "切り裂く";
-                break;
-            case DhiaAtkSkill3.FiringBlindly:
-                atkSkillName[2] = "乱射";
-                break;
-            case DhiaAtkSkill3.FocusedShot:
-                atkSkillName[2] = "集中射撃";
-                break;
-            case DhiaAtkSkill3.ChoppingIntoChunks:
-                atkSkillName[2] = "乱切り";
-                break;
-            case DhiaAtkSkill3.IaiCutting:
-                atkSkillName[2] = "居合切り";
-                break;
-            case DhiaAtkSkill3.ArmourCrushing:
-                atkSkillName[2] = "鎧砕き";
-                break;
-            case DhiaAtkSkill3.ReverseClipping:
-                atkSkillName[2] = "逆刃斬り　";
-                break;
-            case DhiaAtkSkill3.RevolvingSlash:
-                atkSkillName[2] = "回転斬り";
-                break;
-            case DhiaAtkSkill3.MagicArrows:
-                atkSkillName[2] = "マジックアロー";
-                break;
-            case DhiaAtkSkill3.MagicMissile:
-                atkSkillName[2] = "マジックミサイル";
-                break;
-            case DhiaAtkSkill3.LightningArrow:
-                atkSkillName[2] = "ライトニングアロー";
-                break;
-            case DhiaAtkSkill3.LightningBolt:
-                atkSkillName[2] = "ライトニングボルト";
-                break;
-        }
-
-        //防御スキル1の名前を変更
-        switch (dhiaDefSkill1)
-        {
-            case DhiaDefSkill1.ProtectYou:
-                defSkillName[0] = "お守りします！";
-                break;
-            case DhiaDefSkill1.DefensivePosture:
-                defSkillName[0] = "防御態勢";
-                break;
-            case DhiaDefSkill1.Protect:
-                defSkillName[0] = "守る";
-                break;
-        }
-
-        //防御スキル2の名前を変更
-        switch (dhiaDefSkill2)
-        {
-            case DhiaDefSkill2.ProtectYou:
-                defSkillName[1] = "お守りします！";
-                break;
-            case DhiaDefSkill2.DefensivePosture:
-                defSkillName[1] = "防御態勢";
-                break;
-            case DhiaDefSkill2.Protect:
-                defSkillName[1] = "守る";
-                break;
-        }
-
-        //防御スキル3の名前を変更
-        switch (dhiaDefSkill3)
-        {
-            case DhiaDefSkill3.ProtectYou:
-                defSkillName[2] = "お守りします！";
-                break;
-            case DhiaDefSkill3.DefensivePosture:
-                defSkillName[2] = "防御態勢";
-                break;
-            case DhiaDefSkill3.Protect:
-                defSkillName[2] = "守る";
-                break;
+            defSkillName[i] = dhiaSkillList.defSkillList[floorNoSys.skillNoDhiaDef[i]].name;
         }
     }
 
@@ -649,87 +451,43 @@ public class Dhia : MonoBehaviour
         }
     }
 
-    //多重押し防止
-    public bool button = false;
-    public void Skil1()
+
+    enum eSkill
     {
-        switch (atkDefSlect)
+        Skill1Dhia,
+        Skill2Dhia,
+        Skill3Dhia,
+    }
+    public void AtkDef()
+    {
+        switch(atkDefSlect)
         {
-            //攻撃
             case AtkDefSlect.ATK:
-                switch (dhiaAtkSkill1)
-                {
-                    case DhiaAtkSkill1.HitSkill:
-                        HitSkill();
-                        break;
-                    case DhiaAtkSkill1.KickSkill:
-                        KickSkill();
-                        break;
-                    case DhiaAtkSkill1.DefensiveAttack:
-                        DefensiveAttack();
-                        break;
-                    case DhiaAtkSkill1.CutSkil:
-                        CutSkil();
-                        break;
-                    case DhiaAtkSkill1.Destroy:
-                        Destroy();
-                        break;
-                    case DhiaAtkSkill1.CutUp:
-                        CutUp();
-                        break;
-                    case DhiaAtkSkill1.FiringBlindly:
-                        FiringBlindly();
-                        break;
-                    case DhiaAtkSkill1.FocusedShot:
-                        FocusedShot();
-                        break;
-                    case DhiaAtkSkill1.ChoppingIntoChunks:
-                        ChoppingIntoChunks();
-                        break;
-                    case DhiaAtkSkill1.IaiCutting:
-                        IaiCutting();
-                        break;
-                    case DhiaAtkSkill1.ArmourCrushing:
-                        ArmourCrushing();
-                        break;
-                    case DhiaAtkSkill1.ReverseClipping:
-                        ReverseClipping();
-                        break;
-                    case DhiaAtkSkill1.RevolvingSlash:
-                        RevolvingSlash();
-                        break;
-                    case DhiaAtkSkill1.MagicArrows:
-                        MagicArrows();
-                        break;
-                    case DhiaAtkSkill1.MagicMissile:
-                        MagicMissile();
-                        break;
-                    case DhiaAtkSkill1.LightningArrow:
-                        LightningArrow();
-                        break;
-                    case DhiaAtkSkill1.LightningBolt:
-                        LightningBolt();
-                        break;
-                }
+                Skill(AtkDefSlect.ATK);
+                break;
+            case AtkDefSlect.DEF:
+                Skill(AtkDefSlect.DEF);
                 break;
 
-                //防御
-            case AtkDefSlect.DEF:
-                switch (dhiaDefSkill1)
-                {
-                    case DhiaDefSkill1.ProtectYou:
-                        ProtectYou();
-                        break;
-                    case DhiaDefSkill1.DefensivePosture:
-                        DefensivePosture();
-                        break;
-                    case DhiaDefSkill1.Protect:
-                        Protect();
-                        break;
-                }
-                break;
         }
     }
+
+    [SerializeField]
+    DhiaSkillList dhiaSkillList;
+
+    public void Skill(AtkDefSlect atkDef)
+    {
+        if(atkDef == AtkDefSlect.ATK)
+        {
+        }
+        if(atkDef == AtkDefSlect.DEF)
+        {
+
+        }
+    }
+
+    //多重押し防止
+    public bool button = false;
 
     //ダメージテキスト表示用
     [SerializeField]
@@ -745,12 +503,26 @@ public class Dhia : MonoBehaviour
 
     public void Skill1Move(int enemyNumber)
     {
+        //攻撃の時
+        if(atkDefSlect == AtkDefSlect.ATK)
+        {
+            SkillAtk(enemyNumber);
+        }
+        //防御の時
+        if(atkDefSlect == AtkDefSlect.DEF)
+        {
+            SkillDef(enemyNumber);
+        }
+    }
+
+    void SkillAtk(int enemyNumber)
+    {
         for (int i = 1; i <= attackFrequency; i++)
         {
             UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
 
             //ランダム攻撃の時
-            if (rndAtk) 
+            if (rndAtk)
             {
                 int rndAttack = UnityEngine.Random.Range(1, 2);
                 enemyNumber = rndAttack;
@@ -766,6 +538,38 @@ public class Dhia : MonoBehaviour
             {
                 //ダメージの計算
                 enemyDamage = DamageCalculation(attack, encountSys.enemyScript.def[enemyNumber - 1], power);
+
+                //逆刃斬り攻撃の時
+                if (reverseClippingFlag)
+                {
+                    //HPを減らす
+                    hp -= enemyDamage / reverseClippingDamageRate;
+                    //フラグをオフ
+                    reverseClippingFlag = false;
+                }
+                //ライトニングアロー攻撃の時
+                if (lightningArrowFlag)
+                {
+                    int lightningArrowRnd = UnityEngine.Random.Range(0, 100);
+                    if (lightningArrowRate <= lightningArrowRnd)
+                    {
+                        encountSys.enemyStopFlag[enemyNumber] = true;
+                    }
+
+                    lightningArrowFlag = false;
+
+                }
+                //ライトニングボルト攻撃の時
+                if (lightningBoltFlag)
+                {
+                    int lightningBoltRnd = UnityEngine.Random.Range(0, 100);
+                    if (lightningBoltRate <= lightningBoltRnd)
+                    {
+                        encountSys.enemyStopFlag[enemyNumber] = true;
+                    }
+
+                    lightningBoltFlag = false;
+                }
 
                 timerFlag = true;
                 dhiaAnim.SetBool("D_Attack", true);
@@ -819,6 +623,42 @@ public class Dhia : MonoBehaviour
         encountSys.mainTurn = MainTurn.DHIAANIM;
 
         attackFrequency = 1;
+    }
+
+    void SkillDef(int enemyNumber)
+    {
+        //補正値無し
+        if(dhiaSkillList.defSkillList[floorNoSys.skillNoDhiaDef[0]].correctionType == DhiaSkillList.DefenseSkillStatus.eCorrectionType._NO)
+        {
+            return;
+        }
+
+        //攻撃
+        if (dhiaSkillList.defSkillList[floorNoSys.skillNoDhiaDef[0]].correctionType == DhiaSkillList.DefenseSkillStatus.eCorrectionType._ATK)
+        {
+            atkCorrectionValue += dhiaSkillList.defSkillList[floorNoSys.skillNoDhiaDef[0]].correctionValue;
+        }
+
+        //防御
+        if (dhiaSkillList.defSkillList[floorNoSys.skillNoDhiaDef[0]].correctionType == DhiaSkillList.DefenseSkillStatus.eCorrectionType._DEF)
+        {
+            defCorrectionValue += dhiaSkillList.defSkillList[floorNoSys.skillNoDhiaDef[0]].correctionValue;
+        }
+
+        //HP
+        if (dhiaSkillList.defSkillList[floorNoSys.skillNoDhiaDef[0]].correctionType == DhiaSkillList.DefenseSkillStatus.eCorrectionType._HP)
+        {
+
+        }
+
+        //命中率
+        if (dhiaSkillList.defSkillList[floorNoSys.skillNoDhiaDef[0]].correctionType == DhiaSkillList.DefenseSkillStatus.eCorrectionType._HITRATE)
+        {
+
+        }
+
+
+        encountSys.mainTurn = MainTurn.DHIAANIM;
     }
 
     IEnumerator DamageInit()
@@ -1324,7 +1164,7 @@ public class Dhia : MonoBehaviour
     [CustomLabel("乱切りの命中率")]
     int choppingIntoChunksHitRate = 0;
     [SerializeField]
-    [CustomLabel("乱射の攻撃回数")]
+    [CustomLabel("乱切りの攻撃回数")]
     int choppingIntoChunksFrequency = 0;
 
     //乱切り
@@ -1406,6 +1246,13 @@ public class Dhia : MonoBehaviour
     [SerializeField]
     [CustomLabel("逆刃斬りの命中率")]
     int reverseClippingHitRate = 0;
+    [SerializeField]
+    [CustomLabel("逆刃斬りの反動ダメージ(％)")]
+    int reverseClippingDamageRate = 0;
+
+
+    //逆刃斬りのフラグ
+    bool reverseClippingFlag = false;
 
     //逆刃斬り　
     void ReverseClipping()
@@ -1417,6 +1264,10 @@ public class Dhia : MonoBehaviour
             power = reverseClippingPower;
             //命中率
             hitRate = reverseClippingHitRate;
+
+            //フラグをオンに
+            reverseClippingFlag = true;
+
 
             enemySelectWin.SetActive(true);
             commandButton.SetActive(false);
@@ -1478,10 +1329,10 @@ public class Dhia : MonoBehaviour
 
     [Space(10)]
     [SerializeField]
-    [CustomLabel("集中射撃の威力")]
+    [CustomLabel("マジックミサイルの威力")]
     int magicMissilePower = 0;
     [SerializeField]
-    [CustomLabel("集中射撃の命中率")]
+    [CustomLabel("マジックミサイルの命中率")]
     int magicMissileHitRate = 0;
 
     //マジックミサイル
@@ -1509,6 +1360,11 @@ public class Dhia : MonoBehaviour
     [SerializeField]
     [CustomLabel("ライトニングアローの命中率")]
     int lightningArrowHitRate = 0;
+    [SerializeField]
+    [CustomLabel("ライトニングアローの行動不能確率(％)")]
+    int lightningArrowRate = 0;
+    //ライトニングアローのフラグ
+    bool lightningArrowFlag = false;
 
     //ライトニングアロー
     void LightningArrow()
@@ -1534,6 +1390,13 @@ public class Dhia : MonoBehaviour
     [SerializeField]
     [CustomLabel("ライトニングボルトの命中率")]
     int lightningBoltHitRate = 0;
+    [SerializeField]
+    [CustomLabel("ライトニングアローの行動不能確率(％)")]
+    int lightningBoltRate = 0;
+    //ライトニングボルトのフラグ
+    bool lightningBoltFlag = false;
+
+
 
     //ライトニングボルト
     void LightningBolt()
