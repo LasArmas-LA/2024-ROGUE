@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class LoadSceneSys : MonoBehaviour
 {
+
+
     int rnd;
     //シーン名
     [Header("シーン名")]
@@ -30,7 +32,7 @@ public class LoadSceneSys : MonoBehaviour
 
     void Start()
     {
-        loadSceneName = sceneName[1];
+        
 
 
         //待機後シーンを切り替え
@@ -40,7 +42,7 @@ public class LoadSceneSys : MonoBehaviour
 
     void SceneChenge()
     {
-        SceneManager.LoadScene(loadSceneName);
+    //    SceneManager.LoadScene(nextSceneName);
     }
 
     void SceneChengeFade()

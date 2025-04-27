@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Map : MonoBehaviour
 {
+
     enum MapMode
     {
         CameraMove,
@@ -519,6 +520,8 @@ public class Map : MonoBehaviour
         {
             sceneName = ("Boss");
         }
+
+        LoadScene.nextSceneName = sceneName;
 
         Invoke("SceneCheger", 1.0f);
     }

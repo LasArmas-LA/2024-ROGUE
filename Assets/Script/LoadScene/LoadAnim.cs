@@ -10,15 +10,17 @@ public class LoadAnim : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
-    public void LoadScene1()
+    public void LoadScene1(string nextScene)
     {
-        StartCoroutine(LoadScene());
+        StartCoroutine(LoadNextScene(nextScene));
     }
 
-    private IEnumerator LoadScene()
+    private IEnumerator LoadNextScene(string nextScene)
     {
         animator.SetTrigger("LoadAnumTrigger");
         yield return new WaitForSeconds(0.5f);
+
+        LoadScene.nextSceneName = nextScene;
 
         //ロードシーンの読み込み
         SceneManager.LoadScene("LoadScene");

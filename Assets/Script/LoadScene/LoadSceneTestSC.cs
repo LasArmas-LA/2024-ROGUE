@@ -2,8 +2,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class LoadScene : MonoBehaviour
 {
+    public static string nextSceneName = "Null";
     public bool loadStop = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,14 +16,10 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     private IEnumerator LoadNextScene()
     {
-        float time;
-        if (loadStop)
-        { time = 10.0f; }
-        else { time = 0.1f; }
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(1);
 
         //ロードシーンの読み込み
-        SceneManager.LoadScene("Lobby");
+        SceneManager.LoadScene(nextSceneName);
     }
 
 }
