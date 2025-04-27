@@ -3664,7 +3664,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 645150072}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1675139742}
+        m_TargetAssemblyTypeName: TitleSceneSys, Assembly-CSharp
+        m_MethodName: OptionButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &645150072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4063,7 +4075,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 709900633}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1675139742}
+        m_TargetAssemblyTypeName: TitleSceneSys, Assembly-CSharp
+        m_MethodName: OnStratButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &709900633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6784,7 +6808,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1308056592}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1675139742}
+        m_TargetAssemblyTypeName: TitleSceneSys, Assembly-CSharp
+        m_MethodName: OnEndButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1308056592
 MonoBehaviour:
   m_ObjectHideFlags: 0
