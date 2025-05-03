@@ -520,7 +520,7 @@ public class Dhia : MonoBehaviour
         for (int i = 1; i <= attackFrequency; i++)
         {
             UnityEngine.Random.InitState(System.DateTime.Now.Millisecond);
-
+            
             //ƒ‰ƒ“ƒ_ƒ€UŒ‚‚ÌŽž
             if (rndAtk)
             {

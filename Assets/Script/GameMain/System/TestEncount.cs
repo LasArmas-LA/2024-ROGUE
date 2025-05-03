@@ -1720,9 +1720,12 @@ public class TestEncount : MonoBehaviour
         }
     }
 
+    [SerializeField]
+    GameObject mapWindow;
     void LoadScene()
     {
-        SceneManager.LoadScene("LoadScene");
+        mapWindow.SetActive(true);
+        //SceneManager.LoadScene("LoadScene");
     }
 
     //フェード処理用
@@ -1731,7 +1734,7 @@ public class TestEncount : MonoBehaviour
     //ドアまで到着した時の処理
     IEnumerator FloorEnd()
     {
-        fadeAnim.SetBool("FadeIn", true);
+        //fadeAnim.SetBool("FadeIn", true);
         yield return new WaitForSeconds(1.0f);
         LoadScene();
         floorEndFlag = true;
