@@ -10,6 +10,11 @@ public class LoadAnim : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
+    private void Start()
+    {
+        animator.SetTrigger("LoadEndTrigger");
+    }
+
     public void LoadScene1(string nextScene)
     {
         StartCoroutine(LoadNextScene(nextScene));
