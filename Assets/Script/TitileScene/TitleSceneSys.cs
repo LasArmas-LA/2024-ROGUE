@@ -106,7 +106,13 @@ public class TitleSceneSys : MonoBehaviour
             OnStratButton();
         }
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Delete) && fast)
+        {
+            PlayerPrefs.DeleteKey("sceneKindsNo");
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             //ƒIƒvƒVƒ‡ƒ“
             optionMenu.SetActive(false);
