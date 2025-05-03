@@ -73,11 +73,11 @@ MonoBehaviour:
   atkSkillList:
   - id: 
     name: "\u653B\u64831"
-    power: 0
+    power: 100
     useMp: 0
-    hitRate: 0
+    hitRate: 100
     atkBuffType: 0
-    charSlectType: 0
+    charSlectType: 3
     correctionType: 0
     effectTurn: 0
     waitTurn: 0
@@ -86,11 +86,11 @@ MonoBehaviour:
     seClip: {fileID: 0}
   - id: 
     name: "\u653B\u64832"
-    power: 0
+    power: 100
     useMp: 0
-    hitRate: 0
+    hitRate: 100
     atkBuffType: 0
-    charSlectType: 0
+    charSlectType: 3
     correctionType: 0
     effectTurn: 0
     waitTurn: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
     seClip: {fileID: 0}
   - id: 
     name: "\u653B\u64833"
-    power: 0
+    power: 100
     useMp: 0
     hitRate: 0
     atkBuffType: 0

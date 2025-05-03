@@ -54,6 +54,13 @@ public class TreasureSys : MonoBehaviour
     [SerializeField, Header("ディアのステータス管理用")]
     Status dhiaStatus = null;
 
+    //マップのUI表示
+    [SerializeField]
+    GameObject mapWindouw = null;
+    //宝箱の表示
+    [SerializeField]
+    GameObject treasureObj = null;
+
     bool button = false;
 
     //フェードアニメーション用
@@ -178,7 +185,8 @@ public class TreasureSys : MonoBehaviour
 
     public void PartsSlecteEnd()
     {
-        fadeAnim.SetBool("FadeIn", true);
+        //fadeAnim.SetBool("FadeIn", true);
+        treasureObj.SetActive(false);
 
         button = true;
         allPartsSlect = true;
@@ -273,7 +281,8 @@ public class TreasureSys : MonoBehaviour
     }
     void SceneChenge()
     {
-        SceneManager.LoadScene("LoadScene");
+        mapWindouw.SetActive(true);
+        //SceneManager.LoadScene("LoadScene");
     }
 
 }
