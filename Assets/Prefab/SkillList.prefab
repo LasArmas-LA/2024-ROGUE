@@ -103,7 +103,7 @@ MonoBehaviour:
     useMp: 0
     hitRate: 0
     atkBuffType: 0
-    charSlectType: 0
+    charSlectType: 3
     correctionType: 0
     effectTurn: 0
     waitTurn: 0

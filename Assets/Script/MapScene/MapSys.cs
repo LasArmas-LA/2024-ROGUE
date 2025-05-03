@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MapSys : MonoBehaviour
@@ -265,6 +266,8 @@ public class MapSys : MonoBehaviour
     private void ButtonChecker(int buttonNo)
     {
         PlayerPrefs.SetInt("FloorNo", buttonNo);
+
+        
 
         //ˆê’Uƒ{ƒ^ƒ“‚ğ‘S‚Ä‰Ÿ‚¹‚È‚­‚·‚éˆ—
         for (int i = 0; i < buttonPos.Length; i++)

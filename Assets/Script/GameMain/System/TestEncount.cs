@@ -1724,8 +1724,8 @@ public class TestEncount : MonoBehaviour
     GameObject mapWindow;
     void LoadScene()
     {
-        mapWindow.SetActive(true);
-        //SceneManager.LoadScene("LoadScene");
+        //mapWindow.SetActive(true);
+        SceneManager.LoadScene("LoadScene");
     }
 
     //フェード処理用

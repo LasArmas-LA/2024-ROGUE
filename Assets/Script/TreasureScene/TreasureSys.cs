@@ -281,8 +281,8 @@ public class TreasureSys : MonoBehaviour
     }
     void SceneChenge()
     {
-        mapWindouw.SetActive(true);
-        //SceneManager.LoadScene("LoadScene");
+        //mapWindouw.SetActive(true);
+        SceneManager.LoadScene("LoadScene");
     }
 
 }

@@ -495,6 +495,8 @@ public class Map : MonoBehaviour
     //ƒV[ƒ“‚ÌØ‚è‘Ö‚¦
     public void SceneChenge (int sceneKindsNo)
     {
+        PlayerPrefs.SetInt("sceneKindsNo", sceneKindsNo);
+
         //“G
         if (sceneKindsNo == 0)
         {
@@ -522,6 +524,8 @@ public class Map : MonoBehaviour
         }
 
         LoadScene.nextSceneName = sceneName;
+
+        sceneName = "LoadScene";
 
         Invoke("SceneCheger", 1.0f);
     }

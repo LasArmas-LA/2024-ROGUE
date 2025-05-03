@@ -9,7 +9,35 @@ public class LoadScene : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        int sceneKindsNo = PlayerPrefs.GetInt("sceneKindsNo", 0);
+
+        //“G
+        if (sceneKindsNo == 0)
+        {
+            nextSceneName = ("EncountScene");
+        }
+        //ƒCƒxƒ“ƒg
+        if (sceneKindsNo == 1)
+        {
+            nextSceneName = ("Event");
+        }
+        //‹xŒe
+        if (sceneKindsNo == 2)
+        {
+            nextSceneName = ("Stay");
+        }
+        //•ó
+        if (sceneKindsNo == 3)
+        {
+            nextSceneName = ("Treasure");
+        }
+        //ƒ{ƒX
+        if (sceneKindsNo == 4)
+        {
+            nextSceneName = ("Boss");
+        }
+
+
         StartCoroutine(LoadNextScene());
         
     }
